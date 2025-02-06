@@ -21,11 +21,8 @@ LOG_FILE = "rebrand_log.txt"
 
 # Directories to ignore (Git-safe)
 IGNORE_DIRECTORIES = {
-    ".git", 
-    ".github", 
-    "node_modules", 
-    "venv", 
-    "__pycache__",
+    ".git",
+    ".github",
 }
 
 # Files to ignore (full filenames, regardless of extension)
