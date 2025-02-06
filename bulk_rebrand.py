@@ -87,7 +87,7 @@ def replace_in_file(file_path):
         if should_ignore_path(file_path) or should_ignore_file(file_path):
             return False  # Skip ignored files
 
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
 
         new_content = case_sensitive_replace(content)
@@ -139,7 +139,7 @@ def rename_files_and_dirs(root_dir):
                 log.write(f"[RENAMED] {old_path} -> {new_path}\n")
         except Exception as e:
             print(f"❌ Failed to rename {old_path} -> {new_path}: {e}")
-            
+
 def main():
     """Main function to process all files in the codebase."""
     modified_files = 0
@@ -164,14 +164,9 @@ def main():
                     log.write(f"[MODIFIED] {file_path}\n")
 
     # **SECOND PASS** - Rename Files & Directories
-    rename_attempts = rename_files_and_dirs(BASE_DIR)
+    rename_files_and_dirs(BASE_DIR)
 
     print(f"✅ Done! Modified {modified_files} files. Check '{LOG_FILE}' for details.")
-
-    # **THIRD PASS (Optional)** - If renames failed, retry once
-    if rename_attempts:
-        print(f"🔄 Retrying failed renames ({len(rename_attempts)} items)...")
-        rename_files_and_dirs(BASE_DIR)
 
 if __name__ == "__main__":
     main()
