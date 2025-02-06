@@ -67,36 +67,30 @@ IGNORE_EXTENSIONS = {
 
 def should_ignore_path(path):
     """Check if the path is inside an ignored directory."""
-    for ignore_dir in IGNORE_DIRECTORIES:
-        if f"{os.sep}{ignore_dir}{os.sep}" in f"{path}{os.sep}":
-            return True
-    return False
+    return any(f"{os.sep}{ignore_dir}{os.sep}" in f"{path}{os.sep}" for ignore_dir in IGNORE_DIRECTORIES)
 
 def should_ignore_file(file_path):
     """Check if the file should be ignored based on its name or extension."""
     filename = os.path.basename(file_path)
     file_ext = os.path.splitext(filename)[1].lower()
-
     return filename in IGNORE_FILES or file_ext in IGNORE_EXTENSIONS
 
 def case_sensitive_replace(text):
     """Replace 'wazuh' in different cases with corresponding 'blackwell'."""
     def replace_match(match):
         return CASE_MAP.get(match.group(0), match.group(0))
-
     return re.sub(r"\b(WAZUH|Wazuh|wazuh)\b", replace_match, text)
 
 def replace_in_file(file_path):
     """Replace 'wazuh' with 'blackwell' while preserving case in text files."""
     try:
         if should_ignore_path(file_path) or should_ignore_file(file_path):
-            return False  # Skip ignored directories and files
+            return False  # Skip ignored files
 
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
 
         new_content = case_sensitive_replace(content)
-
         if new_content != content:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
@@ -105,34 +99,47 @@ def replace_in_file(file_path):
         print(f"❌ Skipping {file_path} (Error: {e})")
     return False
 
-def rename_files_and_dirs(root_dir):
-    """Rename files and directories that contain 'wazuh', except ignored ones."""
-    for dirpath, dirnames, filenames in os.walk(root_dir, topdown=False):
+def gather_paths_for_renaming(root_dir):
+    """Collect all files & directories that need renaming, sorted by depth (deepest first)."""
+    rename_targets = []
+
+    for dirpath, dirnames, filenames in os.walk(root_dir, topdown=True):
         if should_ignore_path(dirpath):
             continue  # Skip ignored directories
 
+        # Collect file rename targets
         for filename in filenames:
             if OLD_NAME in filename and filename not in IGNORE_FILES:
                 old_path = os.path.join(dirpath, filename)
                 new_filename = filename.replace("WAZUH", "BLACKWELL").replace("Wazuh", "Blackwell").replace("wazuh", "blackwell")
                 new_path = os.path.join(dirpath, new_filename)
-                shutil.move(old_path, new_path)
-                with open(LOG_FILE, "a") as log:
-                    log.write(f"[FILE RENAMED] {old_path} -> {new_path}\n")
+                rename_targets.append((old_path, new_path))
 
+        # Collect directory rename targets
         for dirname in dirnames[:]:
             if OLD_NAME in dirname:
                 old_path = os.path.join(dirpath, dirname)
                 new_dirname = dirname.replace("WAZUH", "BLACKWELL").replace("Wazuh", "Blackwell").replace("wazuh", "blackwell")
                 new_path = os.path.join(dirpath, new_dirname)
+                rename_targets.append((old_path, new_path))
 
-                if should_ignore_path(old_path):
-                    continue  # Skip ignored directories
+    # **Sort by depth (deepest paths first) to avoid parent-child rename conflicts**
+    rename_targets.sort(key=lambda x: x[0].count(os.sep), reverse=True)
 
-                shutil.move(old_path, new_path)
-                with open(LOG_FILE, "a") as log:
-                    log.write(f"[DIR RENAMED] {old_path} -> {new_path}\n")
+    return rename_targets
 
+def rename_files_and_dirs(root_dir):
+    """Rename files and directories in correct order (deepest first)."""
+    rename_targets = gather_paths_for_renaming(root_dir)
+
+    for old_path, new_path in rename_targets:
+        try:
+            shutil.move(old_path, new_path)
+            with open(LOG_FILE, "a") as log:
+                log.write(f"[RENAMED] {old_path} -> {new_path}\n")
+        except Exception as e:
+            print(f"❌ Failed to rename {old_path} -> {new_path}: {e}")
+            
 def main():
     """Main function to process all files in the codebase."""
     modified_files = 0
@@ -141,13 +148,13 @@ def main():
     with open(LOG_FILE, "w") as log:
         log.write("🔹 Blackwell Rebranding Log 🔹\n")
 
+    # **FIRST PASS** - Modify File Contents BEFORE renaming
     for dirpath, _, filenames in os.walk(BASE_DIR):
         if should_ignore_path(dirpath):
             continue  # Skip ignored directories
 
         for filename in filenames:
             file_path = os.path.join(dirpath, filename)
-
             if should_ignore_file(file_path):
                 continue  # Skip ignored files
 
@@ -156,10 +163,15 @@ def main():
                 with open(LOG_FILE, "a") as log:
                     log.write(f"[MODIFIED] {file_path}\n")
 
-    # Rename files & directories
-    rename_files_and_dirs(BASE_DIR)
+    # **SECOND PASS** - Rename Files & Directories
+    rename_attempts = rename_files_and_dirs(BASE_DIR)
 
     print(f"✅ Done! Modified {modified_files} files. Check '{LOG_FILE}' for details.")
+
+    # **THIRD PASS (Optional)** - If renames failed, retry once
+    if rename_attempts:
+        print(f"🔄 Retrying failed renames ({len(rename_attempts)} items)...")
+        rename_files_and_dirs(BASE_DIR)
 
 if __name__ == "__main__":
     main()
