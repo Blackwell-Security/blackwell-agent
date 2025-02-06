@@ -28,31 +28,59 @@ IGNORE_DIRECTORIES = {
 }
 
 # File extensions to ignore (binaries)
-IGNORE_EXTENSIONS = { ".jpeg", ".gif",  ".exe",  ".so", ".bin", 
-    "db",       # Databases (likely binary)
-    "dll",      # Windows dynamic link libraries (binary)
-    "exp",      # Export files (likely from Windows builds)
-    "gz",       # Compressed files
-    "ico",      # Icons (binary)
-    "idx",      # Index files (binary)
-    "jpg",      # Images (binary)
-    "lib",      # Libraries (binary)
-    "log",      # Logs (avoid corrupting logs)
-    "manifest", # Binary/metadata for Windows
-    "out",      # Output binary files
-    "pack",     # Binary pack files (git, npm, etc.)
-    "parquet",  # Binary data format
-    "pem",      # SSL/TLS certificates (dangerous to modify)
-    "png",      # Images (binary)
-    "repo",     # Binary package files (YUM, APT, etc.)
-    "rtf",      # Rich Text Format (binary)
-    "sample",   # Sample files (usually binary or irrelevant)
-    "swp",      # Vim swap files (ignore to prevent corruption)
-    "tar",      # Compressed files
-    "tmp",      # Temporary files
-    "wpk",      # Binary package files
-    "xz",       # Compressed files
-    "zip",      # Compressed files
+IGNORE_EXTENSIONS = {
+    # Compressed files
+    ".gz",
+    ".tar",
+    ".xz",
+    ".zip",
+    # Databases (likely binary)
+    ".db",
+    # Windows dynamic link libraries (binary)
+    ".dll",
+    
+    # Binary/metadata for Windows
+    ".manifest",
+    # Export files from Windows builds
+    ".exp",
+    
+    # Images (binary)
+    ".jpg",
+    ".png",
+    
+    # Libraries (binary)
+    ".lib",
+    
+    # Logs (avoid corrupting logs)
+    ".log",
+    
+    # Rich Text Format (binary)
+    ".rtf",
+    
+    # Sample files (usually binary or irrelevant)
+    ".sample",
+    
+    # Binary pack files (git, npm, etc.)
+    ".pack",
+    ".parquet",
+    ".pem",
+    ".wpk",
+    
+    # Output binary files
+    ".out",
+    
+    # Temporary files
+    ".tmp",
+    
+    # YUM, APT, etc. binary package files
+    ".repo",
+    
+    # SSL/TLS certificates (dangerous to modify)
+    ".pem",
+
+    # Additional files  that must remain unmodified
+    ".gitmodules",
+    "bulk_rebrand.py"
 }
 
 
