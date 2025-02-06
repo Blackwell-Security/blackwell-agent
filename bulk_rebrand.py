@@ -1,18 +1,18 @@
 import os
 import re
 
-# Base directory of the Wazuh Agent codebase (modify as needed)
+# Base directory of the blackwell Agent codebase (modify as needed)
 BASE_DIR = os.getcwd()  
 
 # Keywords to replace
-OLD_NAME = "wazuh"
+OLD_NAME = "blackwell"
 NEW_NAME = "blackwell"
 
 # Log file to track replacements
 LOG_FILE = "rebrand_log.txt"
 
 # File extensions to ignore (binaries, images, compressed files)
-IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", "bulk_rebrand.py"}
+IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", ".gitmodules", "bulk_rebrand.py"}
 
 # Directories to ignore (won't enter or modify anything inside)
 IGNORE_DIRECTORIES = {".git", ".github", "node_modules", "venv", "__pycache__"}
@@ -25,7 +25,7 @@ def should_ignore_path(path):
     return False
 
 def replace_in_file(file_path):
-    """Replace 'wazuh' with 'blackwell' in text files."""
+    """Replace 'blackwell' with 'blackwell' in text files."""
     try:
         if should_ignore_path(file_path):
             return False  # Skip ignored directories
@@ -44,7 +44,7 @@ def replace_in_file(file_path):
     return False
 
 def rename_files_and_dirs(root_dir):
-    """Rename files and directories that contain 'wazuh', except ignored ones."""
+    """Rename files and directories that contain 'blackwell', except ignored ones."""
     for dirpath, dirnames, filenames in os.walk(root_dir, topdown=False):
         if should_ignore_path(dirpath):
             continue  # Skip ignored directories
