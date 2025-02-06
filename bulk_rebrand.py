@@ -1,21 +1,22 @@
 import os
 import re
 
-# Base directory of the Wazuh Agent codebase (modify as needed)
+# Base directory of the blackwell Agent codebase (modify as needed)
 BASE_DIR = os.getcwd()  
 
 # Keywords to replace
-OLD_NAME = "wazuh"
+OLD_NAME = "blackwell"
 NEW_NAME = "blackwell"
 
 # Log file to track replacements
 LOG_FILE = "rebrand_log.txt"
 
 # File types to ignore
-IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", ".git", ".github"}
+IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin"}
+IGNORE_DIRECTORIES = {".git", ".github"}
 
 def replace_in_file(file_path):
-    """Replace 'wazuh' with 'blackwell' in text files."""
+    """Replace 'blackwell' with 'blackwell' in text files."""
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
@@ -31,15 +32,18 @@ def replace_in_file(file_path):
     return False
 
 def rename_files_and_dirs(root_dir):
-    """Rename files and directories that contain 'wazuh'."""
+    """Rename files and directories that contain 'blackwell'."""
     for dirpath, dirnames, filenames in os.walk(root_dir, topdown=False):
+        # Filter out ignored directories from dirnames list
+        dirnames[:] = [d for d in dirnames if OLD_NAME not in d.lower()]
+        
         for filename in filenames:
             if OLD_NAME in filename.lower():
                 old_path = os.path.join(dirpath, filename)
                 new_path = os.path.join(dirpath, filename.lower().replace(OLD_NAME, NEW_NAME))
                 os.rename(old_path, new_path)
                 with open(LOG_FILE, "a") as log:
-                    log.write(f"[FILE RENAMED] {old_path} -> {new_path}\n")
+                    log.write(f"[DIR RENAMED] {old_path} -> {new_path}\n")
 
         for dirname in dirnames:
             if OLD_NAME in dirname.lower():
@@ -58,6 +62,10 @@ def main():
         log.write("🔹 Blackwell Rebranding Log 🔹\n")
 
     for dirpath, _, filenames in os.walk(BASE_DIR):
+        # Filter out ignored directories from current walk iteration
+        if any(ignore_dir in dirpath.lower() for ignore_dir in IGNORE_DIRECTORIES):
+            continue
+        
         for filename in filenames:
             file_path = os.path.join(dirpath, filename)
             file_ext = os.path.splitext(filename)[1].lower()
