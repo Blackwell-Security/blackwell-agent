@@ -12,7 +12,7 @@ NEW_NAME = "blackwell"
 LOG_FILE = "rebrand_log.txt"
 
 # File types to ignore
-IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin"}
+IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", ".git", ".github"}
 
 def replace_in_file(file_path):
     """Replace 'wazuh' with 'blackwell' in text files."""
