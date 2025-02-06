@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 
 # Base directory of the Blackwell Agent codebase (modify as needed)
 BASE_DIR = os.getcwd()
@@ -118,7 +119,7 @@ def rename_files_and_dirs(root_dir):
                 old_path = os.path.join(dirpath, filename)
                 new_filename = filename.replace("WAZUH", "BLACKWELL").replace("Wazuh", "Blackwell").replace("wazuh", "blackwell")
                 new_path = os.path.join(dirpath, new_filename)
-                os.rename(old_path, new_path)
+                shutil.move(old_path, new_path)
                 with open(LOG_FILE, "a") as log:
                     log.write(f"[FILE RENAMED] {old_path} -> {new_path}\n")
 
@@ -131,7 +132,7 @@ def rename_files_and_dirs(root_dir):
                 if should_ignore_path(old_path):
                     continue  # Skip ignored directories
 
-                os.rename(old_path, new_path)
+                shutil.move(old_path, new_path)
                 with open(LOG_FILE, "a") as log:
                     log.write(f"[DIR RENAMED] {old_path} -> {new_path}\n")
 
