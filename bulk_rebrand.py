@@ -12,7 +12,7 @@ NEW_NAME = "blackwell"
 LOG_FILE = "rebrand_log.txt"
 
 # File extensions to ignore (binaries, images, compressed files)
-IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin"}
+IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", "bulk_rebrand.py"}
 
 # Directories to ignore (won't enter or modify anything inside)
 IGNORE_DIRECTORIES = {".git", ".github", "node_modules", "venv", "__pycache__"}
