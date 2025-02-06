@@ -19,10 +19,41 @@ CASE_MAP = {
 LOG_FILE = "rebrand_log.txt"
 
 # Directories to ignore (Git-safe)
-IGNORE_DIRECTORIES = {".git", ".github", "node_modules", "venv", "__pycache__"}
+IGNORE_DIRECTORIES = {
+    ".git", 
+    ".github", 
+    "node_modules", 
+    "venv", 
+    "__pycache__",
+}
 
 # File extensions to ignore (binaries)
-IGNORE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".exe", ".dll", ".so", ".zip", ".tar", ".gz", ".bin", ".gitmodules", "bulk_rebrand.py"}
+IGNORE_EXTENSIONS = { ".jpeg", ".gif",  ".exe",  ".so", ".bin", 
+    "db",       # Databases (likely binary)
+    "dll",      # Windows dynamic link libraries (binary)
+    "exp",      # Export files (likely from Windows builds)
+    "gz",       # Compressed files
+    "ico",      # Icons (binary)
+    "idx",      # Index files (binary)
+    "jpg",      # Images (binary)
+    "lib",      # Libraries (binary)
+    "log",      # Logs (avoid corrupting logs)
+    "manifest", # Binary/metadata for Windows
+    "out",      # Output binary files
+    "pack",     # Binary pack files (git, npm, etc.)
+    "parquet",  # Binary data format
+    "pem",      # SSL/TLS certificates (dangerous to modify)
+    "png",      # Images (binary)
+    "repo",     # Binary package files (YUM, APT, etc.)
+    "rtf",      # Rich Text Format (binary)
+    "sample",   # Sample files (usually binary or irrelevant)
+    "swp",      # Vim swap files (ignore to prevent corruption)
+    "tar",      # Compressed files
+    "tmp",      # Temporary files
+    "wpk",      # Binary package files
+    "xz",       # Compressed files
+    "zip",      # Compressed files
+}
 
 
 def should_ignore_path(path):
