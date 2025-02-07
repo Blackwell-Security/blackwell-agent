@@ -45,25 +45,25 @@ should_ignore() {
     local path="$1"
     for dir in "${IGNORE_DIRECTORIES[@]}"; do
         if [[ "${path}" == "${dir}/"* ]]; then
-            let "DIRECTORIES_IGNORED++"
+            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
             return 0 # Ignore this path
         elif [[ "${path}" == *"/${dir}/"* ]]; then
-            let "FILES_IGNORED++"
+            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
             return 0 # Ignore this path
         elif [[ "${path}" == *"/${dir}" ]]; then
-            let "FILES_IGNORED++"
+            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
             return 0 # Ignore this path
         fi
     done
     for file in "${IGNORE_FILES[@]}"; do
         if [[ "$(basename "${path}")" == "${file}" ]]; then
-            let "FILES_IGNORED++"
+            FILES_IGNORED=$((FILES_IGNORED+1))
             return 0 # Ignore this file
         fi
     done
     for ext in "${IGNORE_EXTENSIONS[@]}"; do
         if [[ "${path}" == *".${ext}" ]]; then
-            let "FILES_IGNORED++"
+            FILES_IGNORED=$((FILES_IGNORED+1))
             return 0 # Ignore this extension
         fi
     done
@@ -82,7 +82,7 @@ rename_path() {
         fi
         echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
     fi
-    let "FILES_MODIFIED++"
+    FILES_MODIFIED=$((FILES_MODIFIED+1))
 }
 
 # 🔄 Replacing content inside files...
@@ -98,7 +98,7 @@ replace_in_file() {
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
-    let "FILES_REPLACED++"
+    FILES_REPLACED=$((FILES_REPLACED+1))
 }
 
 # **STEP 1: Replace content inside files using awk**
