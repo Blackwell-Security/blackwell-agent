@@ -149,7 +149,7 @@ find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
 
     BASE=$(basename "${path}")
     DIR=$(dirname "${path}/")
-    if echo ${BASE} | grep -i ${OLD_NAME} ; then
+    if echo ${BASE} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
         rename_file "${DIR}" "${BASE}"
     fi
     if [ -f "${path}" ]; then
