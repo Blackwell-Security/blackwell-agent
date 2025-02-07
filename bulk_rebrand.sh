@@ -26,7 +26,6 @@ IGNORE_FILES=("bulk_rebrand.sh" "bulk_rebrand.py" ".gitmodules")
 IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png" "log" "rtf"
                    "pack" "parquet" "pem" "wpk" "tmp" "repo")
 
-
 # Number of files that had replaced content
 FILES_MODIFIED=0
 export FILES_MODIFIED
@@ -68,6 +67,10 @@ should_ignore() {
         fi
     done
     return 1 # Do not ignore
+}
+
+get_list_of_files() {
+
 }
 
 # 🔄 Renaming files & directories...
@@ -123,7 +126,9 @@ find "${BASE_DIR}" | tac | while read -r path; do
     fi
 
     if [ -f "${path}" ]; then
-        replace_in_file "${path}"
+        if grep -i ${OLD_NAME} ${path}; then 
+            replace_in_file "${path}"
+        fi
         rename_path "${path}"
     elif [ -d "/path/to/something" ]; then
         rename_path "${path}"
