@@ -69,8 +69,28 @@ should_ignore() {
     return 1 # Do not ignore
 }
 
-get_list_of_files() {
+get_find_parameters() {
+    local ignore_dirs=("${IGNORE_DIRECTORIES[@]}")
+    local ignore_files=("${IGNORE_FILES[@]}")
+    local ignore_extensions=("${IGNORE_EXTENSIONS[@]}")
 
+    # Convert arrays to strings of -not -path flags
+    local dir_flags=""
+    for dir in "${ignore_dirs[@]}"; do
+        dir_flags+="-not -path \"*/$dir/*\" -not -path \"*/$dir\" -not -path \"$dir/*\" -not -path \"$dir\" "
+    done
+
+    local file_flags=""
+    for file in "${ignore_files[@]}"; do
+        file_flags+="-not -name \"$file\" "
+    done
+
+    local ext_flags=""
+    for ext in "${ignore_extensions[@]}"; do
+        ext_flags+="-not -name \"*.$ext\" "
+    done
+
+    echo "$dir_flags $file_flags $ext_flags"
 }
 
 # 🔄 Renaming files & directories...
@@ -119,7 +139,8 @@ fi
 
 echo "Please wait while the script is running..."
 
-find "${BASE_DIR}" | tac | while read -r path; do
+FIND_PARAMETERS=$(get_find_parameters)
+find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
     if should_ignore "${path}"; then
         echo "[IGNORED] ${path}" >> ${LOG_FILE}
         continue
