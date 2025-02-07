@@ -47,20 +47,29 @@ get_find_parameters() {
     # Convert arrays to strings of -not -path flags
     local dir_flags=""
     for dir in "${ignore_dirs[@]}"; do
-        dir_flags+="-not -path \"*/$dir/*\" -not -path \"*/$dir\" -not -path \"$dir/*\" -not -path \"$dir\" "
+        if [[ -n "$dir_flags" ]]; then
+            dir_flags+=" -o "
+        fi
+        dir_flags+="-path \"*/$dir/*\" -o -path \"*/$dir\" -o -path \"$dir/*\" -o -path \"$dir\" "
     done
 
     local file_flags=""
     for file in "${ignore_files[@]}"; do
-        file_flags+="-not -name \"$file\" "
+        if [[ -n "$file_flags" ]]; then
+            file_flags+=" -o "
+        fi
+        file_flags+="-name \"$file\" "
     done
 
     local ext_flags=""
     for ext in "${ignore_extensions[@]}"; do
-        ext_flags+="-not -name \"*.$ext\" "
+        if [[ -n "$ext_flags" ]]; then
+            ext_flags+=" -o "
+        fi
+        ext_flags+="-name \"*$ext\" "
     done
 
-    echo "$dir_flags $file_flags $ext_flags"
+    echo "-not \\( $dir_flags -o $file_flags -o $ext_flags \\)"
 }
 
 # 🔄 Renaming files & directories...
@@ -111,6 +120,7 @@ fi
 echo "Please wait while the script is running..."
 
 FIND_PARAMETERS=$(get_find_parameters)
+echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
     BASE=$(basename "${path}")
     DIR=$(dirname "${path}/")
