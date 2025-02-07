@@ -99,10 +99,10 @@ find "$BASE_DIR" -depth -type f -o -type d | tail -r | while read -r path; do
     fi
 
     if [ -f "${path}" ]; then
-        replace_in_file $path
-        rename_path $path
+        replace_in_file "$path"
+        rename_path "$path"
     elif [ -d "/path/to/something" ]; then
-        rename_path $path
+        rename_path "$path"
     else
         echo "[IGNORED] $path It's neither a file nor a directory." >> $LOG_FILE
     fi
