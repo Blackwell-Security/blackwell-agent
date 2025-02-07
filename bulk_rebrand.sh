@@ -116,7 +116,7 @@ fi
 
 echo "Please wait while the script is running..."
 
-find "${BASE_DIR}" -depth -type f -o -type d | while read -r path; do
+find "${BASE_DIR}" -depth -type f -o -type d | tail -f | while read -r path; do
     if should_ignore "${path}"; then
         echo "[IGNORED] ${path}" >> ${LOG_FILE}
         continue
