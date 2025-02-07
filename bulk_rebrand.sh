@@ -31,26 +31,35 @@ IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png"
 FILES_MODIFIED=0
 # Number of files that were renamed
 FILES_RENAMED=0
+# Number of files were ignored
+FILES_IGNORED=0
+# Number of directories that were ignored
+DIRECTORIES_IGNORED=0
 
 # Function to check if a path should be ignored
 should_ignore() {
     local path="$1"
     for dir in "${IGNORE_DIRECTORIES[@]}"; do
         if [[ "${path}" == "${dir}/"* ]]; then
+            let "DIRECTORIES_IGNORED++"
             return 0 # Ignore this path
         elif [[ "${path}" == *"/${dir}/"* ]]; then
+            let "FILES_IGNORED++"
             return 0 # Ignore this path
         elif [[ "${path}" == *"/${dir}" ]]; then
+            let "FILES_IGNORED++"
             return 0 # Ignore this path
         fi
     done
     for file in "${IGNORE_FILES[@]}"; do
         if [[ "$(basename "${path}")" == "${file}" ]]; then
+            let "FILES_IGNORED++"
             return 0 # Ignore this file
         fi
     done
     for ext in "${IGNORE_EXTENSIONS[@]}"; do
         if [[ "${path}" == *".${ext}" ]]; then
+            let "FILES_IGNORED++"
             return 0 # Ignore this extension
         fi
     done
@@ -69,7 +78,7 @@ rename_path() {
         fi
         echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
     fi
-    FILES_MODIFIED+=1
+    let "FILES_MODIFIED++"
 }
 
 # 🔄 Replacing content inside files...
@@ -85,7 +94,7 @@ replace_in_file() {
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
-    FILES_RENAMED+=1
+    let "FILES_RENAMED++"
 }
 
 # **STEP 1: Replace content inside files using awk**
