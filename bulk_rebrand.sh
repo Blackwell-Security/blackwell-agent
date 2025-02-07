@@ -69,21 +69,42 @@ should_ignore() {
     return 1 # Do not ignore
 }
 
-get_list_of_files() {
+get_find_parameters() {
+    local ignore_dirs=("${IGNORE_DIRECTORIES[@]}")
+    local ignore_files=("${IGNORE_FILES[@]}")
+    local ignore_extensions=("${IGNORE_EXTENSIONS[@]}")
 
+    # Convert arrays to strings of -not -path flags
+    local dir_flags=""
+    for dir in "${ignore_dirs[@]}"; do
+        dir_flags+="-not -path \"*/$dir/*\" -not -path \"*/$dir\" -not -path \"$dir/*\" -not -path \"$dir\" "
+    done
+
+    local file_flags=""
+    for file in "${ignore_files[@]}"; do
+        file_flags+="-not -name \"$file\" "
+    done
+
+    local ext_flags=""
+    for ext in "${ignore_extensions[@]}"; do
+        ext_flags+="-not -name \"*.$ext\" "
+    done
+
+    echo "$dir_flags $file_flags $ext_flags"
 }
 
 # 🔄 Renaming files & directories...
-rename_path() {
+rename_file() {
     local path="$1"
-    new_path="${path//WAZUH/BLACKWELL}"
-    new_path="${new_path//Wazuh/Blackwell}"
-    new_path="${new_path//wazuh/blackwell}"
-    if [[ "${path}" != "${new_path}" ]]; then
+    local file="$2"
+    new_file="${file//WAZUH/BLACKWELL}"
+    new_file="${new_file//Wazuh/Blackwell}"
+    new_file="${new_file//wazuh/blackwell}"
+    if [[ "${file}" != "${new_file}" ]]; then
         if [[ "${RUN_TYPE}" == "hot" ]]; then
-            mv "${path}" "${new_path}"    
+            mv "${path}/${file}" "${path}/${new_file}"    
         fi
-        echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
+        echo "[RENAMED] ${path}/${file} -> ${path}/${new_file}" >> ${LOG_FILE}
     fi
     FILES_MODIFIED=$((FILES_MODIFIED+1))
 }
@@ -119,21 +140,20 @@ fi
 
 echo "Please wait while the script is running..."
 
-find "${BASE_DIR}" | tac | while read -r path; do
+FIND_PARAMETERS=$(get_find_parameters)
+find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
     if should_ignore "${path}"; then
         echo "[IGNORED] ${path}" >> ${LOG_FILE}
         continue
     fi
 
+    BASE=$(basename "${path}")
+    DIR=$(dirname "${path}/")
+    if echo ${BASE} | grep -i ${OLD_NAME} ; then
+        rename_file "${DIR}" "${BASE}"
+    fi
     if [ -f "${path}" ]; then
-        if grep -i ${OLD_NAME} ${path}; then 
-            replace_in_file "${path}"
-        fi
-        rename_path "${path}"
-    elif [ -d "/path/to/something" ]; then
-        rename_path "${path}"
-    else
-        echo "[IGNORED] ${path} It's neither a file nor a directory." >> ${LOG_FILE}
+        replace_in_file "${path}"
     fi
 
 done
