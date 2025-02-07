@@ -29,12 +29,16 @@ IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png"
 
 # Number of files that had replaced content
 FILES_MODIFIED=0
+export FILES_MODIFIED
 # Number of files that were renamed
-FILES_RENAMED=0
+FILES_REPLACED=0
+export FILES_REPLACED
 # Number of files were ignored
 FILES_IGNORED=0
+export FILES_IGNORED
 # Number of directories that were ignored
 DIRECTORIES_IGNORED=0
+export DIRECTORIES_IGNORED
 
 # Function to check if a path should be ignored
 should_ignore() {
@@ -94,19 +98,23 @@ replace_in_file() {
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
-    let "FILES_RENAMED++"
+    let "FILES_REPLACED++"
 }
 
 # **STEP 1: Replace content inside files using awk**
 if [[ "${RUN_TYPE}" == "hot" ]]; then
+    echo "HOT run enabled. The changes below are going to be applied"
     echo "HOT run enabled. The changes below are going to be applied" > ${LOG_FILE}
 elif [[ "${RUN_TYPE}" == "cold" ]]; then
+    echo "COLD run enabled. The changes to be done are going to be listed bellow without being applied"
     echo "COLD run enabled. The changes to be done are going to be listed bellow without being applied" > ${LOG_FILE}
 else
-    echo "ERROR: Neither COLD not HOT run were specified. Assuming COLD run was enabled"
-    echo "HOT run enabled. The changes bellow are going to be appliet" > ${LOG_FILE}
+    echo "WARN: Neither COLD not HOT run were specified. Assuming COLD run was enabled. The changes to be done are going to be listed bellow without being applied"
+    echo "COLD run enabled. The changes to be done are going to be listed bellow without being applied" > ${LOG_FILE}
     RUN_TYPE="cold"
 fi
+
+echo "Please wait while the script is running..."
 
 find "${BASE_DIR}" -depth -type f -o -type d | tail -r | while read -r path; do
     if should_ignore "${path}"; then
@@ -128,5 +136,8 @@ echo "✅ Renaming done."
 
 # **Summary**
 echo "🎯 Rebranding complete. Run grep to verify remaining instances."
-echo "Total of replaces in file: ${FILES_MODIFIED}"
-echo "Total of files renamed:    ${FILES_RENAMED}"
+echo "Total of replaces in file:    ${FILES_MODIFIED}"
+echo "Total of files replaced:      ${FILES_REPLACED}"
+echo "Total of files ignored:       ${FILES_IGNORED}"
+echo "Total of directories ignored: ${DIRECTORIES_IGNORED}"
+echo "For the detailed list of affected files please check the rebrand_log.txt"
