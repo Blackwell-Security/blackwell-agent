@@ -24,7 +24,7 @@ IGNORE_FILES=("bulk_rebrand.sh" "bulk_rebrand.py" ".gitmodules")
 
 # File extensions to ignore (binaries)
 IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png" "log" "rtf"
-                   "pack" "parquet" "pem" "wpk" "tmp" "repo" "ico" "pmc" ".plist" ".lib" ".pmc")
+                   "pack" "parquet" "pem" "wpk" "tmp" "repo" "ico" "pmc" "plist" "lib" "pmc")
 
 # Number of files that had replaced content
 FILES_MODIFIED=0
@@ -66,7 +66,7 @@ get_find_parameters() {
         if [[ -n "$ext_flags" ]]; then
             ext_flags+=" -o "
         fi
-        ext_flags+="-name \"*$ext\" "
+        ext_flags+="-name \"*.$ext\" "
     done
 
     echo "-not \\( $dir_flags -o $file_flags -o $ext_flags \\)"
@@ -121,14 +121,15 @@ echo "Please wait while the script is running..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
-find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
+
+eval "find \"${BASE_DIR}\" ${FIND_PARAMETERS}" | tac | while read -r path; do
     BASE=$(basename "${path}")
     DIR=$(dirname "${path}/")
-    if echo ${BASE} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
-        rename_file "${DIR}" "${BASE}"
-    fi
     if [ -f "${path}" ]; then
         replace_in_file "${path}"
+    fi
+    if echo ${BASE} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
+        rename_file "${DIR}" "${BASE}"
     fi
 
 done
