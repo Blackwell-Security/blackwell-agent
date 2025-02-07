@@ -94,16 +94,17 @@ get_find_parameters() {
 }
 
 # 🔄 Renaming files & directories...
-rename_path() {
+rename_file() {
     local path="$1"
-    new_path="${path//WAZUH/BLACKWELL}"
-    new_path="${new_path//Wazuh/Blackwell}"
-    new_path="${new_path//wazuh/blackwell}"
-    if [[ "${path}" != "${new_path}" ]]; then
+    local file="$2"
+    new_file="${file//WAZUH/BLACKWELL}"
+    new_file="${new_file//Wazuh/Blackwell}"
+    new_file="${new_file//wazuh/blackwell}"
+    if [[ "${file}" != "${new_file}" ]]; then
         if [[ "${RUN_TYPE}" == "hot" ]]; then
-            mv "${path}" "${new_path}"    
+            mv "${path}/${file}" "${path}/${new_file}"    
         fi
-        echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
+        echo "[RENAMED] ${path}/${file} -> ${path}/${new_file}" >> ${LOG_FILE}
     fi
     FILES_MODIFIED=$((FILES_MODIFIED+1))
 }
@@ -146,15 +147,13 @@ find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
         continue
     fi
 
+    BASE=$(basename "${path}")
+    DIR=$(dirname "${path}/")
+    if echo ${BASE} | grep -i ${OLD_NAME} ; then
+        rename_file "${DIR}" "${BASE}"
+    fi
     if [ -f "${path}" ]; then
-        if grep -i ${OLD_NAME} ${path}; then 
-            replace_in_file "${path}"
-        fi
-        rename_path "${path}"
-    elif [ -d "/path/to/something" ]; then
-        rename_path "${path}"
-    else
-        echo "[IGNORED] ${path} It's neither a file nor a directory." >> ${LOG_FILE}
+        replace_in_file "${path}"
     fi
 
 done
