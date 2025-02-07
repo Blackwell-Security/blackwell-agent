@@ -24,7 +24,7 @@ IGNORE_FILES=("bulk_rebrand.sh" "bulk_rebrand.py" ".gitmodules")
 
 # File extensions to ignore (binaries)
 IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png" "log" "rtf"
-                   "pack" "parquet" "pem" "wpk" "tmp" "repo")
+                   "pack" "parquet" "pem" "wpk" "tmp" "repo" "ico" "pmc" ".plist" ".lib" ".pmc")
 
 # Number of files that had replaced content
 FILES_MODIFIED=0
@@ -38,36 +38,6 @@ export FILES_IGNORED
 # Number of directories that were ignored
 DIRECTORIES_IGNORED=0
 export DIRECTORIES_IGNORED
-
-# Function to check if a path should be ignored
-should_ignore() {
-    local path="$1"
-    for dir in "${IGNORE_DIRECTORIES[@]}"; do
-        if [[ "${path}" == "${dir}/"* ]]; then
-            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
-            return 0 # Ignore this path
-        elif [[ "${path}" == *"/${dir}/"* ]]; then
-            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
-            return 0 # Ignore this path
-        elif [[ "${path}" == *"/${dir}" ]]; then
-            DIRECTORIES_IGNORED=$((DIRECTORIES_IGNORED+1))
-            return 0 # Ignore this path
-        fi
-    done
-    for file in "${IGNORE_FILES[@]}"; do
-        if [[ "$(basename "${path}")" == "${file}" ]]; then
-            FILES_IGNORED=$((FILES_IGNORED+1))
-            return 0 # Ignore this file
-        fi
-    done
-    for ext in "${IGNORE_EXTENSIONS[@]}"; do
-        if [[ "${path}" == *".${ext}" ]]; then
-            FILES_IGNORED=$((FILES_IGNORED+1))
-            return 0 # Ignore this extension
-        fi
-    done
-    return 1 # Do not ignore
-}
 
 get_find_parameters() {
     local ignore_dirs=("${IGNORE_DIRECTORIES[@]}")
@@ -142,11 +112,6 @@ echo "Please wait while the script is running..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 find "${BASE_DIR}" ${FIND_PARAMETERS} | tac | while read -r path; do
-    if should_ignore "${path}"; then
-        echo "[IGNORED] ${path}" >> ${LOG_FILE}
-        continue
-    fi
-
     BASE=$(basename "${path}")
     DIR=$(dirname "${path}/")
     if echo ${BASE} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
