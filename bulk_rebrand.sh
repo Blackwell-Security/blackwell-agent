@@ -1,10 +1,10 @@
 #!/bin/bash
 
+# Cold or Hot run
+RUN_TYPE="${1-cold}"
+
 # Base directory (modify as needed)
 BASE_DIR="$(pwd)"
-
-# Cold or Hot run
-RUN_TYPE="${$1:=cold}"
 
 # Log file
 LOG_FILE="rebrand_log.txt"
@@ -26,9 +26,15 @@ IGNORE_FILES=("bulk_rebrand.sh" "bulk_rebrand.py" ".gitmodules")
 IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png" "log" "rtf"
                    "pack" "parquet" "pem" "wpk" "tmp" "repo")
 
+
+# Number of files that had replaced content
+FILES_MODIFIED=0
+# Number of files that were renamed
+FILES_RENAMED=0
+
 # Function to check if a path should be ignored
 should_ignore() {
-    local path="${1}"
+    local path="$1"
     for dir in "${IGNORE_DIRECTORIES[@]}"; do
         if [[ "${path}" == "${dir}/"* ]]; then
             return 0 # Ignore this path
@@ -53,7 +59,7 @@ should_ignore() {
 
 # 🔄 Renaming files & directories...
 rename_path() {
-    local path="${1}"
+    local path="$1"
     new_path="${path//WAZUH/BLACKWELL}"
     new_path="${new_path//Wazuh/Blackwell}"
     new_path="${new_path//wazuh/blackwell}"
@@ -63,12 +69,12 @@ rename_path() {
         fi
         echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
     fi
+    FILES_MODIFIED+=1
 }
 
 # 🔄 Replacing content inside files...
-replace_in_file()
-{
-    local file ="${1}"
+replace_in_file() {
+    local file="$1"
     if [[ "${RUN_TYPE}" == "hot" ]]; then
         tmp_file="${file}.tmp"
         awk '{
@@ -79,6 +85,7 @@ replace_in_file()
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
+    FILES_RENAMED+=1
 }
 
 # **STEP 1: Replace content inside files using awk**
@@ -94,8 +101,8 @@ fi
 
 find "${BASE_DIR}" -depth -type f -o -type d | tail -r | while read -r path; do
     if should_ignore "${path}"; then
-        continue
         echo "[IGNORED] ${path}" >> ${LOG_FILE}
+        continue
     fi
 
     if [ -f "${path}" ]; then
@@ -112,3 +119,5 @@ echo "✅ Renaming done."
 
 # **Summary**
 echo "🎯 Rebranding complete. Run grep to verify remaining instances."
+echo "Total of replaces in file: ${FILES_MODIFIED}"
+echo "Total of files renamed:    ${FILES_RENAMED}"
