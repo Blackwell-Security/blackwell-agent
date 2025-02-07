@@ -28,23 +28,23 @@ IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png"
 
 # Function to check if a path should be ignored
 should_ignore() {
-    local path="$1"
+    local path="${1}"
     for dir in "${IGNORE_DIRECTORIES[@]}"; do
-        if [[ "$path" == "$dir/"* ]]; then
+        if [[ "${path}" == "${dir}/"* ]]; then
             return 0 # Ignore this path
-        elif [[ "$path" == *"/$dir/"* ]]; then
+        elif [[ "${path}" == *"/${dir}/"* ]]; then
             return 0 # Ignore this path
-        elif [[ "$path" == *"/$dir" ]]; then
+        elif [[ "${path}" == *"/${dir}" ]]; then
             return 0 # Ignore this path
         fi
     done
     for file in "${IGNORE_FILES[@]}"; do
-        if [[ "$(basename "$path")" == "$file" ]]; then
+        if [[ "$(basename "${path}")" == "${file}" ]]; then
             return 0 # Ignore this file
         fi
     done
     for ext in "${IGNORE_EXTENSIONS[@]}"; do
-        if [[ "$path" == *".$ext" ]]; then
+        if [[ "${path}" == *".${ext}" ]]; then
             return 0 # Ignore this extension
         fi
     done
@@ -53,58 +53,58 @@ should_ignore() {
 
 # 🔄 Renaming files & directories...
 rename_path() {
-    local path="$1"
+    local path="${1}"
     new_path="${path//WAZUH/BLACKWELL}"
     new_path="${new_path//Wazuh/Blackwell}"
     new_path="${new_path//wazuh/blackwell}"
-    if [[ "$path" != "$new_path" ]]; then
-        if [[ "$RUN_TYPE" == "hot" ]]; then
-            mv "$path" "$new_path"    
+    if [[ "${path}" != "${new_path}" ]]; then
+        if [[ "${RUN_TYPE}" == "hot" ]]; then
+            mv "${path}" "${new_path}"    
         fi
-        echo "[RENAMED] $path -> $new_path" >> $LOG_FILE
+        echo "[RENAMED] ${path} -> ${new_path}" >> ${LOG_FILE}
     fi
 }
 
 # 🔄 Replacing content inside files...
 replace_in_file()
 {
-    local file ="$1"
-    if [[ "$RUN_TYPE" == "hot" ]]; then
+    local file ="${1}"
+    if [[ "${RUN_TYPE}" == "hot" ]]; then
         tmp_file="${file}.tmp"
         awk '{
             gsub(/wazuh/, "blackwell");
             gsub(/Wazuh/, "Blackwell");
             gsub(/WAZUH/, "BLACKWELL");
             print
-        }' "$file" > "$tmp_file" && mv "$tmp_file" "$file" 
+        }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
-    echo "[REPLACED] $file" >> $LOG_FILE
+    echo "[REPLACED] ${file}" >> ${LOG_FILE}
 }
 
 # **STEP 1: Replace content inside files using awk**
-if [[ "$RUN_TYPE" == "hot" ]]; then
-    echo "HOT run enabled. The changes below are going to be applied" > $LOG_FILE
-elif [[ "$RUN_TYPE" == "cold" ]]; then
-    echo "COLD run enabled. The changes to be done are going to be listed bellow without being applied" > $LOG_FILE
+if [[ "${RUN_TYPE}" == "hot" ]]; then
+    echo "HOT run enabled. The changes below are going to be applied" > ${LOG_FILE}
+elif [[ "${RUN_TYPE}" == "cold" ]]; then
+    echo "COLD run enabled. The changes to be done are going to be listed bellow without being applied" > ${LOG_FILE}
 else
     echo "ERROR: Neither COLD not HOT run were specified. Assuming COLD run was enabled"
-    echo "HOT run enabled. The changes bellow are going to be appliet" > $LOG_FILE
+    echo "HOT run enabled. The changes bellow are going to be appliet" > ${LOG_FILE}
     RUN_TYPE="cold"
 fi
 
-find "$BASE_DIR" -depth -type f -o -type d | tail -r | while read -r path; do
-    if should_ignore "$path"; then
+find "${BASE_DIR}" -depth -type f -o -type d | tail -r | while read -r path; do
+    if should_ignore "${path}"; then
         continue
-        echo "[IGNORED] $path" >> $LOG_FILE
+        echo "[IGNORED] ${path}" >> ${LOG_FILE}
     fi
 
     if [ -f "${path}" ]; then
-        replace_in_file "$path"
-        rename_path "$path"
+        replace_in_file "${path}"
+        rename_path "${path}"
     elif [ -d "/path/to/something" ]; then
-        rename_path "$path"
+        rename_path "${path}"
     else
-        echo "[IGNORED] $path It's neither a file nor a directory." >> $LOG_FILE
+        echo "[IGNORED] ${path} It's neither a file nor a directory." >> ${LOG_FILE}
     fi
 
 done
