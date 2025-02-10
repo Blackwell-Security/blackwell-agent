@@ -193,13 +193,13 @@ search_and_replace_multiple_files() {
         base=$(basename "${path}")
         dir=$(dirname "${path}/")
         if [ -f "${path}" ]; then
-            if [[ "${path}" == "*.db" ]]; then
+            if [[ "${path}" == *.db ]]; then
                 echo "🪳 Detected .db file"
                 if file "${path}" | grep "SQLite 3"; then
                     echo "🪳 File interpreted as SQLite 3 file"
                     search_and_replace_in_sqlite3_file "${path}"
+                    sleep 15
                 else
-                    echo "🪳 File interpreted as plaintext file"
                     replace_in_file "${path}"
                 fi
             else
