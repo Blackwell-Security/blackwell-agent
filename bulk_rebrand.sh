@@ -14,17 +14,51 @@ OLD_NAME="wazuh"
 NEW_NAME="blackwell"
 
 # Case mapping
-CASE_MAP=("wazuh:blackwell" "Wazuh:Blackwell" "WAZUH:BLACKWELL")
+CASE_MAP=(
+    "wazuh:blackwell" 
+    "Wazuh:Blackwell" 
+    "WAZUH:BLACKWELL"
+)
 
 # Directories to ignore
-IGNORE_DIRECTORIES=(".git" ".github")
+IGNORE_DIRECTORIES=(
+    ".git" 
+    ".github"
+)
 
 # Files to ignore
-IGNORE_FILES=("bulk_rebrand.sh" "bulk_rebrand.py" ".gitmodules")
+IGNORE_FILES=(
+    "bulk_rebrand.sh" 
+    "bulk_rebrand.py" 
+    ".gitmodules"
+)
 
 # File extensions to ignore (binaries)
-IGNORE_EXTENSIONS=("gz" "tar" "xz" "zip" "db" "dll" "manifest" "exp" "jpg" "png" "log" "rtf"
-                   "pack" "parquet" "pem" "wpk" "tmp" "repo" "ico" "pmc" "plist" "lib" "pmc")
+IGNORE_EXTENSIONS=(
+    "gz" 
+    "tar" 
+    "xz" 
+    "zip" 
+    "db" 
+    "dll" 
+    # "manifest" 
+    # "exp" 
+    "jpg" 
+    "png" 
+    # "log" 
+    # "rtf"
+    "pack" 
+    "parquet" 
+    "pem" 
+    "wpk" 
+    "tmp" 
+    "repo" 
+    "ico" 
+    "pmc" 
+    # "plist" 
+    "lib" 
+    "pmc"
+)
 
 # Number of files that had replaced content
 FILES_MODIFIED=0
