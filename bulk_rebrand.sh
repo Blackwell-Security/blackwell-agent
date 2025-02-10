@@ -74,6 +74,19 @@ export FILES_IGNORED
 DIRECTORIES_IGNORED=0
 export DIRECTORIES_IGNORED
 
+check_dependencies(){
+    local dependencies=(
+        sqlite3
+    )
+
+    for dep in "${dependencies[@]}"; do
+        if ! $dep --version; then
+            echo "[ERROR] $dep is missing. Please install and try again"
+            echo "[ERROR] $dep is missing. Please install and try again" >> ${LOG_FILE}
+        fi
+    done
+}
+
 get_find_parameters() {
     local ignore_dirs=("${IGNORE_DIRECTORIES[@]}")
     local ignore_files=("${IGNORE_FILES[@]}")
@@ -169,6 +182,10 @@ search_and_replace_multiple_files() {
         fi
     done
 }
+
+echo "Checking dependencies..."
+check_dependencies
+echo "Dependencies verified, continue..."
 
 # **STEP 1: Replace content inside files using awk**
 if [[ "${RUN_TYPE}" == "hot" ]]; then
