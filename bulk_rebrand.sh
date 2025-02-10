@@ -234,7 +234,7 @@ echo "Handling plaintext files..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 # Print find command for debug purposes to verify parameters
-# echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
+echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 
 search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
