@@ -56,19 +56,6 @@ IGNORE_EXTENSIONS=(
     "pmc"
 )
 
-# Number of files that had replaced content
-FILES_MODIFIED=0
-export FILES_MODIFIED
-# Number of files that were renamed
-FILES_REPLACED=0
-export FILES_REPLACED
-# Number of files were ignored
-FILES_IGNORED=0
-export FILES_IGNORED
-# Number of directories that were ignored
-DIRECTORIES_IGNORED=0
-export DIRECTORIES_IGNORED
-
 # Make sure these dependencies are installed before running the script
 check_dependencies(){
     local dependencies=(
@@ -96,7 +83,6 @@ get_find_parameters() {
             dir_flags+=" -o "
         fi
         dir_flags+="-path \"*/$dir/*\" -o -path \"*/$dir\" -o -path \"$dir/*\" -o -path \"$dir\" "
-        DIRECTORIES_IGNORED=(( DIRECTORIES_IGNORED++ ))
     done
 
     local file_flags=""
@@ -105,7 +91,6 @@ get_find_parameters() {
             file_flags+=" -o "
         fi
         file_flags+="-name \"$file\" "
-        FILES_IGNORED=(( FILES_IGNORED++ ))
     done
 
     local ext_flags=""
@@ -114,7 +99,6 @@ get_find_parameters() {
             ext_flags+=" -o "
         fi
         ext_flags+="-name \"*.$ext\" "
-        FILES_IGNORED=(( FILES_IGNORED++ ))
     done
 
     echo "-not \\( $dir_flags -o $file_flags -o $ext_flags \\)"
@@ -133,7 +117,6 @@ rename_file() {
         fi
         echo "[RENAMED] ${path}/${file} -> ${path}/${new_file}" >> ${LOG_FILE}
     fi
-    FILES_MODIFIED=$((FILES_MODIFIED+1))
 }
 
 # 🔄 Replacing content inside files...
@@ -149,7 +132,6 @@ replace_in_file() {
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
-    FILES_REPLACED=$((FILES_REPLACED+1))
 }
 
 # 🔄 Replacing content inside tar files...
@@ -219,11 +201,9 @@ search_and_replace_multiple_files() {
             else
                 replace_in_file "${path}"
             fi
-            FILES_MODIFIED=(( FILES_MODIFIED++ ))
         fi
         if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
             rename_file "${dir}" "${base}"
-            FILES_REPLACED=(( FILES_REPLACED++ ))
         fi
     done
 }
@@ -279,9 +259,5 @@ replace_resource_url_base_in_makefile "src/Makefile"
 echo "✅ Renaming done."
 
 # **Summary**
-echo "🎯 Rebranding complete. Run grep to verify remaining instances."
-echo "Total of replaces in file:    ${FILES_MODIFIED}"
-echo "Total of files replaced:      ${FILES_REPLACED}"
-echo "Total of files ignored:       ${FILES_IGNORED}"
-echo "Total of directories ignored: ${DIRECTORIES_IGNORED}"
+echo "🎯 Rebranding complete."
 echo "For the detailed list of affected files please check the rebrand_log.txt"
