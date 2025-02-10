@@ -15,49 +15,49 @@ NEW_NAME="blackwell"
 
 # Case mapping
 CASE_MAP=(
-    "wazuh:blackwell" 
-    "Wazuh:Blackwell" 
+    "wazuh:blackwell"
+    "Wazuh:Blackwell"
     "WAZUH:BLACKWELL"
 )
 
 # Directories to ignore
 IGNORE_DIRECTORIES=(
-    ".git" 
+    ".git"
     ".github"
 )
 
 # Files to ignore
 IGNORE_FILES=(
     ".gitmodules"
-    "bulk_rebrand.sh" 
-    "bulk_rebrand.py" 
+    "bulk_rebrand.sh"
+    "bulk_rebrand.py"
     "rebrand_log.log"
 )
 
 # File extensions to ignore (binaries)
 IGNORE_EXTENSIONS=(
-    "gz" 
-    "tar" 
-    "xz" 
-    "zip" 
-    "db" 
-    "dll" 
-    # "manifest" 
-    # "exp" 
-    "jpg" 
-    "png" 
-    # "log" 
+    "gz"
+    "tar"
+    "xz"
+    "zip"
+    # "db"
+    "dll"
+    # "manifest"
+    # "exp"
+    "jpg"
+    "png"
+    # "log"
     # "rtf"
-    "pack" 
-    "parquet" 
-    "pem" 
-    "wpk" 
-    "tmp" 
-    "repo" 
-    "ico" 
-    "pmc" 
-    # "plist" 
-    "lib" 
+    "pack"
+    "parquet"
+    "pem"
+    "wpk"
+    "tmp"
+    "repo"
+    "ico"
+    "pmc"
+    # "plist"
+    "lib"
     "pmc"
 )
 
@@ -74,6 +74,7 @@ export FILES_IGNORED
 DIRECTORIES_IGNORED=0
 export DIRECTORIES_IGNORED
 
+# Make sure these dependencies are installed before running the script
 check_dependencies(){
     local dependencies=(
         sqlite3
@@ -81,8 +82,8 @@ check_dependencies(){
 
     for dep in "${dependencies[@]}"; do
         if ! $dep --version; then
-            echo "[ERROR] $dep is missing. Please install and try again"
-            echo "[ERROR] $dep is missing. Please install and try again" >> ${LOG_FILE}
+            echo "[ERROR] $dep is missing. Please install and try again..."
+            echo "[ERROR] $dep is missing. Please install and try again..." >> ${LOG_FILE}
         fi
     done
 }
@@ -167,6 +168,19 @@ search_and_replace_in_tar_file() {
     rm -rf "${tmpdir}"
 }
 
+# 🔄 Replacing content inside .db sqlite3 files...
+search_and_replace_in_sqlite3_file(){
+    local file="$1"
+    local base=$(basename "${file}")
+    local dir=$(dirname "${file}/")
+    local tmpfile="${dir}/tmp_${base}.sql"
+
+    sqlite3 "${file}" ".dump" > "${tmpfile}"
+    replace_in_file "${tmpfile}"
+    
+    sqlite3 "${file}" < "${tmpfile}"
+}
+
 # 🔄 Replacing content on multiple files in a given directory...
 search_and_replace_multiple_files() {
     local base_dir="$1"
@@ -175,7 +189,15 @@ search_and_replace_multiple_files() {
         base=$(basename "${path}")
         dir=$(dirname "${path}/")
         if [ -f "${path}" ]; then
-            replace_in_file "${path}"
+            if [[ "${path}" == "*.db" ]]; then
+                if file "${path}" | grep "SQLite 3"; then
+                search_and_replace_in_sqlite3_file "${path}"
+                else
+                    replace_in_file "${path}"
+                fi
+            else
+                replace_in_file "${path}"
+            fi
         fi
         if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
             rename_file "${dir}" "${base}"
