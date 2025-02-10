@@ -149,11 +149,13 @@ search_and_replace_in_tar_file() {
     local dir=$(dirname "${path}/")
     local tmpdir="${dir}/temp_${base}"
 
-    mkdir "${tmpdir}"
-    tar -xf "${path}" -C "${tmpdir}"
-    search_and_replace_multiple_files "${tmpdir}" "${find_parameters}"
-    tar -cf "${path}" -C "${tmpdir}" .
-    rm -rf "${tmpdir}"
+    if [[ "${RUN_TYPE}" == "hot" ]]; then
+        mkdir "${tmpdir}"
+        tar -xf "${path}" -C "${tmpdir}"
+        search_and_replace_multiple_files "${tmpdir}" "${find_parameters}"
+        tar -cf "${path}" -C "${tmpdir}" .
+        rm -rf "${tmpdir}"
+    fi
 }
 
 # 🔄 Replacing content inside .db sqlite3 files...
@@ -163,26 +165,30 @@ search_and_replace_in_sqlite3_file(){
     local dir=$(dirname "${file}/")
     local tmpfile="${dir}/tmp_${base}.sql"
 
-    # Created temp .sql file as plaintext
-    sqlite3 "${file}" ".dump" > "${tmpfile}"
-    # Dumped .db into tmpfile
-    replace_in_file "${tmpfile}"
+    if [[ "${RUN_TYPE}" == "hot" ]]; then
+        # Created temp .sql file as plaintext
+        sqlite3 "${file}" ".dump" > "${tmpfile}"
+        # Dumped .db into tmpfile
+        replace_in_file "${tmpfile}"
 
-    # 🛑 **Delete the existing SQLite DB to avoid conflicts**
-    rm -f "${file}"
-    touch "${file}"
-    sqlite3 "${file}" < "${tmpfile}"
-    rm -f "${tmpfile}"
+        # 🛑 **Delete the existing SQLite DB to avoid conflicts**
+        rm -f "${file}"
+        touch "${file}"
+        sqlite3 "${file}" < "${tmpfile}"
+        rm -f "${tmpfile}"
+    fi
 }
 
 # 🔄 Replacing content inside .plist Apple binary files...
 search_and_replace_in_plist_file(){
     local file="$1"
     
-    plutil -convert xml1 "${file}"
-    replace_in_file "${file}"
-    plutil -convert binary1 "${file}"
-    rm -f "${file}"
+    if [[ "${RUN_TYPE}" == "hot" ]]; then
+        plutil -convert xml1 "${file}"
+        replace_in_file "${file}"
+        plutil -convert binary1 "${file}"
+        rm -f "${file}"
+    fi
 }
 
 # 🔄 Replacing content on multiple files in a given directory...
@@ -218,11 +224,13 @@ search_and_replace_multiple_files() {
 replace_resource_url_base_in_makefile() {
     local makefile="${BASE_DIR}/$1"
 
-    tmp_file="${makefile}.tmp"
-    awk '{
-        gsub(/packages.blackwell.com/, "packages.wazuh.com");
-        print
-    }' "${makefile}" > "${tmp_file}" && mv "${tmp_file}" "${makefile}" 
+    if [[ "${RUN_TYPE}" == "hot" ]]; then
+        tmp_file="${makefile}.tmp"
+        awk '{
+            gsub(/packages.blackwell.com/, "packages.wazuh.com");
+            print
+        }' "${makefile}" > "${tmp_file}" && mv "${tmp_file}" "${makefile}" 
+    fi
 }
 
 echo "Checking dependencies..."
