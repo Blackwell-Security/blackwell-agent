@@ -78,6 +78,7 @@ export DIRECTORIES_IGNORED
 check_dependencies(){
     local dependencies=(
         sqlite3
+        plutil
     )
 
     for dep in "${dependencies[@]}"; do
@@ -190,12 +191,11 @@ search_and_replace_in_sqlite3_file(){
 # 🔄 Replacing content inside .plist Apple binary files...
 search_and_replace_in_plist_file(){
     local file="$1"
-    local base=$(basename "${file}")
-    local dir=$(dirname "${file}/")
-    local tmpfile="${dir}/tmp_${base}"
-    echo "🪳 Detected plist Apple binary property list"
-    sleep 15
-    rm -f "${tmpfile}"
+    
+    plutil -convert xml1 "${file}"
+    replace_in_file "${file}"
+    plutil -convert binary1 "${file}"
+    rm -f "${file}"
 }
 
 # 🔄 Replacing content on multiple files in a given directory...
