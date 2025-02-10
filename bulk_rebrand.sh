@@ -165,7 +165,7 @@ search_and_replace_multiple_files() {
             replace_in_file "${path}"
         fi
         if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
-            rename_file "${DIR}" "${base}"
+            rename_file "${dir}" "${base}"
         fi
     done
 }

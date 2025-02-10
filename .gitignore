@@ -165,4 +165,4 @@ src/wazuh_modules/vulnerability_scanner/include/*_generated.h
 src/wazuh_modules/vulnerability_scanner/qa/test_data/*/input_*.bin
 
 # Rebrand log file
-rebrand_log.txt
+rebrand_log.log
