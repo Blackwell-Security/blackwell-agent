@@ -47,7 +47,6 @@ IGNORE_EXTENSIONS=(
     "pack"
     "parquet"
     "pem"
-    "wpk"
     "tmp"
     "repo"
     "ico"
