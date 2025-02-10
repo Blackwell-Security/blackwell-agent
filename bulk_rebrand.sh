@@ -130,12 +130,21 @@ replace_in_file() {
     local file="$1"
     if [[ "${RUN_TYPE}" == "hot" ]]; then
         tmp_file="${file}.tmp"
+        # 🛠️ Detect OS and get file permissions
+        if [[ "$(uname)" == "Darwin" ]]; then
+            original_perms=$(stat -f "%A" "${file}")  # macOS
+        else
+            original_perms=$(stat -c "%a" "${file}")  # Linux
+        fi
+        # Replacing content inside files...
         awk '{
             gsub(/wazuh/, "blackwell");
             gsub(/Wazuh/, "Blackwell");
             gsub(/WAZUH/, "BLACKWELL");
             print
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
+        # Adjust original permissions
+        chmod "${original_perms}" "${file}"
     fi
     echo "[REPLACED] ${file}" >> ${LOG_FILE}
 }
