@@ -187,6 +187,17 @@ search_and_replace_in_sqlite3_file(){
     rm -f "${tmpfile}"
 }
 
+# 🔄 Replacing content inside .plist Apple binary files...
+search_and_replace_in_plist_file(){
+    local file="$1"
+    local base=$(basename "${file}")
+    local dir=$(dirname "${file}/")
+    local tmpfile="${dir}/tmp_${base}"
+    echo "🪳 Detected plist Apple binary property list"
+    sleep 15
+    rm -f "${tmpfile}"
+}
+
 # 🔄 Replacing content on multiple files in a given directory...
 search_and_replace_multiple_files() {
     local base_dir="$1"
@@ -198,7 +209,12 @@ search_and_replace_multiple_files() {
             if [[ "${path}" == *.db ]]; then
                 if file "${path}" | grep "SQLite 3" > /dev/null ; then
                     search_and_replace_in_sqlite3_file "${path}"
-                    sleep 15
+                else
+                    replace_in_file "${path}"
+                fi
+            elif [[ "${path}" == *.plist ]]; then
+                if file "${path}" | grep "Apple binary property list" > /dev/null ; then
+                    search_and_replace_in_plist_file "${path}"
                 else
                     replace_in_file "${path}"
                 fi
