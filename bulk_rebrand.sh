@@ -228,6 +228,10 @@ search_and_replace_multiple_files() {
     done
 }
 
+replace_resource_url_base_in_makefile() {
+    sed -i 's/packages\.blackwell\.com/packages.wazuh.com/g' Makefile
+}
+
 echo "Checking dependencies..."
 check_dependencies
 echo "Dependencies verified, continue..."
@@ -261,6 +265,9 @@ echo "Handling special format files"
 find "${BASE_DIR}" -name "*.tar" | while read -r path; do
     search_and_replace_in_tar_file "${path}" "${FIND_PARAMETERS}"
 done
+
+# Replace packages.blackwell.com back to packages.wazuh.com so makefile pulls libraries from wazuh until we configure blackwell domain
+replace_resource_url_base_in_makefile
 
 echo "✅ Renaming done."
 
