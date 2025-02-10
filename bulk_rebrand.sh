@@ -175,10 +175,14 @@ search_and_replace_in_sqlite3_file(){
     local dir=$(dirname "${file}/")
     local tmpfile="${dir}/tmp_${base}.sql"
 
+    echo "🪳 Created file ${tmpfile}"
     sqlite3 "${file}" ".dump" > "${tmpfile}"
+    echo "🪳 Dumped ${file} into ${tmpfile}"
     replace_in_file "${tmpfile}"
-    
+    echo "🪳 Replaced done into ${tmpfile}"
+
     sqlite3 "${file}" < "${tmpfile}"
+    echo "🪳 Overwriting ${tmpfile}"
 }
 
 # 🔄 Replacing content on multiple files in a given directory...
@@ -190,9 +194,12 @@ search_and_replace_multiple_files() {
         dir=$(dirname "${path}/")
         if [ -f "${path}" ]; then
             if [[ "${path}" == "*.db" ]]; then
+                echo "🪳 Detected .db file"
                 if file "${path}" | grep "SQLite 3"; then
-                search_and_replace_in_sqlite3_file "${path}"
+                    echo "🪳 File interpreted as SQLite 3 file"
+                    search_and_replace_in_sqlite3_file "${path}"
                 else
+                    echo "🪳 File interpreted as plaintext file"
                     replace_in_file "${path}"
                 fi
             else
@@ -226,7 +233,8 @@ echo "Please wait while the script is running..."
 echo "Handling plaintext files..."
 
 FIND_PARAMETERS=$(get_find_parameters)
-echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
+# Print find command for debug purposes to verify parameters
+# echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 
 search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
