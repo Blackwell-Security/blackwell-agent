@@ -63,12 +63,19 @@ check_dependencies(){
         plutil
     )
 
+    local all_good="yes"
     for dep in "${dependencies[@]}"; do
-        if ! command -v "$dep"; then
-            echo "[ERROR] $dep is missing. Please install and try again..."
-            echo "[ERROR] $dep is missing. Please install and try again..." >> ${LOG_FILE}
+        if ! command -v "$dep" > /dev/null; then
+            echo "[ERROR] $dep is missing."
+            echo "[ERROR] $dep is missing." >> ${LOG_FILE}
+            all_good="no"
         fi
     done
+    if [[ "${all_good}" == "no" ]]; then
+        echo "[Error] Please install the missing dependencies and try again..."
+        echo "[Error] Please install the missing dependencies and try again..." >> ${LOG_FILE}
+        exit 1
+    fi
 }
 
 get_find_parameters() {
