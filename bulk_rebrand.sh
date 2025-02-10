@@ -229,7 +229,7 @@ search_and_replace_multiple_files() {
 }
 
 replace_resource_url_base_in_makefile() {
-    sed -i 's/packages\.blackwell\.com/packages.wazuh.com/g' Makefile
+    sed -i 's/packages\.blackwell\.com/packages.wazuh.com/g' src/Makefile
 }
 
 echo "Checking dependencies..."
