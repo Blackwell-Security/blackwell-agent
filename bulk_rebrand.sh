@@ -7,7 +7,7 @@ RUN_TYPE="${1-cold}"
 BASE_DIR="$(pwd)"
 
 # Log file
-LOG_FILE="rebrand_log.txt"
+LOG_FILE="rebrand_log.log"
 
 # Old & New Names
 OLD_NAME="wazuh"
@@ -28,9 +28,10 @@ IGNORE_DIRECTORIES=(
 
 # Files to ignore
 IGNORE_FILES=(
+    ".gitmodules"
     "bulk_rebrand.sh" 
     "bulk_rebrand.py" 
-    ".gitmodules"
+    "rebrand_log.log"
 )
 
 # File extensions to ignore (binaries)
@@ -138,6 +139,37 @@ replace_in_file() {
     FILES_REPLACED=$((FILES_REPLACED+1))
 }
 
+# 🔄 Replacing content inside tar files...
+search_and_replace_in_tar_file() {
+    local path="$1"
+    local find_parameters="$2"
+    local base=$(basename "${path}")
+    local dir=$(dirname "${path}/")
+    local tmpdir="${dir}/temp_${base}"
+
+    mkdir "${tmpdir}"
+    tar -xf "${path}" -C "${tmpdir}"
+    search_and_replace_multiple_files "${tmpdir}" "${find_parameters}"
+    tar -cf "${path}" -C "${tmpdir}" .
+    rm -rf "${tmpdir}"
+}
+
+# 🔄 Replacing content on multiple files in a given directory...
+search_and_replace_multiple_files() {
+    local base_dir="$1"
+    local find_parameters="$2"
+    eval "find \"${base_dir}\" ${find_parameters}" | tac | while read -r path; do
+        base=$(basename "${path}")
+        dir=$(dirname "${path}/")
+        if [ -f "${path}" ]; then
+            replace_in_file "${path}"
+        fi
+        if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
+            rename_file "${DIR}" "${base}"
+        fi
+    done
+}
+
 # **STEP 1: Replace content inside files using awk**
 if [[ "${RUN_TYPE}" == "hot" ]]; then
     echo "HOT run enabled. The changes below are going to be applied"
@@ -152,21 +184,18 @@ else
 fi
 
 echo "Please wait while the script is running..."
+echo "Handling plaintext files..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 
-eval "find \"${BASE_DIR}\" ${FIND_PARAMETERS}" | tac | while read -r path; do
-    BASE=$(basename "${path}")
-    DIR=$(dirname "${path}/")
-    if [ -f "${path}" ]; then
-        replace_in_file "${path}"
-    fi
-    if echo ${BASE} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
-        rename_file "${DIR}" "${BASE}"
-    fi
+search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
+echo "Handling special format files"
+find "${BASE_DIR}" -name "*.tar" | while read -r path; do
+    search_and_replace_in_tar_file "${path}" "${FIND_PARAMETERS}"
 done
+
 echo "✅ Renaming done."
 
 # **Summary**
