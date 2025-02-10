@@ -31,6 +31,7 @@ IGNORE_FILES=(
     ".gitmodules"
     "bulk_rebrand.sh"
     "bulk_rebrand.py"
+    "invalid_utf8.xml" # Ignore Edge Case UTF-16 file
     "rebrand_log.log"
 )
 
@@ -40,14 +41,9 @@ IGNORE_EXTENSIONS=(
     "tar"
     "xz"
     "zip"
-    # "db"
     "dll"
-    # "manifest"
-    # "exp"
     "jpg"
     "png"
-    # "log"
-    # "rtf"
     "pack"
     "parquet"
     "pem"
@@ -56,7 +52,6 @@ IGNORE_EXTENSIONS=(
     "repo"
     "ico"
     "pmc"
-    # "plist"
     "lib"
     "pmc"
 )
@@ -101,6 +96,7 @@ get_find_parameters() {
             dir_flags+=" -o "
         fi
         dir_flags+="-path \"*/$dir/*\" -o -path \"*/$dir\" -o -path \"$dir/*\" -o -path \"$dir\" "
+        DIRECTORIES_IGNORED=(( DIRECTORIES_IGNORED++ ))
     done
 
     local file_flags=""
@@ -109,6 +105,7 @@ get_find_parameters() {
             file_flags+=" -o "
         fi
         file_flags+="-name \"$file\" "
+        FILES_IGNORED=(( FILES_IGNORED++ ))
     done
 
     local ext_flags=""
@@ -117,6 +114,7 @@ get_find_parameters() {
             ext_flags+=" -o "
         fi
         ext_flags+="-name \"*.$ext\" "
+        FILES_IGNORED=(( FILES_IGNORED++ ))
     done
 
     echo "-not \\( $dir_flags -o $file_flags -o $ext_flags \\)"
@@ -221,9 +219,11 @@ search_and_replace_multiple_files() {
             else
                 replace_in_file "${path}"
             fi
+            FILES_MODIFIED=(( FILES_MODIFIED++ ))
         fi
         if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
             rename_file "${dir}" "${base}"
+            FILES_REPLACED=(( FILES_REPLACED++ ))
         fi
     done
 }
@@ -236,7 +236,6 @@ replace_resource_url_base_in_makefile() {
         gsub(/packages.blackwell.com/, "packages.wazuh.com");
         print
     }' "${makefile}" > "${tmp_file}" && mv "${tmp_file}" "${makefile}" 
-    
 }
 
 echo "Checking dependencies..."
@@ -261,7 +260,7 @@ echo "Handling plaintext files..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 # Print find command for debug purposes to verify parameters
-# echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
+echo "[DEBUG] find "${BASE_DIR}" ${FIND_PARAMETERS}" >> "${LOG_FILE}"
 
 # Rename directories
 search_and_replace_multiple_files "${BASE_DIR}" "-type d ${FIND_PARAMETERS}"
