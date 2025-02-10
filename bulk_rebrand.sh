@@ -82,7 +82,7 @@ check_dependencies(){
     )
 
     for dep in "${dependencies[@]}"; do
-        if ! $dep --version; then
+        if ! command -v "$dep"; then
             echo "[ERROR] $dep is missing. Please install and try again..."
             echo "[ERROR] $dep is missing. Please install and try again..." >> ${LOG_FILE}
         fi
@@ -261,12 +261,13 @@ search_and_replace_multiple_files "${BASE_DIR}" "-type d ${FIND_PARAMETERS}"
 # Replace in files
 search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
-echo "Handling special format files"
+echo "Handling special format files..."
 find "${BASE_DIR}" -name "*.tar" | while read -r path; do
     search_and_replace_in_tar_file "${path}" "${FIND_PARAMETERS}"
 done
 
 # Replace packages.blackwell.com back to packages.wazuh.com so makefile pulls libraries from wazuh until we configure blackwell domain
+echo "Handling Makefile edge cases..."
 replace_resource_url_base_in_makefile
 
 echo "✅ Renaming done."
