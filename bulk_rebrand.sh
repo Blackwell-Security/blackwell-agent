@@ -175,14 +175,16 @@ search_and_replace_in_sqlite3_file(){
     local dir=$(dirname "${file}/")
     local tmpfile="${dir}/tmp_${base}.sql"
 
-    echo "🪳 Created file ${tmpfile}"
+    # Created temp .sql file as plaintext
     sqlite3 "${file}" ".dump" > "${tmpfile}"
-    echo "🪳 Dumped ${file} into ${tmpfile}"
+    # Dumped .db into tmpfile
     replace_in_file "${tmpfile}"
-    echo "🪳 Replaced done into ${tmpfile}"
 
+    # 🛑 **Delete the existing SQLite DB to avoid conflicts**
+    rm -f "${file}"
+    touch "${file}"
     sqlite3 "${file}" < "${tmpfile}"
-    echo "🪳 Overwriting ${tmpfile}"
+    rm -f "${tmpfile}"
 }
 
 # 🔄 Replacing content on multiple files in a given directory...
@@ -194,9 +196,7 @@ search_and_replace_multiple_files() {
         dir=$(dirname "${path}/")
         if [ -f "${path}" ]; then
             if [[ "${path}" == *.db ]]; then
-                echo "🪳 Detected .db file"
-                if file "${path}" | grep "SQLite 3"; then
-                    echo "🪳 File interpreted as SQLite 3 file"
+                if file "${path}" | grep "SQLite 3" > /dev/null ; then
                     search_and_replace_in_sqlite3_file "${path}"
                     sleep 15
                 else
