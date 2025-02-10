@@ -229,7 +229,14 @@ search_and_replace_multiple_files() {
 }
 
 replace_resource_url_base_in_makefile() {
-    sed -i 's/packages\.blackwell\.com/packages.wazuh.com/g' src/Makefile
+    local makefile="${BASE_DIR}/$1"
+
+    tmp_file="${makefile}.tmp"
+    awk '{
+        gsub(/packages.blackwell.com/, "packages.wazuh.com");
+        print
+    }' "${makefile}" > "${tmp_file}" && mv "${tmp_file}" "${makefile}" 
+    
 }
 
 echo "Checking dependencies..."
@@ -256,19 +263,19 @@ FIND_PARAMETERS=$(get_find_parameters)
 # Print find command for debug purposes to verify parameters
 # echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 
-# Rename directories
-search_and_replace_multiple_files "${BASE_DIR}" "-type d ${FIND_PARAMETERS}"
-# Replace in files
-search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
+# # Rename directories
+# search_and_replace_multiple_files "${BASE_DIR}" "-type d ${FIND_PARAMETERS}"
+# # Replace in files
+# search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
-echo "Handling special format files..."
-find "${BASE_DIR}" -name "*.tar" | while read -r path; do
-    search_and_replace_in_tar_file "${path}" "${FIND_PARAMETERS}"
-done
+# echo "Handling special format files..."
+# find "${BASE_DIR}" -name "*.tar" | while read -r path; do
+#     search_and_replace_in_tar_file "${path}" "${FIND_PARAMETERS}"
+# done
 
 # Replace packages.blackwell.com back to packages.wazuh.com so makefile pulls libraries from wazuh until we configure blackwell domain
-echo "Handling Makefile edge cases..."
-replace_resource_url_base_in_makefile
+echo "Handling src/Makefile edge cases..."
+replace_resource_url_base_in_makefile "src/Makefile"
 
 echo "✅ Renaming done."
 
