@@ -250,8 +250,11 @@ echo "Handling plaintext files..."
 
 FIND_PARAMETERS=$(get_find_parameters)
 # Print find command for debug purposes to verify parameters
-echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
+# echo "find "${BASE_DIR}" ${FIND_PARAMETERS}"
 
+# Rename directories
+search_and_replace_multiple_files "${BASE_DIR}" "-type d ${FIND_PARAMETERS}"
+# Replace in files
 search_and_replace_multiple_files "${BASE_DIR}" "${FIND_PARAMETERS}"
 
 echo "Handling special format files"
