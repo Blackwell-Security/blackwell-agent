@@ -245,7 +245,7 @@ replace_resource_url_base_in_file() {
             print
         }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
-    echo "[REPLACED] Resource URL base in file: $file" | tee -a "${LOG_FILE}"
+    echo "[REPLACED] Resource URL base in file: $file" >> "${LOG_FILE}"
 }
 
 echo "Checking dependencies..."
