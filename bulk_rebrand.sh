@@ -164,6 +164,7 @@ search_and_replace_in_tar_file() {
         tar -cf "${path}" -C "${tmpdir}" .
         rm -rf "${tmpdir}"
     fi
+    echo "[REPLACED] ${file}" >> ${LOG_FILE}
 }
 
 # 🔄 Replacing content inside .db sqlite3 files...
@@ -207,38 +208,44 @@ search_and_replace_multiple_files() {
         base=$(basename "${path}")
         dir=$(dirname "${path}/")
         if [ -f "${path}" ]; then
-            if [[ "${path}" == *.db ]]; then
-                if file "${path}" | grep "SQLite 3" > /dev/null ; then
-                    search_and_replace_in_sqlite3_file "${path}"
+            if grep -i "${OLD_NAME}" "${path}" > /dev/null 2>&1; then
+                if [[ "${path}" == *.db ]]; then
+                    if file "${path}" | grep "SQLite 3" > /dev/null ; then
+                        search_and_replace_in_sqlite3_file "${path}"
+                    else
+                        replace_in_file "${path}"
+                    fi
+                elif [[ "${path}" == *.plist ]]; then
+                    if file "${path}" | grep "Apple binary property list" > /dev/null ; then
+                        search_and_replace_in_plist_file "${path}"
+                    else
+                        replace_in_file "${path}"
+                    fi
                 else
                     replace_in_file "${path}"
                 fi
-            elif [[ "${path}" == *.plist ]]; then
-                if file "${path}" | grep "Apple binary property list" > /dev/null ; then
-                    search_and_replace_in_plist_file "${path}"
-                else
-                    replace_in_file "${path}"
-                fi
-            else
-                replace_in_file "${path}"
             fi
         fi
         if echo ${base} | grep -i ${OLD_NAME} > /dev/null 2>&1; then
             rename_file "${dir}" "${base}"
         fi
+        if grep packages.blackwell.com ${path} > /dev/null 2>&1; then
+            replace_resource_url_base_in_file "${path}"
+        fi
     done
 }
 
-replace_resource_url_base_in_makefile() {
-    local makefile="${BASE_DIR}/$1"
+replace_resource_url_base_in_file() {
+    local file="$1"
 
     if [[ "${RUN_TYPE}" == "hot" ]]; then
         tmp_file="${makefile}.tmp"
         awk '{
             gsub(/packages.blackwell.com/, "packages.wazuh.com");
             print
-        }' "${makefile}" > "${tmp_file}" && mv "${tmp_file}" "${makefile}" 
+        }' "${file}" > "${tmp_file}" && mv "${tmp_file}" "${file}" 
     fi
+    echo "[REPLACED] Resource URL base in file: $file" | tee -a "${LOG_FILE}"
 }
 
 echo "Checking dependencies..."
@@ -277,7 +284,7 @@ done
 
 # Replace packages.blackwell.com back to packages.wazuh.com so makefile pulls libraries from wazuh until we configure blackwell domain
 echo "Handling src/Makefile edge cases..."
-replace_resource_url_base_in_makefile "src/Makefile"
+replace_resource_url_base_in_file "src/Makefile"
 
 echo "✅ Renaming done."
 
