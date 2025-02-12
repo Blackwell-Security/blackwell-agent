@@ -137,7 +137,12 @@ replace_in_file() {
             original_perms=$(stat -c "%a" "${file}")  # Linux
         fi
         # Replacing content inside files...
-        awk '{
+        # Ignore lines with github.com/wazuh
+        # Ignore lines with github.com/wazuh/wazuh
+        awk '
+        /github\.com\/wazuh/ { print; next }
+        /github\.com\/wazuh\/wazuh/ { print; next }
+        {
             gsub(/wazuh/, "blackwell");
             gsub(/Wazuh/, "Blackwell");
             gsub(/WAZUH/, "BLACKWELL");
