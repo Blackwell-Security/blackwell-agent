@@ -142,6 +142,8 @@ replace_in_file() {
         awk '
         /github\.com\/wazuh/ { print; next }
         /github\.com\/wazuh\/wazuh/ { print; next }
+        /github\.com\/Wazuh/ { print; next }
+        /github\.com\/Wazuh\/Wazuh/ { print; next }
         {
             gsub(/wazuh/, "blackwell");
             gsub(/Wazuh/, "Blackwell");
