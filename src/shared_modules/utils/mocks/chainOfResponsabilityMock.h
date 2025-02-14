@@ -1,6 +1,6 @@
 /*
- * Wazuh databaseFeedManager
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell databaseFeedManager
+ * Copyright (C) 2015, Blackwell Inc.
  * January 11, 2024.
  *
  * This program is free software; you can redistribute it

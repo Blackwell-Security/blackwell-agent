@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-analysisd' daemon receives the log messages and compares them to the rules.
+brief: The 'blackwell-analysisd' daemon receives the log messages and compares them to the rules.
        It then creates an alert when a log message matches an applicable rule.
-       Specifically, these tests will check if the 'wazuh-analysisd' daemon handles correctly
+       Specifically, these tests will check if the 'blackwell-analysisd' daemon handles correctly
        the invalid events it receives.
 
 components:
@@ -21,8 +21,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-db
+    - blackwell-analysisd
+    - blackwell-db
 
 os_platform:
     - linux
@@ -39,7 +39,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-analysisd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-analysisd.html
 
 tags:
     - events
@@ -49,15 +49,15 @@ import time
 
 from pathlib import Path
 
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
-from wazuh_testing.modules.analysisd import patterns, configuration as analysisd_config
-from wazuh_testing.modules.monitord import configuration as monitord_config
-from wazuh_testing.tools import mitm
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import configuration, callbacks
+from blackwell_testing import session_parameters
+from blackwell_testing.constants.daemons import ANALYSISD_DAEMON
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
+from blackwell_testing.modules.analysisd import patterns, configuration as analysisd_config
+from blackwell_testing.modules.monitord import configuration as monitord_config
+from blackwell_testing.tools import mitm
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import configuration, callbacks
 
 from . import TEST_CASES_PATH
 
@@ -86,10 +86,10 @@ receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 def test_error_messages(test_metadata, configure_local_internal_options, configure_sockets_environment_module,
                        connect_to_sockets_module, wait_for_analysisd_startup, truncate_monitored_files):
     '''
-    description: Check if when the 'wazuh-analysisd' daemon socket receives a message with an invalid event,
-                 it generates the corresponding error that sends to the 'wazuh-db' daemon socket.
+    description: Check if when the 'blackwell-analysisd' daemon socket receives a message with an invalid event,
+                 it generates the corresponding error that sends to the 'blackwell-db' daemon socket.
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 2
 
@@ -99,7 +99,7 @@ def test_error_messages(test_metadata, configure_local_internal_options, configu
             brief: Test case metadata.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure environment for sockets and MITM.
@@ -108,7 +108,7 @@ def test_error_messages(test_metadata, configure_local_internal_options, configu
             brief: Connect to a given list of sockets.
         - wait_for_analysisd_startup:
             type: fixture
-            brief: Wait until the 'wazuh-analysisd' has begun and the 'alerts.json' file is created.
+            brief: Wait until the 'blackwell-analysisd' has begun and the 'alerts.json' file is created.
 
     assertions:
         - Verify that the errors messages generated are consistent with the events received.
@@ -131,7 +131,7 @@ def test_error_messages(test_metadata, configure_local_internal_options, configu
     time.sleep(1)
 
     # Start monitor
-    monitor_log = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    monitor_log = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     monitor_log.start(callback=callbacks.generate_callback(patterns.ANALYSISD_ERROR_MESSAGES),
                       timeout=4*session_parameters.default_timeout)
 

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2010 Trend Micro Inc.
  * All rights reserved.
  *
@@ -29,8 +29,8 @@
 #include <sys/wait.h>
 #include "check_cert.h"
 #include "key_request.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
-#include "wazuhdb_op.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
+#include "blackwelldb_op.h"
 #include "os_err.h"
 #include "generate_cert.h"
 
@@ -462,7 +462,7 @@ int main(int argc, char **argv)
         exit(0);
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(BLACKWELL_HOMEDIR, home_path);
 
     switch(w_is_worker()) {
     case -1:
@@ -1051,12 +1051,12 @@ void* run_writer(__attribute__((unused)) void *arg) {
 
             gettime(&t0);
             if (wdb_remove_agent(atoi(cur->id), &wdb_sock) != OS_SUCCESS) {
-                mdebug1("Could not remove the information stored in Wazuh DB of the agent %s.", cur->id);
+                mdebug1("Could not remove the information stored in Blackwell DB of the agent %s.", cur->id);
             }
             gettime(&t1);
             mdebug2("[Writer] wdb_remove_agent(): %d µs.", (int)(1000000. * (double)time_diff(&t0, &t1)));
 
-            snprintf(wdbquery, OS_SIZE_128, "wazuhdb remove %s", cur->id);
+            snprintf(wdbquery, OS_SIZE_128, "blackwelldb remove %s", cur->id);
             gettime(&t0);
             wdbc_query_ex(&wdb_sock, wdbquery, wdboutput, sizeof(wdboutput));
             gettime(&t1);

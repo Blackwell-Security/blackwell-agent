@@ -1,11 +1,11 @@
-Wazuh RPM packages for IBM AIX
+Blackwell RPM packages for IBM AIX
 ==============================
 
-In this repository, you can find the necessary tools to build a Wazuh package for AIX.
+In this repository, you can find the necessary tools to build a Blackwell package for AIX.
 
 ## Building AIX packages
 
-Please, visit the following link for the full AIX packages building documentation: [Generate Wazuh AIX packages.](https://documentation.wazuh.com/current/development/packaging/generate-aix-package.html)
+Please, visit the following link for the full AIX packages building documentation: [Generate Blackwell AIX packages.](https://documentation.blackwell.com/current/development/packaging/generate-aix-package.html)
 
 ## More Packages
 
@@ -14,9 +14,9 @@ Please, visit the following link for the full AIX packages building documentatio
 
 ## Contribute
 
-If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/wazuh) by sending an email to [wazuh+subscribe@googlegroups.com](mailto:wazuh+subscribe@googlegroups.com)or join to our Slack channel by filling this [form](https://wazuh.com/community/join-us-on-slack/) to ask questions and participate in discussions.
+If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/blackwell) by sending an email to [blackwell+subscribe@googlegroups.com](mailto:blackwell+subscribe@googlegroups.com)or join to our Slack channel by filling this [form](https://blackwell.com/community/join-us-on-slack/) to ask questions and participate in discussions.
 
 ## License and copyright
 
-WAZUH
-Copyright (C) 2015 Wazuh Inc.  (License GPLv2)
+BLACKWELL
+Copyright (C) 2015 Blackwell Inc.  (License GPLv2)

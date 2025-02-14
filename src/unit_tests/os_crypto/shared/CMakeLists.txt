@@ -1,5 +1,5 @@
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate msgs tests
 list(APPEND os_crypto_shared_tests_names "test_msgs")

@@ -1,7 +1,7 @@
 /* Remoted state management functions
  * May 25, 2018
  *
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #include "state.h"
 #include <pthread.h>
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else
@@ -38,7 +38,7 @@ STATIC remoted_agent_state_t * get_node(const char *agent_id);
 
 /**
  * @brief Clean non active agents from agents state
- * @param sock Wazuh DB socket
+ * @param sock Blackwell DB socket
  */
 STATIC void w_remoted_clean_agents_state(int *sock);
 

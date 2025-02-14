@@ -1,16 +1,16 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-logtest' tool allows the testing and verification of rules and decoders against provided log examples
-       remotely inside a sandbox in 'wazuh-analysisd'. This functionality is provided by the manager, whose work
+brief: The 'blackwell-logtest' tool allows the testing and verification of rules and decoders against provided log examples
+       remotely inside a sandbox in 'blackwell-analysisd'. This functionality is provided by the manager, whose work
        parameters are configured in the ossec.conf file in the XML rule_test section. Test logs can be evaluated through
-       the 'wazuh-logtest' tool or by making requests via RESTful API. These tests will check if the logtest
+       the 'blackwell-logtest' tool or by making requests via RESTful API. These tests will check if the logtest
        configuration is valid. Also checks rules, decoders, decoders, alerts matching logs correctly.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -39,11 +39,11 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/tools/wazuh-logtest.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/wazuh-logtest/index.html
-    - https://documentation.wazuh.com/current/user-manual/ruleset/testing.html?highlight=logtest
-    - https://documentation.wazuh.com/current/user-manual/capabilities/wazuh-logtest/logtest-configuration.html
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-analysisd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/tools/blackwell-logtest.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/blackwell-logtest/index.html
+    - https://documentation.blackwell.com/current/user-manual/ruleset/testing.html?highlight=logtest
+    - https://documentation.blackwell.com/current/user-manual/capabilities/blackwell-logtest/logtest-configuration.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-analysisd.html
 
 tags:
     - logtest_configuration
@@ -52,10 +52,10 @@ import json
 from pathlib import Path
 
 import pytest
-from wazuh_testing.constants.paths.sockets import LOGTEST_SOCKET_PATH
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON, WAZUH_DB_DAEMON
-from wazuh_testing.tools.socket_controller import SocketController
-from wazuh_testing.utils import configuration
+from blackwell_testing.constants.paths.sockets import LOGTEST_SOCKET_PATH
+from blackwell_testing.constants.daemons import ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON
+from blackwell_testing.tools.socket_controller import SocketController
+from blackwell_testing.utils import configuration
 
 from . import TEST_CASES_FOLDER_PATH
 
@@ -72,7 +72,7 @@ receiver_sockets_params = [(LOGTEST_SOCKET_PATH, 'AF_UNIX', 'TCP')]
 receiver_sockets = None  # Set in the fixtures
 
 # Test daemons to restart.
-daemons_handler_configuration = {'daemons': [ANALYSISD_DAEMON, WAZUH_DB_DAEMON]}
+daemons_handler_configuration = {'daemons': [ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON]}
 
 
 def create_session():
@@ -107,18 +107,18 @@ def create_session():
 def test_remove_session(test_metadata, daemons_handler_module,
                         wait_for_logtest_startup, connect_to_sockets):
     '''
-    description: Check if 'wazuh-logtest' correctly detects and removes the sessions under pre-defined scenarios.
+    description: Check if 'blackwell-logtest' correctly detects and removes the sessions under pre-defined scenarios.
                  To do this, the session input is sent and the output is received, then it checks if the received data
                  within the logtest socket is the same that the test case expected output.
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 0
 
     parameters:
         - daemons_handler_module:
             type: fixture
-            brief: Wazuh logtests daemons handler.
+            brief: Blackwell logtests daemons handler.
         - wait_for_logtest_startup:
             type: fixture
             brief: Wait until logtest has begun.

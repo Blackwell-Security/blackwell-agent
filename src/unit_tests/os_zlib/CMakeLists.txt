@@ -17,7 +17,7 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_ZLIB_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_ZLIB_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 # Generate Execd tests
 list(APPEND os_zlib_names "test_os_zlib")
@@ -34,8 +34,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_ZLIB_O
         ${TEST_DEPS}
     )

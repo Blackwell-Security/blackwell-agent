@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 
@@ -8,13 +8,13 @@ import logging
 from connexion import request
 from connexion.lifecycle import ConnexionResponse
 
-import wazuh.sca as sca
+import blackwell.sca as sca
 from api.controllers.util import json_response
 from api.util import remove_nones_to_dict, parse_api_param, raise_if_exc
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-from wazuh.core.common import DATABASE_LIMIT
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+from blackwell.core.common import DATABASE_LIMIT
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 async def get_sca_agent(agent_id: str = None, pretty: bool = False, wait_for_complete: bool = False,

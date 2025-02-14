@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Blackwell Inc.
+ Created by Blackwell, Inc. <info@blackwell.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
@@ -8,10 +8,10 @@ import pytest
 import time
 
 from pathlib import Path
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.agent_simulator import connect
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.tools.simulators.agent_simulator import connect
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.modules.remoted.configuration import REMOTED_DEBUG
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -50,7 +50,7 @@ def stop_all(connections):
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_agents_switching_protocols(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, daemons_handler, simulate_agents):
+                            set_blackwell_configuration, daemons_handler, simulate_agents):
 
     '''
     description: Checks if the agents can reconnect without issues to the manager after switching their protocol.
@@ -70,14 +70,14 @@ def test_agents_switching_protocols(test_configuration, test_metadata, configure
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
+            brief: Configure the Blackwell local internal options using the values from `local_internal_options`.
         - daemons_handler:
             type: fixture
             brief: Restart service once the test finishes stops the daemons.
         - simulate_agents
             type: fixture
             brief: create agents
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
 

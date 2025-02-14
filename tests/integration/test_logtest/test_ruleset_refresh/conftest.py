@@ -1,22 +1,22 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
 import os
 from shutil import copy
 
-from wazuh_testing.constants.paths import WAZUH_PATH
+from blackwell_testing.constants.paths import BLACKWELL_PATH
 from . import TEST_RULES_DECODERS_PATH
 
 @pytest.fixture()
 def configure_rules_list(test_metadata):
     """Configure a custom rules and log alert level for testing.
-    Restarting Wazuh is not needed for applying the configuration, it is optional.
+    Restarting Blackwell is not needed for applying the configuration, it is optional.
     """
 
     # configuration for testing
-    rules_dir = os.path.join(WAZUH_PATH, test_metadata['rule_dir'])
+    rules_dir = os.path.join(BLACKWELL_PATH, test_metadata['rule_dir'])
     if not os.path.exists(rules_dir):
         os.makedirs(rules_dir)
 
@@ -37,11 +37,11 @@ def configure_rules_list(test_metadata):
 def configure_cdbs_list(test_metadata):
     """Configure a custom cdbs for testing.
 
-    Restarting Wazuh is not needed for applying the configuration, it is optional.
+    Restarting Blackwell is not needed for applying the configuration, it is optional.
     """
 
     # cdb configuration for testing
-    cdb_dir = os.path.join(WAZUH_PATH, test_metadata['cdb_dir'])
+    cdb_dir = os.path.join(BLACKWELL_PATH, test_metadata['cdb_dir'])
     if not os.path.exists(cdb_dir):
         os.makedirs(cdb_dir)
 
@@ -51,7 +51,7 @@ def configure_cdbs_list(test_metadata):
     copy(file_cdb_test, file_cdb_dst)
 
     # rule configuration for testing
-    rule_dir = os.path.join(WAZUH_PATH, test_metadata['rule_dir'])
+    rule_dir = os.path.join(BLACKWELL_PATH, test_metadata['rule_dir'])
     if not os.path.exists(rule_dir):
         os.makedirs(rule_dir)
 
@@ -75,11 +75,11 @@ def configure_cdbs_list(test_metadata):
 def configure_decoders_list(test_metadata):
     """Configure a custom decoder in local_decoder.xml for testing.
 
-    Restarting Wazuh is needed for applying the configuration, it is optional.
+    Restarting Blackwell is needed for applying the configuration, it is optional.
     """
 
     # configuration for testing
-    decode_dir = os.path.join(WAZUH_PATH, test_metadata['decoder_dir'])
+    decode_dir = os.path.join(BLACKWELL_PATH, test_metadata['decoder_dir'])
     if not os.path.exists(decode_dir):
         os.makedirs(decode_dir)
 

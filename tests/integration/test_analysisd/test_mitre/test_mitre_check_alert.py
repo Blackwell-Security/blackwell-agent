@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-analysisd' daemon receives the log messages and compares them to the rules.
+brief: The 'blackwell-analysisd' daemon receives the log messages and compares them to the rules.
        It then creates an alert when a log message matches an applicable rule.
-       Specifically, these tests will check if the 'wazuh-analysisd' daemon generates alerts
+       Specifically, these tests will check if the 'blackwell-analysisd' daemon generates alerts
        using custom rules that contains the 'mitre' field to enrich those alerts with
        MITREs IDs, techniques and tactics.
 
@@ -22,8 +22,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-db
+    - blackwell-analysisd
+    - blackwell-db
 
 os_platform:
     - linux
@@ -40,7 +40,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-analysisd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-analysisd.html
     - https://attack.mitre.org/
 
 tags:
@@ -52,10 +52,10 @@ import json
 import jsonschema
 import pytest
 
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH
-from wazuh_testing.modules.analysisd import patterns, utils
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH
+from blackwell_testing.modules.analysisd import patterns, utils
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import callbacks
 
 from . import RULES_SAMPLE_PATH
 
@@ -84,7 +84,7 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
                  so that the alerts generated include this information which
                  will be finally validated.
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 0
 
@@ -100,7 +100,7 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
             brief: Configure a custom rule in 'local_rules.xml' for testing.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Verify that the MITRE alerts are generated and are correct.
@@ -117,13 +117,13 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
         - man_in_the_middle
         - wdb_socket
     '''
-    wazuh_alert_monitor = file_monitor.FileMonitor(ALERTS_JSON_PATH)
+    blackwell_alert_monitor = file_monitor.FileMonitor(ALERTS_JSON_PATH)
 
     # Wait until Mitre's event is detected
     if test_configuration not in invalid_configurations:
-        wazuh_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
-        utils.validate_mitre_event(json.loads(wazuh_alert_monitor.callback_result))
+        blackwell_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
+        utils.validate_mitre_event(json.loads(blackwell_alert_monitor.callback_result))
     else:
         with pytest.raises(jsonschema.exceptions.ValidationError):
-            wazuh_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
-            utils.validate_mitre_event(json.loads(wazuh_alert_monitor.callback_result))
+            blackwell_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
+            utils.validate_mitre_event(json.loads(blackwell_alert_monitor.callback_result))

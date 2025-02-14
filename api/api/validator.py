@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -10,8 +10,8 @@ from typing import Dict, List
 from defusedxml import ElementTree as ET
 from jsonschema import Draft4Validator
 
-from wazuh.core import common
-from wazuh.core.exception import WazuhError
+from blackwell.core import common
+from blackwell.core.exception import BlackwellError
 
 _alphanumeric_param = re.compile(r'^[\w,\-.+\s:]+$')
 _symbols_alphanumeric_param = re.compile(r'^[\w,*<>!\-.+\s:/()\[\]\'\"|=~#]+$')
@@ -35,8 +35,8 @@ _iso8601_date_time = re.compile(
 _names = re.compile(r'^[\w\-.%]+$', re.ASCII)
 _numbers = re.compile(r'^\d+$')
 _numbers_or_all = re.compile(r'^(\d+|all)$')
-_wazuh_key = re.compile(r'[a-zA-Z0-9]+$')
-_wazuh_version = re.compile(r'^(?:wazuh |)v?\d+\.\d+\.\d+$', re.IGNORECASE)
+_blackwell_key = re.compile(r'[a-zA-Z0-9]+$')
+_blackwell_version = re.compile(r'^(?:blackwell |)v?\d+\.\d+\.\d+$', re.IGNORECASE)
 _paths = re.compile(r'^[\w\-.\\/:]+$')
 _cdb_filename_path = re.compile(r'^[\-\w]+$')
 _xml_filename_path = re.compile(r'^[\w\-]+\.xml$')
@@ -240,7 +240,7 @@ api_config_schema = {
     }
 }
 
-WAZUH_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
+BLACKWELL_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
     {
         'agent': {"client", "buffer", "labels", "internal", "anti_tampering"},
         'agentless': {"agentless"},
@@ -254,7 +254,7 @@ WAZUH_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
         'monitor': {"global", "internal", "reports"},
         'request': {"global", "remote", "internal"},
         'syscheck': {"syscheck", "rootcheck", "internal"},
-        'wazuh-db': {"wdb", "internal"},
+        'blackwell-db': {"wdb", "internal"},
         'wmodules': {"wmodules"}
     }
 )
@@ -319,7 +319,7 @@ def allowed_fields(filters: Dict) -> List:
     return [field for field in filters]
 
 
-def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = True) -> bool:
+def is_safe_path(path: str, basedir: str = common.BLACKWELL_PATH, relative: bool = True) -> bool:
     """Check if a path is correct.
 
     Parameters
@@ -327,7 +327,7 @@ def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = T
     path : str
         Path to be checked.
     basedir : str
-        Wazuh installation directory.
+        Blackwell installation directory.
     relative : bool
         True if path is relative. False otherwise (absolute).
 
@@ -348,25 +348,25 @@ def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = T
     return os.path.commonpath([full_path, full_basedir]) == full_basedir
 
 
-def check_component_configuration_pair(component: str, configuration: str) -> WazuhError:
+def check_component_configuration_pair(component: str, configuration: str) -> BlackwellError:
     """
 
     Parameters
     ----------
     component : str
-        Wazuh component name.
+        Blackwell component name.
     configuration : str
         Component configuration.
 
     Returns
     -------
-    WazuhError
-        It can either return a `WazuhError` or `None`, depending on the given component and configuration. The exception
+    BlackwellError
+        It can either return a `BlackwellError` or `None`, depending on the given component and configuration. The exception
         is returned and not raised because we use the object to create a problem on API level.
     """
-    if configuration not in WAZUH_COMPONENT_CONFIGURATION_MAPPING[component]:
-        return WazuhError(1128, extra_message=f"Valid configuration values for '{component}': "
-                                              f"{WAZUH_COMPONENT_CONFIGURATION_MAPPING[component]}")
+    if configuration not in BLACKWELL_COMPONENT_CONFIGURATION_MAPPING[component]:
+        return BlackwellError(1128, extra_message=f"Valid configuration values for '{component}': "
+                                              f"{BLACKWELL_COMPONENT_CONFIGURATION_MAPPING[component]}")
 
 
 @Draft4Validator.FORMAT_CHECKER.checks("alphanumeric")
@@ -473,14 +473,14 @@ def format_timeframe(value):
     return check_exp(value, _timeframe_type)
 
 
-@Draft4Validator.FORMAT_CHECKER.checks("wazuh_key")
-def format_wazuh_key(value):
-    return check_exp(value, _wazuh_key)
+@Draft4Validator.FORMAT_CHECKER.checks("blackwell_key")
+def format_blackwell_key(value):
+    return check_exp(value, _blackwell_key)
 
 
-@Draft4Validator.FORMAT_CHECKER.checks("wazuh_version")
-def format_wazuh_version(value):
-    return check_exp(value, _wazuh_version)
+@Draft4Validator.FORMAT_CHECKER.checks("blackwell_version")
+def format_blackwell_version(value):
+    return check_exp(value, _blackwell_version)
 
 
 @Draft4Validator.FORMAT_CHECKER.checks("date")

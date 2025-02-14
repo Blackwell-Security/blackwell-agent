@@ -138,7 +138,7 @@ stages:
         error: !anyint
         data:
           affected_items:
-            - cluster: wazuh
+            - cluster: blackwell
               node: master-node
               type: master
           failed_items: []

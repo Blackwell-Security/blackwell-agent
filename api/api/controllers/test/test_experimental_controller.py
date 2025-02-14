@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -8,22 +8,22 @@ from unittest.mock import ANY, AsyncMock, MagicMock, patch
 import pytest
 from connexion.lifecycle import ConnexionResponse
 from api.controllers.test.utils import CustomAffectedItems
-from wazuh.core.exception import WazuhResourceNotFound
+from blackwell.core.exception import BlackwellResourceNotFound
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('blackwell.common.blackwell_uid'):
+    with patch('blackwell.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
         from api.controllers.experimental_controller import (
             check_experimental_feature_value, clear_rootcheck_database,
             clear_syscheck_database, get_cis_cat_results, get_hardware_info,
             get_hotfixes_info, get_network_address_info,
             get_network_interface_info, get_network_protocol_info, get_os_info,
             get_packages_info, get_ports_info, get_processes_info)
-        from wazuh import ciscat, rootcheck, syscheck, syscollector
-        from wazuh.tests.util import RBAC_bypasser
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        from blackwell import ciscat, rootcheck, syscheck, syscollector
+        from blackwell.tests.util import RBAC_bypasser
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
 
 
 @pytest.mark.asyncio
@@ -502,6 +502,6 @@ async def test_check_experimental_feature_value(mock_exc):
         pass
     with patch('api.configuration.api_conf', new={'experimental_features': False}):
         await func_()
-        mock_exc.assert_called_once_with(WazuhResourceNotFound(1122))
+        mock_exc.assert_called_once_with(BlackwellResourceNotFound(1122))
     with patch('api.configuration.api_conf', new={'experimental_features': True}):
         await func_()

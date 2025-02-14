@@ -8,16 +8,16 @@ if(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 # Setup the compiling toolchain
-# Find the wazuh shared library
-find_library(WAZUHEXT NAMES wazuhext HINTS "${SRC_FOLDER}")
+# Find the blackwell shared library
+find_library(BLACKWELLEXT NAMES blackwellext HINTS "${SRC_FOLDER}")
 set(uname "Win32")
 
-if(NOT WAZUHEXT)
-  message(FATAL_ERROR "WAZUHEXT is set to '${WAZUHEXT}', but did not find any file matching ${SRC_FOLDER}/${CMAKE_FIND_LIBRARY_PREFIXES}wazuhext${CMAKE_FIND_LIBRARY_SUFFIXES}")
-  message(FATAL_ERROR "libwazuhext not found in ${SRC_FOLDER} Aborting...")
+if(NOT BLACKWELLEXT)
+  message(FATAL_ERROR "BLACKWELLEXT is set to '${BLACKWELLEXT}', but did not find any file matching ${SRC_FOLDER}/${CMAKE_FIND_LIBRARY_PREFIXES}blackwellext${CMAKE_FIND_LIBRARY_SUFFIXES}")
+  message(FATAL_ERROR "libblackwellext not found in ${SRC_FOLDER} Aborting...")
 endif()
 
-# Find the wazuh sysinfo library
+# Find the blackwell sysinfo library
 find_library(SYSINFO NAMES sysinfo HINTS "${SRC_FOLDER}/data_provider/build/bin")
 set(uname "Win32")
 
@@ -40,7 +40,7 @@ endif()
 
 # Add compiling flags
 add_compile_options(-ggdb -O0 -g -coverage)
-add_definitions(-DTEST_WINAGENT -DDEBUG -DENABLE_AUDIT -D_WIN32_WINNT=0x600 -DWAZUH_UNIT_TESTING)
+add_definitions(-DTEST_WINAGENT -DDEBUG -DENABLE_AUDIT -D_WIN32_WINNT=0x600 -DBLACKWELL_UNIT_TESTING)
 
 # Add logcollector objects
 file(GLOB logcollector_lib ${SRC_FOLDER}/logcollector/*.o)
@@ -78,15 +78,15 @@ set_target_properties(
   LINKER_LANGUAGE C
 )
 
-target_link_libraries(DEPENDENCIES_O ${WAZUHLIB} ${WAZUHEXT} ${PTHREAD} ${SYSINFO} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 wintrust)
+target_link_libraries(DEPENDENCIES_O ${BLACKWELLLIB} ${BLACKWELLEXT} ${PTHREAD} ${SYSINFO} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 wintrust)
 
 # Set tests dependencies
 # Use --start-group and --end-group to handle circular dependencies
-set(TEST_DEPS -Wl,--start-group ${WAZUHLIB} ${WAZUHEXT} ${SYSINFO} DEPENDENCIES_O -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
-set(TEST_EVENT_DEPS -Wl,--start-group ${WAZUHLIB} ${WAZUHEXT} ${SYSINFO} DEPENDENCIES_O -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
+set(TEST_DEPS -Wl,--start-group ${BLACKWELLLIB} ${BLACKWELLEXT} ${SYSINFO} DEPENDENCIES_O -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
+set(TEST_EVENT_DEPS -Wl,--start-group ${BLACKWELLLIB} ${BLACKWELLEXT} ${SYSINFO} DEPENDENCIES_O -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
 
 add_subdirectory(client-agent)
-add_subdirectory(wazuh_modules)
+add_subdirectory(blackwell_modules)
 add_subdirectory(os_execd)
 add_subdirectory(win32)
 add_subdirectory(logcollector)

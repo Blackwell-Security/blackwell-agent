@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -24,7 +24,7 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_REGEX_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_REGEX_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
@@ -74,8 +74,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_REGEX_O
         ${TEST_DEPS}
     )

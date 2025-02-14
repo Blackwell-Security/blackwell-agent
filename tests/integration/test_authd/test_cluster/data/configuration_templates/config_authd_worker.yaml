@@ -38,7 +38,7 @@
     - section: cluster
       elements:
       - name:
-          value: wazuh
+          value: blackwell
       - node_name:
           value: worker1
       - node_type:

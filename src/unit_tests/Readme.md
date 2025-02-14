@@ -1,7 +1,7 @@
 # Unit Tests
 ## Index
 1. [Requirements](#requirements)
-2. [Compile Wazuh](#compile-wazuh)
+2. [Compile Blackwell](#compile-blackwell)
 3. [Compile and run unit tests for Linux targets](#compile-and-run-unit-tests-for-linux-targets)
 4. [Compile and run unit tests for Windows agent](#compile-and-run-unit-tests-for-windows-agent)
 5. [Compile and run unit tests for macOS agent](#compile-and-run-unit-tests-for-macos-agent)
@@ -29,23 +29,23 @@ $ brew install cmocka
 $ brew install lcov
 ```
 
-## Compile Wazuh
-In order to run unit tests on a specific wazuh target, the project needs to be built with the `DEBUG` and `TEST` options as shown below:
+## Compile Blackwell
+In order to run unit tests on a specific blackwell target, the project needs to be built with the `DEBUG` and `TEST` options as shown below:
 ```
 make TARGET=server|agent|winagent DEBUG=1 TEST=1
 ```
 
 ## Compile and run unit tests for Linux targets
-In order to run unit tests for either the Wazuh server or Linux agents, these need to be built using [CMake](#installing-cmake) version 3.10 or higher and [cmocka](#installing-cmocka).
+In order to run unit tests for either the Blackwell server or Linux agents, these need to be built using [CMake](#installing-cmake) version 3.10 or higher and [cmocka](#installing-cmocka).
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `blackwell/src/unit_tests` and run the following commands:
 ```
 mkdir build
 cd build
 cmake -DTARGET=server|agent ..
 make
 ```
-Notice that when running the cmake command we need to specify the target on which we will run the unit tests, this target needs to match the wazuh target used for compilation and wazuh needs to be previously compiled.
+Notice that when running the cmake command we need to specify the target on which we will run the unit tests, this target needs to match the blackwell target used for compilation and blackwell needs to be previously compiled.
 
 There are several ways to run unit tests:
 
@@ -66,14 +66,14 @@ The output of the test will be written directly into the console.
 ## Compile and run unit tests for Windows agent
 Similarly to compiling unit tests for server or Linux agent configurations, [CMake](#installing-cmake) 3.10 or higher and [cmocka](#installing-cmocka) are required, as well as a 32 bit [wine installation](#installing-wine) in order to run the tests.
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `blackwell/src/unit_tests` and run the following commands:
 ```
 mkdir build
 cd build
 cmake -DTARGET=winagent -DCMAKE_TOOLCHAIN_FILE=../Toolchain-win32.cmake ..
 make
 ```
-Just as when compiling server and Linux agent unit tests, the winagent target for Wazuh must be compiled previously.
+Just as when compiling server and Linux agent unit tests, the winagent target for Blackwell must be compiled previously.
 
 The `CMAKE_TOOLCHAIN_FILE` option is added so crosscompiling of the unit tests can be properly configured by cmake.
 
@@ -96,7 +96,7 @@ The output of the test will be written directly into the console.
 ## Compile and run unit tests for macOS agent
 Similarly to compiling unit tests for server or Linux agent configurations, [CMake](#installing-cmake) 3.10 or higher and [cmocka](#installing-cmocka) are required.
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `blackwell/src/unit_tests` and run the following commands:
 ```
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
 mkdir build
@@ -104,7 +104,7 @@ cd build
 cmake -DTARGET=agent ..
 make
 ```
-The agent target for Wazuh must be compiled previously. The tests are run in the same way as Linux systems.
+The agent target for Blackwell must be compiled previously. The tests are run in the same way as Linux systems.
 
 ## Installing CMake
 If installing cmake using `apt-get` or `yum` yields a version lower the 3.10, remove it and run these commands to install from sources.
@@ -121,7 +121,7 @@ sudo make install
 ```
 
 ## Installing cmocka
-The cmocka unit tests framework is required in order to compile and run the Wazuh unit tests suite. For server and Linux agent tests, a binary installation of cmocka using a package manager is enough. If you want to run the Windows agent tests, you will need to build cmocka using the MinGW compiler.
+The cmocka unit tests framework is required in order to compile and run the Blackwell unit tests suite. For server and Linux agent tests, a binary installation of cmocka using a package manager is enough. If you want to run the Windows agent tests, you will need to build cmocka using the MinGW compiler.
 
 1. Clone cmocka repository:
 ```
@@ -191,7 +191,7 @@ If you need to run the tests on a CentOS 7 machine, you can follow these instruc
 
 After installing wine, the `WINEPATH` and `WINEARCH` variables need to be created in order for it to know it should run on 32 bit mode and find all required dlls for the tests. On an Ubuntu system, the following commands need to be executed and/or added into the user's `.bashrc` file.
 ```
-export WINEPATH="/usr/i686-w64-mingw32/lib;/path/to/wazuh/src"
+export WINEPATH="/usr/i686-w64-mingw32/lib;/path/to/blackwell/src"
 export WINEARCH=win32
 ```
 If wine complains about being a 64 bit installation, remove/rename the directory `~/.wine` and run it again.

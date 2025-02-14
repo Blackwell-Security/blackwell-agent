@@ -1,5 +1,5 @@
 /* Remote request manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * June 2, 2017.
  *
  * This program is free software; you can redistribute it
@@ -18,9 +18,9 @@
 #include "../os_execd/execd.h"
 #include "../client-agent/agentd.h"
 #include "../syscheckd/include/syscheck.h"
-#include "../wazuh_modules/wmodules.h"
+#include "../blackwell_modules/wmodules.h"
 #include "../logcollector/logcollector.h"
-#include "../wazuh_modules/agent_upgrade/agent/wm_agent_upgrade_agent.h"
+#include "../blackwell_modules/agent_upgrade/agent/wm_agent_upgrade_agent.h"
 #endif
 
 static OSHash * req_table;

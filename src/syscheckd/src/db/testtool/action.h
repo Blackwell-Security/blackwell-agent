@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscheck - Test tool
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Syscheck - Test tool
+ * Copyright (C) 2015, Blackwell Inc.
  * January 21, 2022.
  *
  * This program is free software; you can redistribute it

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2015-2024, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015-2024, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import os
@@ -17,16 +17,16 @@ if sys.platform == 'win32':
 from typing import Any
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS, MACOS, CENTOS, UBUNTU, DEBIAN
-from wazuh_testing.modules.fim.patterns import MONITORING_PATH, EVENT_TYPE_SCAN_END
-from wazuh_testing.modules.fim.utils import create_registry, delete_registry
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.authd_simulator import AuthdSimulator
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.services import get_service
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.platforms import WINDOWS, MACOS, CENTOS, UBUNTU, DEBIAN
+from blackwell_testing.modules.fim.patterns import MONITORING_PATH, EVENT_TYPE_SCAN_END
+from blackwell_testing.modules.fim.utils import create_registry, delete_registry
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.tools.simulators.authd_simulator import AuthdSimulator
+from blackwell_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from blackwell_testing.utils import file
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.services import get_service
 
 
 @pytest.fixture()
@@ -91,7 +91,7 @@ def fill_folder_to_monitor(test_metadata: dict) -> None:
 
 @pytest.fixture()
 def start_monitoring() -> None:
-    FileMonitor(WAZUH_LOG_PATH).start(generate_callback(MONITORING_PATH))
+    FileMonitor(BLACKWELL_LOG_PATH).start(generate_callback(MONITORING_PATH))
 
 
 @pytest.fixture(scope='module', autouse=True)
@@ -172,9 +172,9 @@ def create_registry_key(test_metadata: dict) -> None:
 
 @pytest.fixture()
 def detect_end_scan(test_metadata: dict) -> None:
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(timeout=60, callback=generate_callback(EVENT_TYPE_SCAN_END))
-    assert wazuh_log_monitor.callback_result
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(timeout=60, callback=generate_callback(EVENT_TYPE_SCAN_END))
+    assert blackwell_log_monitor.callback_result
 
 
 @pytest.fixture()

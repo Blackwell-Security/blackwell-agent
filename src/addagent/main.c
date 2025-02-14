@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     OS_SetName(ARGV0);
 #ifndef WIN32
     char * home_path = w_homedir(argv[0]);
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(BLACKWELL_HOMEDIR, home_path);
 
     /* Change working directory */
     if (chdir(home_path) == -1) {
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
             return 0;
         case 1:
             master = get_master_node();
-            merror("Wazuh is running in cluster mode: %s is not available in worker nodes. Please, try again in the master node: %s.", ARGV0, master);
+            merror("Blackwell is running in cluster mode: %s is not available in worker nodes. Please, try again in the master node: %s.", ARGV0, master);
             free(master);
             return 0;
     }

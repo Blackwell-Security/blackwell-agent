@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -13,11 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../wazuh_modules/wmodules.h"
-#include "../../wazuh_modules/wm_fluent.h"
-#include "../../wazuh_modules/wm_fluent.c"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
+#include "../../blackwell_modules/wmodules.h"
+#include "../../blackwell_modules/wm_fluent.h"
+#include "../../blackwell_modules/wm_fluent.c"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
 
 typedef struct test_struct {
     wm_fluent_t *fluent;

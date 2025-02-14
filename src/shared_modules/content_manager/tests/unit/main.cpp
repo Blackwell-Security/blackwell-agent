@@ -1,6 +1,6 @@
 /*
- * Wazuh - Content Merge Tool
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell - Content Merge Tool
+ * Copyright (C) 2015, Blackwell Inc.
  * January 10, 2023.
  *
  */

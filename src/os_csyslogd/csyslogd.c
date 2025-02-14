@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -77,7 +77,7 @@ void OS_CSyslogD(SyslogConfig **syslog_config)
 
     if (!(sources.alert_log || sources.alert_json)) {
         merror("No configurations available. Exiting.");
-        #ifdef WAZUH_UNIT_TESTING
+        #ifdef BLACKWELL_UNIT_TESTING
             return;
         #else
             exit(EXIT_FAILURE);

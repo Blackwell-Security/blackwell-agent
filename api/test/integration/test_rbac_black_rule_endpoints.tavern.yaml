@@ -21,7 +21,7 @@ stages:
             - &full_item_rules
               description: !anystr
               details: !anything
-              filename: 0016-wazuh_rules.xml
+              filename: 0016-blackwell_rules.xml
               gdpr: !anything
               gpg13: !anything
               groups: !anything
@@ -111,11 +111,11 @@ stages:
         data:
           affected_items:
             - &full_item_rules_files
-              filename: 0016-wazuh_rules.xml
+              filename: 0016-blackwell_rules.xml
               relative_dirname: ruleset/rules
               status: enabled
             - <<: *full_item_rules_files
-              filename: 0017-wazuh-api_rules.xml
+              filename: 0017-blackwell-api_rules.xml
             - <<: *full_item_rules_files
               filename: 0020-syslog_rules.xml
             - <<: *full_item_rules_files

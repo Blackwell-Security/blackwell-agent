@@ -18,7 +18,7 @@ def init_opensearch(low_resources):
     env_vars = {
             'discovery.type': 'single-node',
             'plugins.security.disabled': 'true',
-            'OPENSEARCH_INITIAL_ADMIN_PASSWORD': 'WazuhTest99$'
+            'OPENSEARCH_INITIAL_ADMIN_PASSWORD': 'BlackwellTest99$'
         }
 
     if low_resources:
@@ -97,7 +97,7 @@ def test_initialize_indexer_connector(opensearch):
     while counter < 10:
         url = 'http://'+GLOBAL_URL+'/_cat/indices'
         response = requests.get(url)
-        if response.status_code == 200 and 'wazuh-states-vulnerabilities-default' in response.text:
+        if response.status_code == 200 and 'blackwell-states-vulnerabilities-default' in response.text:
             LOGGER.debug(f"Index created {response.text}")
             break
         time.sleep(1)
@@ -146,7 +146,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the index is created and template is applied
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -163,7 +163,7 @@ def test_add_bulk_indexer_connector(opensearch):
     process.terminate()
 
     # Delete the document to test the resync.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_delete_by_query?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_delete_by_query?refresh=true'
     query = {
         "query": {
             "match_all": {}
@@ -172,7 +172,7 @@ def test_add_bulk_indexer_connector(opensearch):
     response = requests.post(url, json=query)
     assert response.status_code == 200
 
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+    url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
     query = {
         "query": {
             "match_all": {}
@@ -192,7 +192,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -225,7 +225,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is deleted
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -244,7 +244,7 @@ def test_add_bulk_indexer_connector(opensearch):
     process.terminate()
 
     # Manual insert and check if resync clean the element.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-cluster/_doc/000_pkghash_CVE-2022-123456?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-cluster/_doc/000_pkghash_CVE-2022-123456?refresh=true'
     query = """{
       "agent": {
         "build": {
@@ -309,7 +309,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -389,7 +389,7 @@ def test_bulk_indexer_413_connector(opensearch):
     # Query to check if the index is created and template is applied
     counter = 0
     while counter < 60:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -407,7 +407,7 @@ def test_bulk_indexer_413_connector(opensearch):
     process.terminate()
 
     # Delete the document to test the resync.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_delete_by_query?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_delete_by_query?refresh=true'
     query = {
         "query": {
             "match_all": {}
@@ -416,7 +416,7 @@ def test_bulk_indexer_413_connector(opensearch):
     response = requests.post(url, json=query)
     assert response.status_code == 200
 
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+    url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
     query = {
         "query": {
             "match_all": {}
@@ -438,7 +438,7 @@ def test_bulk_indexer_413_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 60:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -509,7 +509,7 @@ def test_update_mappings_connector(opensearch):
     process.terminate()
 
     # Check if the index is created.
-    url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/'
+    url = 'http://' + GLOBAL_URL + '/blackwell-states-vulnerabilities-default/'
     response = requests.get(url)
     if response.status_code == 200:
         LOGGER.debug("Index created")
@@ -517,7 +517,7 @@ def test_update_mappings_connector(opensearch):
     # Check if the document was not inserted
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -546,7 +546,7 @@ def test_update_mappings_connector(opensearch):
     # Query to check if the element exists
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/blackwell-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}

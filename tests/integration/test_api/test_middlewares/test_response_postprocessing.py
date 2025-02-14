@@ -1,14 +1,14 @@
 """
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the response_postprocessing middleware of the API handled by the 'wazuh-apid' daemon is
-       working properly. The Wazuh API is an open source 'RESTful' API that allows the interaction with the Wazuh
+brief: These tests will check if the response_postprocessing middleware of the API handled by the 'blackwell-apid' daemon is
+       working properly. The Blackwell API is an open source 'RESTful' API that allows the interaction with the Blackwell
        manager from a web browser, command line tools like 'cURL' or any script or program that can make web requests.
 
 components:
@@ -20,12 +20,12 @@ targets:
     - manager
 
 daemons:
-    - wazuh-apid
-    - wazuh-modulesd
-    - wazuh-analysisd
-    - wazuh-execd
-    - wazuh-db
-    - wazuh-remoted
+    - blackwell-apid
+    - blackwell-modulesd
+    - blackwell-analysisd
+    - blackwell-execd
+    - blackwell-db
+    - blackwell-remoted
 
 os_platform:
     - linux
@@ -50,7 +50,7 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/getting-started.html
+    - https://documentation.blackwell.com/current/user-manual/api/getting-started.html
 
 tags:
     - api
@@ -64,10 +64,10 @@ from requests.adapters import HTTPAdapter, Retry
 from pathlib import Path
 
 from . import TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
-from wazuh_testing.constants.api import WAZUH_API_PROTOCOL
-from wazuh_testing.modules.api.utils import login, get_base_url, set_authorization_header
-from wazuh_testing.utils.configuration import get_test_cases_data
+from blackwell_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
+from blackwell_testing.constants.api import BLACKWELL_API_PROTOCOL
+from blackwell_testing.modules.api.utils import login, get_base_url, set_authorization_header
+from blackwell_testing.utils.configuration import get_test_cases_data
 
 
 # Marks
@@ -89,7 +89,7 @@ def test_response_postprocessing(test_configuration, test_metadata, truncate_mon
     """
     description: Check if the response_postprocessing API middleware works.
 
-    wazuh_min_version: 4.0.0
+    blackwell_min_version: 4.0.0
 
     test_phases:
         - setup:
@@ -117,7 +117,7 @@ def test_response_postprocessing(test_configuration, test_metadata, truncate_mon
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle Blackwell daemons.
         - wait_for_api_start:
             type: fixture
             brief: Monitor the API log file to detect whether it has been started or not.
@@ -149,7 +149,7 @@ def test_response_postprocessing(test_configuration, test_metadata, truncate_mon
         authentication_headers = set_authorization_header('user', 'pass')
         retry = Retry(total=None, connect=3, backoff_factor=0.5)
         adapter = HTTPAdapter(max_retries=retry)
-        session.mount(f"{WAZUH_API_PROTOCOL}://", adapter)
+        session.mount(f"{BLACKWELL_API_PROTOCOL}://", adapter)
 
     # Make the API request
     response = session.request(method=method, url=url, headers=authentication_headers, verify=False, json=json_body)

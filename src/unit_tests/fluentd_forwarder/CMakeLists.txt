@@ -1,6 +1,6 @@
 # Generate fluentd_forwarder library
 file(GLOB fluentd_forwarder_files
-    ${SRC_FOLDER}/wazuh_modules/*.o)
+    ${SRC_FOLDER}/blackwell_modules/*.o)
 
 add_library(FLUENTD_FORWARDER_O STATIC ${fluentd_forwarder_files})
 
@@ -17,10 +17,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(FLUENTD_FORWARDER_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(FLUENTD_FORWARDER_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate fluentd_forwarder tests
 list(APPEND fluentd_forwarder_names "test_fluentd_forwarder")
@@ -38,8 +38,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         FLUENTD_FORWARDER_O
         ${TEST_DEPS}
     )

@@ -1,6 +1,6 @@
 /*
- * Wazuh router - Publisher tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell router - Publisher tests
+ * Copyright (C) 2015, Blackwell Inc.
  * July 17, 2023.
  *
  * This program is free software; you can redistribute it

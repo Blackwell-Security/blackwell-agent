@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """
@@ -8,10 +8,10 @@ This module will contain all cases for the path test suite
 import pytest
 
 # qa-integration-framework imports
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.paths.aws import S3_CLOUDTRAIL_DB_PATH
-from wazuh_testing.utils.db_queries.aws_db import get_s3_db_row, table_exists_or_has_values
-from wazuh_testing.modules.aws.utils import path_exist
+from blackwell_testing import session_parameters
+from blackwell_testing.constants.paths.aws import S3_CLOUDTRAIL_DB_PATH
+from blackwell_testing.utils.db_queries.aws_db import get_s3_db_row, table_exists_or_has_values
+from blackwell_testing.modules.aws.utils import path_exist
 
 # Local module imports
 from . import event_monitor
@@ -34,19 +34,19 @@ configurator.configure_test(configuration_file='configuration_path.yaml',
                          zip(configurator.test_configuration_template, configurator.metadata),
                          ids=configurator.cases_ids)
 def test_path(
-        test_configuration, metadata, load_wazuh_basic_configuration, create_test_bucket, manage_bucket_files,
-        set_wazuh_configuration, clean_s3_cloudtrail_db, configure_local_internal_options_function,
-        truncate_monitored_files, restart_wazuh_function, file_monitoring
+        test_configuration, metadata, load_blackwell_basic_configuration, create_test_bucket, manage_bucket_files,
+        set_blackwell_configuration, clean_s3_cloudtrail_db, configure_local_internal_options_function,
+        truncate_monitored_files, restart_blackwell_function, file_monitoring
 ):
     """
     description: Only logs within a path are processed.
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Check in the ossec.log that a line has appeared calling the module with correct parameters.
             - If a path that does not exist was specified, make sure that a message is displayed in the ossec.log
@@ -54,10 +54,10 @@ def test_path(
             - Check the command was called with the correct parameters.
             - Check the database was created and updated accordingly.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
             - Delete the uploaded file.
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
     parameters:
         - test_configuration:
             type: dict
@@ -71,10 +71,10 @@ def test_path(
         - manage_bucket_files:
             type: fixture
             brief: S3 buckets manager.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - clean_s3_cloudtrail_db:
@@ -85,10 +85,10 @@ def test_path(
             brief: Apply changes to the local_internal_options.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
-        - restart_wazuh_daemon_function:
+            brief: Truncate blackwell logs.
+        - restart_blackwell_daemon_function:
             type: fixture
-            brief: Restart the wazuh service.
+            brief: Restart the blackwell service.
         - file_monitoring:
             type: fixture
             brief: Handle the monitoring of a specified file.

@@ -1,24 +1,24 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-        Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+        Created by Blackwell, Inc. <info@blackwell.com>.
         This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 '''
 import pytest
 import os
 import sys
 
-from wazuh_testing.constants.daemons import AGENT_DAEMON
-from wazuh_testing.constants.paths.configurations import WAZUH_CLIENT_KEYS_PATH, DEFAULT_AUTHD_PASS_PATH
-from wazuh_testing.tools.simulators.authd_simulator import AuthdSimulator
-from wazuh_testing.utils.file import write_file, remove_file
-from wazuh_testing.utils.services import control_service
+from blackwell_testing.constants.daemons import AGENT_DAEMON
+from blackwell_testing.constants.paths.configurations import BLACKWELL_CLIENT_KEYS_PATH, DEFAULT_AUTHD_PASS_PATH
+from blackwell_testing.tools.simulators.authd_simulator import AuthdSimulator
+from blackwell_testing.utils.file import write_file, remove_file
+from blackwell_testing.utils.services import control_service
 
 MANAGER_ADDRESS = '127.0.0.1'
 
 
 @pytest.fixture(scope='module')
 def shutdown_agentd(request):
-    """Stop wazuh-agentd process."""
+    """Stop blackwell-agentd process."""
     control_service('stop', daemon=AGENT_DAEMON)
 
 
@@ -45,7 +45,7 @@ def set_keys(test_metadata):
         test_metadata (dict): Current test case metadata.
     """
     for key in test_metadata.get('pre_existent_keys', []):
-        write_file(WAZUH_CLIENT_KEYS_PATH, key)
+        write_file(BLACKWELL_CLIENT_KEYS_PATH, key)
 
 
 @pytest.fixture()

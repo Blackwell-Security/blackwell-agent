@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """This module contains generic functions for this wodle."""
@@ -16,10 +16,10 @@ import sys
 import re
 
 DEFAULT_AWS_CONFIG_PATH = path.join(path.expanduser('~'), '.aws', 'config')
-CREDENTIALS_URL = 'https://documentation.wazuh.com/current/amazon/services/prerequisites/credentials.html'
+CREDENTIALS_URL = 'https://documentation.blackwell.com/current/amazon/services/prerequisites/credentials.html'
 DEPRECATED_MESSAGE = 'The {name} authentication parameter was deprecated in {release}. ' \
                      'Please use another authentication method instead. Check {url} for more information.'
-SECURITY_LAKE_IAM_ROLE_AUTHENTICATION_URL = 'https://documentation.wazuh.com/current/cloud-security/amazon/services/' \
+SECURITY_LAKE_IAM_ROLE_AUTHENTICATION_URL = 'https://documentation.blackwell.com/current/cloud-security/amazon/services/' \
                                         'supported-services/security-lake.html#configuring-an-iam-role'
 
 ALL_REGIONS = (
@@ -331,7 +331,7 @@ def get_aws_config_params() -> configparser.RawConfigParser:
 
 def get_script_arguments():
     parser = argparse.ArgumentParser(usage="usage: %(prog)s [options]",
-                                     description="Wazuh wodle for monitoring AWS",
+                                     description="Blackwell wodle for monitoring AWS",
                                      formatter_class=argparse.RawTextHelpFormatter)
     # only one must be present (bucket or service)
     group = parser.add_mutually_exclusive_group(required=True)

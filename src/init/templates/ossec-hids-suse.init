@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 # Author: Scott Knauss scott@knauss.com
 #
 # /etc/init.d/ossec
@@ -44,24 +44,24 @@ rc_reset
 # with force-reload (in case signalling is not supported) are
 # considered a success.
 
-# Just to make sure wazuh is installed ...
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+# Just to make sure blackwell is installed ...
+BLACKWELL_HOME=BLACKWELL_HOME_TMP
+BLACKWELL_CONTROL="$BLACKWELL_HOME/bin/blackwell-control"
 
-test -x $WAZUH_CONTROL || { echo "$WAZUH_CONTROL not installed";
+test -x $BLACKWELL_CONTROL || { echo "$BLACKWELL_CONTROL not installed";
     if [ "$1" = "stop" ]; then exit 0;
     else exit 5; fi; }
 
 start() {
-    ${WAZUH_CONTROL} start
+    ${BLACKWELL_CONTROL} start
 }
 
 stop() {
-    ${WAZUH_CONTROL} stop
+    ${BLACKWELL_CONTROL} stop
 }
 
 status() {
-    ${WAZUH_CONTROL} status
+    ${BLACKWELL_CONTROL} status
 }
 
 case "$1" in

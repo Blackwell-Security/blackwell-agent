@@ -1,13 +1,13 @@
 services:
-  wazuh-master:
+  blackwell-master:
     profiles:
       - standalone
       - cluster
     build:
       context: .
       dockerfile: base/manager/manager.Dockerfile
-    image: integration_test_wazuh-manager
-    hostname: wazuh-master
+    image: integration_test_blackwell-manager
+    hostname: blackwell-master
     ports:
       - "55000:55000"
     volumes:
@@ -15,186 +15,186 @@ services:
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - blackwell-master
       - master-node
       - master
       - ${ENV_MODE}
 
-  wazuh-worker1:
+  blackwell-worker1:
     profiles:
       - cluster
-    image: integration_test_wazuh-manager
-    hostname: wazuh-worker1
+    image: integration_test_blackwell-manager
+    hostname: blackwell-worker1
     volumes:
       - ./configurations/tmp/manager:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - blackwell-master
       - worker1
       - worker
     depends_on:
-      - wazuh-master
+      - blackwell-master
 
-  wazuh-worker2:
+  blackwell-worker2:
     profiles:
       - cluster
-    image: integration_test_wazuh-manager
-    hostname: wazuh-worker2
+    image: integration_test_blackwell-manager
+    hostname: blackwell-worker2
     volumes:
       - ./configurations/tmp/manager:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - blackwell-master
       - worker2
       - worker
     depends_on:
-      - wazuh-master
+      - blackwell-master
 
-  wazuh-agent1:
+  blackwell-agent1:
     profiles:
       - standalone
       - cluster
     build:
       context: .
       dockerfile: base/agent/new.Dockerfile
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent1
+    image: integration_test_blackwell-agent
+    hostname: blackwell-agent1
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent1
+      - blackwell-agent1
     depends_on:
       - haproxy-lb
 
-  wazuh-agent2:
+  blackwell-agent2:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent2
+    image: integration_test_blackwell-agent
+    hostname: blackwell-agent2
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent2
+      - blackwell-agent2
     depends_on:
-      - wazuh-agent1
+      - blackwell-agent1
       - haproxy-lb
 
-  wazuh-agent3:
+  blackwell-agent3:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent3
+    image: integration_test_blackwell-agent
+    hostname: blackwell-agent3
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent3
+      - blackwell-agent3
     depends_on:
-      - wazuh-agent2
+      - blackwell-agent2
       - haproxy-lb
 
-  wazuh-agent4:
+  blackwell-agent4:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent4
+    image: integration_test_blackwell-agent
+    hostname: blackwell-agent4
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent4
+      - blackwell-agent4
     depends_on:
-      - wazuh-agent3
+      - blackwell-agent3
       - haproxy-lb
 
-  wazuh-agent5:
+  blackwell-agent5:
     profiles:
       - standalone
       - cluster
     build:
       context: .
       dockerfile: base/agent/old.Dockerfile
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent5
+    image: integration_test_blackwell-agent_old
+    hostname: blackwell-agent5
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent5
+      - blackwell-agent5
       - agent_old
     depends_on:
-      - wazuh-agent4
+      - blackwell-agent4
       - haproxy-lb
 
-  wazuh-agent6:
+  blackwell-agent6:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent6
+    image: integration_test_blackwell-agent_old
+    hostname: blackwell-agent6
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent6
+      - blackwell-agent6
       - agent_old
     depends_on:
-      - wazuh-agent5
+      - blackwell-agent5
       - haproxy-lb
 
-  wazuh-agent7:
+  blackwell-agent7:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent7
+    image: integration_test_blackwell-agent_old
+    hostname: blackwell-agent7
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent7
+      - blackwell-agent7
       - agent_old
     depends_on:
-      - wazuh-agent6
+      - blackwell-agent6
       - haproxy-lb
 
-  wazuh-agent8:
+  blackwell-agent8:
     profiles:
       - standalone
       - cluster
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent8
+    image: integration_test_blackwell-agent_old
+    hostname: blackwell-agent8
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent8
+      - blackwell-agent8
       - agent_old
     depends_on:
-      - wazuh-agent7
+      - blackwell-agent7
       - haproxy-lb
 
   haproxy-lb:
@@ -208,9 +208,9 @@ services:
       - /scripts/entrypoint.sh
       - ${ENV_MODE}
     depends_on:
-      - wazuh-master
-      - wazuh-worker1
-      - wazuh-worker2
+      - blackwell-master
+      - blackwell-worker1
+      - blackwell-worker2
 
   cti:
     profiles:

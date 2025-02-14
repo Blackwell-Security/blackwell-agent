@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,9 +14,9 @@
 #include <stdio.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/hash_op_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_wrappers.h"
 
 
 #include "../analysisd/mitre.h"
@@ -60,7 +60,7 @@ void test_queryid_error_socket(void **state)
     will_return(__wrap_wdbc_connect_with_attempts, -2);
 
 
-    expect_string(__wrap__merror, formatted_msg, "Unable to connect to Wazuh-DB for Mitre matrix information.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to connect to Blackwell-DB for Mitre matrix information.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
     ret = mitre_load();
@@ -78,7 +78,7 @@ void test_queryid_no_response(void **state)
     will_return(__wrap_wdbc_query_parse_json, -1);
     will_return(__wrap_wdbc_query_parse_json, id_array);
 
-    expect_string(__wrap__merror, formatted_msg, "No response from wazuh-db.");
+    expect_string(__wrap__merror, formatted_msg, "No response from blackwell-db.");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -100,7 +100,7 @@ void test_queryid_bad_response(void **state)
     will_return(__wrap_wdbc_query_parse_json, response_ids);
     will_return(__wrap_wdbc_query_parse_json, id_array);
 
-    expect_string(__wrap__merror, formatted_msg, "Bad response from wazuh-db: not found");
+    expect_string(__wrap__merror, formatted_msg, "Bad response from blackwell-db: not found");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -261,7 +261,7 @@ void test_querytactics_no_response(void **state) {
     will_return(__wrap_wdbc_query_parse_json, -1);
     will_return(__wrap_wdbc_query_parse_json, tactic_array);
 
-    expect_string(__wrap__merror, formatted_msg, "No response from wazuh-db.");
+    expect_string(__wrap__merror, formatted_msg, "No response from blackwell-db.");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -292,7 +292,7 @@ void test_querytactics_bad_response(void **state) {
     will_return(__wrap_wdbc_query_parse_json, response_tactics);
     will_return(__wrap_wdbc_query_parse_json, tactic_array);
 
-    expect_string(__wrap__merror, formatted_msg, "Bad response from wazuh-db: not found");
+    expect_string(__wrap__merror, formatted_msg, "Bad response from blackwell-db: not found");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -444,7 +444,7 @@ void test_queryname_no_response(void **state) {
     will_return(__wrap_wdbc_query_parse_json, -1);
     will_return(__wrap_wdbc_query_parse_json, tactic_info_array);
 
-    expect_string(__wrap__merror, formatted_msg, "No response from wazuh-db.");
+    expect_string(__wrap__merror, formatted_msg, "No response from blackwell-db.");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -480,7 +480,7 @@ void test_queryname_bad_response(void **state) {
     will_return(__wrap_wdbc_query_parse_json, response_tactics);
     will_return(__wrap_wdbc_query_parse_json, tactic_info_array);
 
-    expect_string(__wrap__merror, formatted_msg, "Bad response from wazuh-db: not found");
+    expect_string(__wrap__merror, formatted_msg, "Bad response from blackwell-db: not found");
     expect_string(__wrap__merror, formatted_msg, "Response from the Mitre database cannot be parsed.");
     expect_string(__wrap__merror, formatted_msg, "Mitre matrix information could not be loaded.");
 
@@ -655,7 +655,7 @@ void test_query_tactics_success(void **state) {
     expect_string(__wrap_OSHash_Add,  key, "T1001");
     will_return(__wrap_OSHash_Add, 1);
 
-    /* Last Getting technique ID and name from Mitre's database in Wazuh-DB  */
+    /* Last Getting technique ID and name from Mitre's database in Blackwell-DB  */
     will_return(__wrap_wdbc_query_parse_json, 0);
     will_return(__wrap_wdbc_query_parse_json, technique_last);
 

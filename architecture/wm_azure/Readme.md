@@ -1,10 +1,10 @@
 <!---
-Copyright (C) 2015, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 -->
 
-# Wazuh module: Azure architecture
+# Blackwell module: Azure architecture
 ## Index
 1. [Purpose](#purpose)
 2. [Sequence diagram](#sequence-diagram)
@@ -13,14 +13,14 @@ This program is free software; you can redistribute it and/or modify it under th
 ## Purpose
 Microsoft Azure infrastructure resources can be divided into two types of logs, the Activity logs and the Diagnostic logs. The operations performed on a resource outside of the infrastructure are stored in the Activity logs, providing information on those operations. On the other hand, the data referring to the operation of a resource is stored in the Diagnostic logs.
 
-Wazuh has the ability to obtain and read Microsoft Azure logs through:
+Blackwell has the ability to obtain and read Microsoft Azure logs through:
 - Azure Log Analytics
 - Azure Active Directory Graph
 - Azure Storage
 
 
 ## Sequence diagram
-Sequence diagram shows the basic flow of Wazuh azure integration based on the configuration provided. Steps are:
+Sequence diagram shows the basic flow of Blackwell azure integration based on the configuration provided. Steps are:
 1. Setup the azure module based on the configuration information.
 2. Get the configuration information to create a command with specific azure flags (depending de type of logs).
 3. Execute the complete command.

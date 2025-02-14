@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -10,11 +10,11 @@ from connexion.lifecycle import ConnexionResponse
 from api.controllers.util import json_response
 from api.models.base_model_ import Body
 from api.util import remove_nones_to_dict, parse_api_param, raise_if_exc
-from wazuh import cdb_list
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-from wazuh.core.results import AffectedItemsWazuhResult
+from blackwell import cdb_list
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+from blackwell.core.results import AffectedItemsBlackwellResult
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 async def get_lists(pretty: bool = False, wait_for_complete: bool = False, offset: int = 0, limit: int = None,
@@ -114,7 +114,7 @@ async def get_file(pretty: bool = False, wait_for_complete: bool = False, filena
                           rbac_permissions=request.context['token_info']['rbac_policies']
                           )
     data = raise_if_exc(await dapi.distribute_function())
-    if isinstance(data, AffectedItemsWazuhResult):
+    if isinstance(data, AffectedItemsBlackwellResult):
         response = json_response(data, pretty=pretty)
     else:
         response = ConnexionResponse(body=data["message"],

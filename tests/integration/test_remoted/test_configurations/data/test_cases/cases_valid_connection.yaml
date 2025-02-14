@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'UDP'
@@ -10,8 +10,8 @@
     connection: 'secure'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '514'
     PROTOCOL: 'UDP'
@@ -22,8 +22,8 @@
     connection: 'syslog'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '553'
     PROTOCOL: 'TCP'
@@ -34,8 +34,8 @@
     connection: 'syslog'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '23467'
     PROTOCOL: 'TCP'
@@ -46,8 +46,8 @@
     connection: 'secure'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '1209'
     PROTOCOL: 'TCP,UDP'
@@ -58,8 +58,8 @@
     connection: 'secure'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '2134'
     PROTOCOL: 'TCP,UDP'
@@ -70,8 +70,8 @@
     connection: 'syslog'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '55632'
     PROTOCOL: 'UDP,TCP'
@@ -82,8 +82,8 @@
     connection: 'secure'
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config blackwell manager for valid connection
+  description: Command config blackwell manager for valid connections
   configuration_parameters:
     PORT: '2134'
     PROTOCOL: 'UDP,TCP'

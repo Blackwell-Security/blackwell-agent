@@ -5,7 +5,7 @@ import warnings
 
 def test_default_field_type():
     # Load the JSON file
-    with open("wazuh-template.json") as f:
+    with open("blackwell-template.json") as f:
         data = json.load(f)
 
     # Get the "index.query.default_field" object from "mappings"

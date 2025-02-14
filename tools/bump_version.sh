@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bump source version
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 # May 2, 2017
 
 # Syntax:
@@ -23,19 +23,19 @@ cd $(dirname $0)
 VERSION_FILE="../src/VERSION"
 REVISION_FILE="../src/REVISION"
 DEFS_FILE="../src/headers/defs.h"
-WAZUH_SERVER="../src/init/wazuh-server.sh"
-WAZUH_AGENT="../src/init/wazuh-client.sh"
-WAZUH_LOCAL="../src/init/wazuh-local.sh"
-NSIS_FILE="../src/win32/wazuh-installer.nsi"
-MSI_FILE="../src/win32/wazuh-installer.wxs"
-FW_INIT="../framework/wazuh/__init__.py"
-CLUSTER_INIT="../framework/wazuh/core/cluster/__init__.py"
+BLACKWELL_SERVER="../src/init/blackwell-server.sh"
+BLACKWELL_AGENT="../src/init/blackwell-client.sh"
+BLACKWELL_LOCAL="../src/init/blackwell-local.sh"
+NSIS_FILE="../src/win32/blackwell-installer.nsi"
+MSI_FILE="../src/win32/blackwell-installer.wxs"
+FW_INIT="../framework/blackwell/__init__.py"
+CLUSTER_INIT="../framework/blackwell/core/cluster/__init__.py"
 API_SETUP="../api/setup.py"
 API_SPEC="../api/api/spec/spec.yaml"
 VERSION_DOCU="../src/Doxyfile"
 WIN_RESOURCE="../src/win32/version.rc"
 
-# Wazuh Packages
+# Blackwell Packages
 ## Find files to bump .spec, changelog, copyright, .pkgproj
 SPEC_FILES=$(find ../packages -name *.spec -type f)
 CHANGELOG_FILES=$(find ../packages -name changelog -type f)
@@ -135,13 +135,13 @@ then
 
     sed -E -i'' -e "s/^(#define __ossec_version +)\"v.*\"/\1\"$version\"/" $DEFS_FILE
 
-    # wazuh-control
+    # blackwell-control
 
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_SERVER
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_AGENT
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_LOCAL
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $BLACKWELL_SERVER
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $BLACKWELL_AGENT
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $BLACKWELL_LOCAL
 
-    # File wazuh-installer.nsi
+    # File blackwell-installer.nsi
 
     egrep "^\!define VERSION \".+\"" $NSIS_FILE > /dev/null
 
@@ -153,9 +153,9 @@ then
 
     sed -E -i'' -e "s/^(\!define VERSION \").+\"/\1${version:1}\"/g" $NSIS_FILE
 
-    # File wazuh-installer.wxs
+    # File blackwell-installer.wxs
 
-    egrep '<Product Id="\*" Name="Wazuh Agent" Language="1033" Version=".+" Manufacturer=' $MSI_FILE > /dev/null
+    egrep '<Product Id="\*" Name="Blackwell Agent" Language="1033" Version=".+" Manufacturer=' $MSI_FILE > /dev/null
 
     if [ $? != 0 ]
     then
@@ -163,7 +163,7 @@ then
         exit 1
     fi
 
-    sed -E -i'' -e "s/(<Product Id=\"\*\" Name=\"Wazuh Agent\" Language=\"1033\" Version=\").+(\" Manufacturer=)/\1${version:1}\2/g" $MSI_FILE
+    sed -E -i'' -e "s/(<Product Id=\"\*\" Name=\"Blackwell Agent\" Language=\"1033\" Version=\").+(\" Manufacturer=)/\1${version:1}\2/g" $MSI_FILE
 
     # Framework
 
@@ -216,13 +216,13 @@ then
 
     echo $revision > $REVISION_FILE
 
-    # wazuh-control
+    # blackwell-control
 
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_SERVER
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_AGENT
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_LOCAL
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $BLACKWELL_SERVER
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $BLACKWELL_AGENT
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $BLACKWELL_LOCAL
 
-    # File wazuh-installer.nsi
+    # File blackwell-installer.nsi
 
     egrep "^\!define REVISION \".+\"" $NSIS_FILE > /dev/null
 
@@ -250,7 +250,7 @@ fi
 if [ -n "$product" ]
 then
 
-    # File wazuh-installer.nsi
+    # File blackwell-installer.nsi
 
     egrep "^VIProductVersion \".+\"" $NSIS_FILE > /dev/null
 
@@ -263,7 +263,7 @@ then
     sed -E -i'' -e "s/^(VIProductVersion \").+\"/\1$product\"/g" $NSIS_FILE
 fi
 
-# Wazuh Packages
+# Blackwell Packages
 if [ -z "$version" ]
 then
     UPDATE_RELEASE_DATE="yes"
@@ -288,8 +288,8 @@ spec_date=$(LC_ALL=en_US.UTF-8 TZ="UTC" date -d "$bump_date" +"%a %b %d %Y")
 for spec_file in $SPEC_FILES; do
     echo "Updating the release date of $version in $spec_file"
     if [ -z "$UPDATE_RELEASE_DATE" ] ; then
-        sed -E -i'' "/%changelog/a * $spec_date support <info@wazuh.com> - ${VERSION}\n\
-- More info: https://documentation.wazuh.com/current/release-notes/release-$mayor-$minor-$patch.html" $spec_file
+        sed -E -i'' "/%changelog/a * $spec_date support <info@blackwell.com> - ${VERSION}\n\
+- More info: https://documentation.blackwell.com/current/release-notes/release-$mayor-$minor-$patch.html" $spec_file
     else
        sed -E -i'' "/%changelog/{N;s/\n.*support/\n* $spec_date support/}" $spec_file
     fi
@@ -298,10 +298,10 @@ done
 # Deb changelog files
 for changelog_file in $CHANGELOG_FILES; do
     echo "Updating the release date of $version in $changelog_file"
-    install_type=$(sed -E 's/.*wazuh-(manager|agent).*/wazuh-\1/' <<< $changelog_file)
+    install_type=$(sed -E 's/.*blackwell-(manager|agent).*/blackwell-\1/' <<< $changelog_file)
     if [ -z "$UPDATE_RELEASE_DATE" ] ; then
-        changelog_string="$install_type (${VERSION}-RELEASE) stable; urgency=low\n\n  * More info: https://documentation.wazuh.com/current/release-notes/release-$mayor-$minor-$patch.html\
-\n\n -- Wazuh, Inc <info@wazuh.com>  $bump_date\n"
+        changelog_string="$install_type (${VERSION}-RELEASE) stable; urgency=low\n\n  * More info: https://documentation.blackwell.com/current/release-notes/release-$mayor-$minor-$patch.html\
+\n\n -- Blackwell, Inc <info@blackwell.com>  $bump_date\n"
         # Add new version to changelog
         sed -i'' "1i $changelog_string" $changelog_file
     else
@@ -311,11 +311,11 @@ done
 
 ## Deb copyright files
 for copyright_file in $COPYRIGHT_FILES; do
-    sed -E -i'' "s/(\sWazuh, Inc <info@wazuh.com> on).*/\1 $bump_date/" $copyright_file
+    sed -E -i'' "s/(\sBlackwell, Inc <info@blackwell.com> on).*/\1 $bump_date/" $copyright_file
 done
 
 # MacOS pkgproj files
 for pkgproj_file in $PKGPROJ_FILES; do
     sed -E -i'' "s/(<string>)([0-9]+\.){2}[0-9]+-[0-9]+(<\/string>)/\1$VERSION-1\3/" $pkgproj_file
-    sed -E -i'' "s/(<string>wazuh-agent-)([0-9]+\.){2}[0-9]+-[0-9]+/\1$VERSION-1/" $pkgproj_file
+    sed -E -i'' "s/(<string>blackwell-agent-)([0-9]+\.){2}[0-9]+-[0-9]+/\1$VERSION-1/" $pkgproj_file
 done

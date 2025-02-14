@@ -17,10 +17,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_NET_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_NET_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate os_net tests
 list(APPEND os_net_names "test_os_net")
@@ -41,8 +41,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_NET_O
         ${TEST_DEPS}
     )

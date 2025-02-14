@@ -1,4 +1,4 @@
 
- - Aucune action n'a été faite pour configurer Wazuh pour
+ - Aucune action n'a été faite pour configurer Blackwell pour
    démarrer lors du boot. Ajoutez la ligne suivante à votre script
    d'initialisation :

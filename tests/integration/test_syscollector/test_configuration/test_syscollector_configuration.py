@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: Wazuh gathers information about the agent system (OS, hardware, packages, etc.) periodically in a DB and sends
+brief: Blackwell gathers information about the agent system (OS, hardware, packages, etc.) periodically in a DB and sends
        it to the manager, which finally stores this information in a DB. These tests check the different syscollector
        configurations and the complete scan process.
 
@@ -20,9 +20,9 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
-    - wazuh-analysisd
-    - wazuh-db
+    - blackwell-modulesd
+    - blackwell-analysisd
+    - blackwell-db
 
 os_platform:
     - linux
@@ -35,21 +35,21 @@ os_version:
     - Windows Server 2019
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/syscollector.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/wodle-syscollector.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/syscollector.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/wodle-syscollector.html
 '''
 import sys
 from pathlib import Path
 
 import pytest
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.utils import services
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks, configuration
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd.syscollector import patterns
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.utils import services
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import callbacks, configuration
+from blackwell_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from blackwell_testing.modules.modulesd.syscollector import patterns
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
 
@@ -94,7 +94,7 @@ t5_configurations = configuration.load_configuration_template(t1_3_5_config_path
 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t1_configurations, t1_config_metadata), ids=t1_case_ids)
-def test_syscollector_deactivation(test_configuration, test_metadata, set_wazuh_configuration,
+def test_syscollector_deactivation(test_configuration, test_metadata, set_blackwell_configuration,
                                    configure_local_internal_options, truncate_monitored_files,
                                    daemons_handler):
     '''
@@ -109,12 +109,12 @@ def test_syscollector_deactivation(test_configuration, test_metadata, set_wazuh_
         - test:
             - Check if Syscollector was disabled.
         - teardown:
-            - Restore Wazuh configuration.
+            - Restore Blackwell configuration.
             - Restore local internal options.
             - Truncate all the log files and json alerts files.
             - Stop the necessary daemons.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 0
 
@@ -125,9 +125,9 @@ def test_syscollector_deactivation(test_configuration, test_metadata, set_wazuh_
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration using the configuration template.
+            brief: Set blackwell configuration using the configuration template.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -136,7 +136,7 @@ def test_syscollector_deactivation(test_configuration, test_metadata, set_wazuh_
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons for each test case.
+            brief: Handler of Blackwell daemons for each test case.
 
     assertions:
         - Check if the syscollector module is disabled.
@@ -145,14 +145,14 @@ def test_syscollector_deactivation(test_configuration, test_metadata, set_wazuh_
         - The `configuration_syscollector.yaml` file provides the module configuration for this test.
         - The `case_test_syscollector_deactivation.yaml` file provides the test cases.
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
 
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_SYSCOLLECTOR_DISABLED), timeout=30)
     assert log_monitor.callback_result
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t2_configurations, t2_config_metadata), ids=t2_case_ids)
-def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_wazuh_configuration,
+def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_blackwell_configuration,
                                          configure_local_internal_options, truncate_monitored_files,
                                          daemons_handler):
     '''
@@ -167,12 +167,12 @@ def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_
         - test:
             - Check that no scan is triggered.
         - teardown:
-            - Restore Wazuh configuration.
+            - Restore Blackwell configuration.
             - Restore local internal options.
             - Truncate all the log files and json alerts files.
             - Stop the necessary daemons.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 0
 
@@ -183,9 +183,9 @@ def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration using the configuration template.
+            brief: Set blackwell configuration using the configuration template.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -194,7 +194,7 @@ def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_
             brief: Truncate the log file before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons for each test case.
+            brief: Handler of Blackwell daemons for each test case.
 
     assertions:
         - Check if a specific scan is disabled and not triggered.
@@ -211,14 +211,14 @@ def test_syscollector_all_scans_disabled(test_configuration, test_metadata, set_
         check_callbacks.append(patterns.CB_HOTFIXES_SCAN_STARTED)
 
     # Check that no scan is triggered.
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     for callback in check_callbacks:
         log_monitor.start(callback=callbacks.generate_callback(callback), timeout=5)
         assert not log_monitor.callback_result
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t3_configurations, t3_config_metadata), ids=t3_case_ids)
-def test_syscollector_invalid_configurations(test_configuration, test_metadata, set_wazuh_configuration,
+def test_syscollector_invalid_configurations(test_configuration, test_metadata, set_blackwell_configuration,
                                              configure_local_internal_options, truncate_monitored_files,
                                              daemons_handler):
     '''
@@ -235,12 +235,12 @@ def test_syscollector_invalid_configurations(test_configuration, test_metadata, 
             - Check if the tag/attribute error is present in the logs.
             - Check if Syscollector starts depending on the criticality of the field.
         - teardown:
-            - Restore Wazuh configuration.
+            - Restore Blackwell configuration.
             - Restore local internal options.
             - Truncate all the log files and json alerts files.
             - Stop the necessary daemons.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 0
 
@@ -251,9 +251,9 @@ def test_syscollector_invalid_configurations(test_configuration, test_metadata, 
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration using the configuration template.
+            brief: Set blackwell configuration using the configuration template.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -262,7 +262,7 @@ def test_syscollector_invalid_configurations(test_configuration, test_metadata, 
             brief: Truncate the log file before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons for each test case.
+            brief: Handler of Blackwell daemons for each test case.
 
     assertions:
         - Check if the scan is triggered after N seconds.
@@ -275,7 +275,7 @@ def test_syscollector_invalid_configurations(test_configuration, test_metadata, 
     field = test_metadata['field']
     attribute = test_metadata['attribute']
     non_critical_fields = ('max_eps')
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
 
     # Skip test if the field is hotfixes and the platform is not Windows.
     if field == 'hotfixes' and sys.platform != WINDOWS:
@@ -314,7 +314,7 @@ def test_syscollector_invalid_configurations(test_configuration, test_metadata, 
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t4_configurations, t4_config_metadata), ids=t4_case_ids)
-def test_syscollector_default_values(test_configuration, test_metadata, set_wazuh_configuration,
+def test_syscollector_default_values(test_configuration, test_metadata, set_blackwell_configuration,
                                      configure_local_internal_options, truncate_monitored_files,
                                      daemons_handler):
     '''
@@ -330,12 +330,12 @@ def test_syscollector_default_values(test_configuration, test_metadata, set_wazu
             - Check if the default configuration was applied.
             - Check if Syscollector starts correctly.
         - teardown:
-            - Restore Wazuh configuration.
+            - Restore Blackwell configuration.
             - Restore local internal options.
             - Truncate all the log files and json alerts files.
             - Stop the necessary daemons.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 0
 
@@ -346,9 +346,9 @@ def test_syscollector_default_values(test_configuration, test_metadata, set_wazu
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration using the configuration template.
+            brief: Set blackwell configuration using the configuration template.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -357,7 +357,7 @@ def test_syscollector_default_values(test_configuration, test_metadata, set_wazu
             brief: Truncate the log file before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons for each test case.
+            brief: Handler of Blackwell daemons for each test case.
 
     assertions:
         - Check if the module sets the default configuration.
@@ -366,7 +366,7 @@ def test_syscollector_default_values(test_configuration, test_metadata, set_wazu
         - The `configuration_syscollector_no_tags.yaml` file provides the module configuration for this test.
         - The `case_test_default_values.yaml` file provides the test cases.
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_MODULE_STARTING), timeout=5)
     assert log_monitor.callback_result
 
@@ -382,7 +382,7 @@ def test_syscollector_default_values(test_configuration, test_metadata, set_wazu
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t5_configurations, t5_config_metadata), ids=t5_case_ids)
-def test_syscollector_scanning(test_configuration, test_metadata, set_wazuh_configuration,
+def test_syscollector_scanning(test_configuration, test_metadata, set_blackwell_configuration,
                                configure_local_internal_options, truncate_monitored_files,
                                daemons_handler):
     '''
@@ -398,12 +398,12 @@ def test_syscollector_scanning(test_configuration, test_metadata, set_wazuh_conf
             - Check if the default configuration was applied.
             - Check if Syscollector starts correctly.
         - teardown:
-            - Restore Wazuh configuration.
+            - Restore Blackwell configuration.
             - Restore local internal options.
             - Truncate all the log files and json alerts files.
             - Stop the necessary daemons.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 0
 
@@ -414,9 +414,9 @@ def test_syscollector_scanning(test_configuration, test_metadata, set_wazuh_conf
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration using the configuration template.
+            brief: Set blackwell configuration using the configuration template.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -425,7 +425,7 @@ def test_syscollector_scanning(test_configuration, test_metadata, set_wazuh_conf
             brief: Truncate the log file before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons for each test case.
+            brief: Handler of Blackwell daemons for each test case.
 
     assertions:
         - Check if each scan is completed.
@@ -435,7 +435,7 @@ def test_syscollector_scanning(test_configuration, test_metadata, set_wazuh_conf
         - The `configuration_syscollector.yaml` file provides the module configuration for this test.
         - The `case_test_scanning.yaml` file provides the test cases.
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     # 60s + 2 seconds of margin because it includes the case when the agent starts for the first time
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_MODULE_STARTING), timeout=60 + 2)
     assert log_monitor.callback_result

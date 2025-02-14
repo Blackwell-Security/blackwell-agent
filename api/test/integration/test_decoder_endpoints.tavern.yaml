@@ -280,13 +280,13 @@ stages:
           total_affected_items: !anyint
           total_failed_items: !anyint
 
-  # GET /decoders?q=details.prematch~wazuh;filename=0005-wazuh_decoders.xml;position<5
+  # GET /decoders?q=details.prematch~blackwell;filename=0005-blackwell_decoders.xml;position<5
   - name: Get decoders using query parameter
     request:
       verify: False
       <<: *get_decoders
       params:
-        q: 'details.prematch.pattern~wazuh;filename=0005-wazuh_decoders.xml;position<5'
+        q: 'details.prematch.pattern~blackwell;filename=0005-blackwell_decoders.xml;position<5'
     response:
       status_code: 200
       json:
@@ -299,13 +299,13 @@ stages:
           total_affected_items: 1
           total_failed_items: !anyint
 
-    # GET /decoders?q=details.prematch~wazuh;filename=0005-wazuh_decoders.xml;position>5 (empty response)
+    # GET /decoders?q=details.prematch~blackwell;filename=0005-blackwell_decoders.xml;position>5 (empty response)
   - name: Get decoders using query parameter
     request:
       verify: False
       <<: *get_decoders
       params:
-        q: 'details.prematch~wazuh;filename=0005-wazuh_decoders.xml;position>5'
+        q: 'details.prematch~blackwell;filename=0005-blackwell_decoders.xml;position>5'
     response:
       status_code: 200
       json:
@@ -321,7 +321,7 @@ stages:
       verify: False
       <<: *get_decoders
       params:
-        q: status=enabled;(name=agent-buffer,name=wazuh)
+        q: status=enabled;(name=agent-buffer,name=blackwell)
     response:
       status_code: 200
       json:
@@ -774,7 +774,7 @@ stages:
       verify: False
       <<: *get_decoders_files
       params:
-        q: 'filename=0005-wazuh_decoders.xml'
+        q: 'filename=0005-blackwell_decoders.xml'
     response:
       status_code: 200
       json:
@@ -1069,7 +1069,7 @@ stages:
     request:
       verify: False
       method: GET
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       headers:
         Authorization: "Bearer {test_login_token}"
     response:
@@ -1087,7 +1087,7 @@ stages:
     request:
       verify: False
       method: GET
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
@@ -1121,7 +1121,7 @@ stages:
     request:
       verify: False
       method: GET
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
@@ -1136,7 +1136,7 @@ stages:
             - error:
                 code: 1503
               id:
-                - "0005-wazuh_decoders.xml"
+                - "0005-blackwell_decoders.xml"
           total_failed_items: 1
         error: 1
         

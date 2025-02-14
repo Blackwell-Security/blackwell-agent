@@ -11,9 +11,9 @@ build/
 
 # Objects
 libsqlite3.so*
-wazuh-clusterd-internal
+blackwell-clusterd-internal
 
 # Projects
 .idea
 
-wazuh/wazuh.json
+blackwell/blackwell.json

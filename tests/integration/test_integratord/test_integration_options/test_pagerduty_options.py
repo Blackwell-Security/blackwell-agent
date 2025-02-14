@@ -1,11 +1,11 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+           Created by Blackwell, Inc. <info@blackwell.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: Integratord manages wazuh integrations with other applications such as Slack, Pagerduty, Shuffle, Yara or
+brief: Integratord manages blackwell integrations with other applications such as Slack, Pagerduty, Shuffle, Yara or
        Virustotal by feeding the integrated aplications with the alerts located in alerts.json file. Custom values for
        fields can be configured to be sent using the 'options' tag. This test modules aim to test how the shuffle
        integration works with different configurations, when the options tag is not present or when custom values are
@@ -20,7 +20,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-integratord
+    - blackwell-integratord
 
 os_platform:
     - Linux
@@ -30,8 +30,8 @@ os_version:
     - Ubuntu Focal
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/virustotal-scan/integration.html
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-integratord.htm
+    - https://documentation.blackwell.com/current/user-manual/capabilities/virustotal-scan/integration.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-integratord.htm
 
 pytest_args:
     - tier:
@@ -46,19 +46,19 @@ import pytest
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON, WAZUH_DB_DAEMON, INTEGRATOR_DAEMON
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH, WAZUH_LOG_PATH
-from wazuh_testing.modules.analysisd.configuration import ANALYSISD_DEBUG
-from wazuh_testing.modules.integratord.configuration import INTEGRATORD_DEBUG
-from wazuh_testing.modules.integratord.patterns import INTEGRATORD_THIRD_PARTY_RESPONSE, INTEGRATORD_ENABLED_INTEGRATION, \
+from blackwell_testing import session_parameters
+from blackwell_testing.constants.daemons import ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON, INTEGRATOR_DAEMON
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH, BLACKWELL_LOG_PATH
+from blackwell_testing.modules.analysisd.configuration import ANALYSISD_DEBUG
+from blackwell_testing.modules.integratord.configuration import INTEGRATORD_DEBUG
+from blackwell_testing.modules.integratord.patterns import INTEGRATORD_THIRD_PARTY_RESPONSE, INTEGRATORD_ENABLED_INTEGRATION, \
                                                        INTEGRATORD_OPTIONS_FILE_DOES_NOT_EXISTENT, INTEGRATORD_SENDING_MESSAGE, \
                                                        INTEGRATORD_ERROR_RUNNING_INTEGRATION
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.commands import run_local_command_returning_output
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.commands import run_local_command_returning_output
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 
 # Marks
@@ -83,25 +83,25 @@ JSON_ALERT = '{"timestamp":"2022-05-11T12:29:19.905+0000",' \
               '"agent":{"id":"000","name":"localhost.localdomain"},' \
               '"id":"1652272159.1549653",' \
               '"location":"/test"}'
-daemons_handler_configuration = {'daemons': [INTEGRATOR_DAEMON, WAZUH_DB_DAEMON, ANALYSISD_DAEMON]}
+daemons_handler_configuration = {'daemons': [INTEGRATOR_DAEMON, BLACKWELL_DB_DAEMON, ANALYSISD_DAEMON]}
 local_internal_options = {INTEGRATORD_DEBUG: '2', ANALYSISD_DEBUG: '1', MONITORD_ROTATE_LOG: '0'}
 
 
 # Tests
 @pytest.mark.tier(level=1)
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test1_configuration, test1_metadata), ids=test1_cases_ids)
-def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_blackwell_configuration, truncate_monitored_files,
                                  configure_local_internal_options, daemons_handler, wait_for_integratord_start):
     '''
     description: Check that when the options tag is not present for the PagerDuty integration, the integration works
                  properly.
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Set blackwell configuration and local_internal_options.
+            - Clean logs files and restart blackwell to apply the configuration.
         - test:
             - Check integration is enabled
             - Check no options JSON file is created
@@ -109,7 +109,7 @@ def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_wazuh_co
             - Check the response code is 200
         - teardown:
             - Restore configuration
-            - Stop wazuh
+            - Stop blackwell
 
     tier: 1
 
@@ -120,9 +120,9 @@ def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_wazuh_co
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration.
+            brief: Set blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -131,7 +131,7 @@ def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_wazuh_co
             brief: Configure the local internal options file.
         - daemons_handler:
             type: fixture
-            brief: Restart wazuh daemon before starting a test.
+            brief: Restart blackwell daemon before starting a test.
         - wait_for_integratord_start:
             type: fixture
             brief: Detect the start of the Integratord module
@@ -152,62 +152,62 @@ def test_pagerduty_no_option_tag(test_configuration, test_metadata, set_wazuh_co
         - '.*OS_IntegratorD.*(JSON file for options  doesn't exist)'
         - '.*Response received.* [200].*'
     '''
-    wazuh_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_monitor = FileMonitor(BLACKWELL_LOG_PATH)
     command = f"echo '{JSON_ALERT}' >> {ALERTS_JSON_PATH}"
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_ENABLED_INTEGRATION,
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_ENABLED_INTEGRATION,
                                                    replacement={"integration": test_metadata['integration']}),
                                                    timeout=session_parameters.default_timeout)
 
     # Check integration is enabled
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Insert a new alert
     run_local_command_returning_output(command)
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_OPTIONS_FILE_DOES_NOT_EXISTENT), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_OPTIONS_FILE_DOES_NOT_EXISTENT), timeout=session_parameters.default_timeout)
 
     # Check no options JSON file is detected
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_SENDING_MESSAGE,
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_SENDING_MESSAGE,
                                                    replacement={"integration": 'PagerDuty'}),
                                                    timeout=session_parameters.default_timeout)
 
     # Check the message is sent to the integration's server
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
 
     # Check the response code from the integration's server
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
 
 @pytest.mark.tier(level=1)
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test2_configuration, test2_metadata), ids=test2_cases_ids)
-def test_pagerduty_options(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_pagerduty_options(test_configuration, test_metadata, set_blackwell_configuration, truncate_monitored_files,
                            configure_local_internal_options, daemons_handler, wait_for_integratord_start):
     '''
     description: Check that when configuring the options tag with differents values, the integration works as expected.
                  The test also checks that when it is supposed to fail, it fails.
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Set blackwell configuration and local_internal_options.
+            - Clean logs files and restart blackwell to apply the configuration.
         - test:
             - Check integration is enabled
             - Check the integration is unable to run when expected
             - Check the integration sends the message and gets a response when expected
         - teardown:
             - Restore configuration
-            - Stop wazuh
+            - Stop blackwell
 
     tier: 1
 
@@ -218,9 +218,9 @@ def test_pagerduty_options(test_configuration, test_metadata, set_wazuh_configur
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration.
+            brief: Set blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -229,7 +229,7 @@ def test_pagerduty_options(test_configuration, test_metadata, set_wazuh_configur
             brief: Configure the local internal options file.
         - daemons_handler:
             type: fixture
-            brief: Restart wazuh daemon before starting a test.
+            brief: Restart blackwell daemon before starting a test.
         - wait_for_integratord_start:
             type: fixture
             brief: Detect the start of the Integratord module
@@ -252,44 +252,44 @@ def test_pagerduty_options(test_configuration, test_metadata, set_wazuh_configur
         - '.*Response received.* [200].*'
 
     '''
-    wazuh_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_monitor = FileMonitor(BLACKWELL_LOG_PATH)
     command = f"echo '{JSON_ALERT}' >> {ALERTS_JSON_PATH}"
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_ENABLED_INTEGRATION,
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_ENABLED_INTEGRATION,
                                                    replacement={"integration": test_metadata['integration']}),
                                                    timeout=session_parameters.default_timeout)
 
     # Check integration is enabled
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Insert a new alert
     run_local_command_returning_output(command)
 
     if not test_metadata['sends_message']:
         # Start monitor
-        wazuh_monitor.start(callback=generate_callback(INTEGRATORD_ERROR_RUNNING_INTEGRATION,
+        blackwell_monitor.start(callback=generate_callback(INTEGRATORD_ERROR_RUNNING_INTEGRATION,
                                                     replacement={"integration": 'pagerduty'}),
                                                     timeout=session_parameters.default_timeout)
 
         # Check the message is sent to the integration's server
-        assert wazuh_monitor.callback_result
+        assert blackwell_monitor.callback_result
     else:
         # Start monitor
-        message = wazuh_monitor.start(callback=generate_callback(INTEGRATORD_SENDING_MESSAGE,
+        message = blackwell_monitor.start(callback=generate_callback(INTEGRATORD_SENDING_MESSAGE,
                                                     replacement={"integration": 'PagerDuty'}),
                                                     timeout=session_parameters.default_timeout,
                                                     return_matched_line=True)
 
         # Check the message is sent to the integration's server
-        assert wazuh_monitor.callback_result
+        assert blackwell_monitor.callback_result
 
         # Verify that when the options JSON was not empty the sent information is in the response message.
         if test_metadata['added_option'] is not None:
             assert test_metadata['added_option'] in message, "The configured option is not present in the message sent"
 
         # Start monitor
-        wazuh_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
+        blackwell_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
 
         # Check the response code from the integration's server
-        assert wazuh_monitor.callback_result
+        assert blackwell_monitor.callback_result

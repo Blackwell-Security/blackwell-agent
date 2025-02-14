@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -54,7 +54,7 @@ static void test_generate_cert_success(void **state) {
 
     will_return(__wrap_fclose, 0);
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 0);
 }
 
@@ -85,7 +85,7 @@ static void test_generate_cert_success_typo(void **state) {
 
     will_return(__wrap_fclose, 0);
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/asdfg/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/asdfg/");
     assert_int_equal(ret_value, 0);
 }
 
@@ -108,7 +108,7 @@ static void test_save_key_fail(void **state) {
     expect_value(__wrap_fclose, _File, &key_file);
     will_return(__wrap_fclose, 0);
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
 
     assert_int_equal(ret_value, 1);
 }
@@ -127,7 +127,7 @@ static void test_save_key_fail_fopen(void **state) {
 
     expect_string(__wrap__merror, formatted_msg, "Cannot open key_path.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
 
     assert_int_equal(ret_value, 1);
 }
@@ -159,7 +159,7 @@ static void test_save_cert_fail(void **state) {
     expect_value(__wrap_fclose, _File, &cert_file);
     will_return(__wrap_fclose, 0);
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 
@@ -186,7 +186,7 @@ static void test_save_cert_fail_fopen(void **state) {
     will_return(__wrap_wfopen, NULL);
     expect_string(__wrap__merror, formatted_msg, "Cannot open cert_path.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 
@@ -199,7 +199,7 @@ static void test_generate_cert_key_null(void **state) {
     expect_string(__wrap__merror, formatted_msg, "Cannot create EVP_PKEY or EVP_PKEY_CTX structure.");
     expect_string(__wrap__merror, formatted_msg, "Cannot generate key to sign the certificate.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 
@@ -212,7 +212,7 @@ static void test_generate_cert_pkey_null(void **state) {
     expect_string(__wrap__merror, formatted_msg, "Cannot create EVP_PKEY or EVP_PKEY_CTX structure.");
     expect_string(__wrap__merror, formatted_msg, "Cannot generate key to sign the certificate.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 
@@ -224,7 +224,7 @@ static void test_generate_cert_x509_null(void **state) {
 
     expect_string(__wrap__merror, formatted_msg, "Cannot generate certificate.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 
@@ -239,7 +239,7 @@ static void test_generate_cert_sign_fail(void **state) {
 
     expect_string(__wrap__merror, formatted_msg, "Error signing certificate.");
 
-    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Wazuh/");
+    int ret_value = generate_cert(1024, 2048, "key_path", "cert_path", "/C=US/ST=California/CN=Blackwell/");
     assert_int_equal(ret_value, 1);
 }
 int main(void) {

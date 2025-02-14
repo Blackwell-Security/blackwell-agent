@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,9 +14,9 @@
 
 #include "../../config/global-config.h"
 #include "../../analysisd/eventinfo.h"
-#include "../../wazuh_db/wdb.h"
-#include "../wrappers/wazuh/shared/rootcheck_op_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../../blackwell_db/wdb.h"
+#include "../wrappers/blackwell/shared/rootcheck_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 #define TEST_AGENT_ID "005"
 #define TEST_TIME     10005

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Copyright (C) 2015, Wazuh Inc.
+#Copyright (C) 2015, Blackwell Inc.
 
 set -e
 set -u
@@ -80,7 +80,7 @@ else
         if [ "$UNAME" = "OpenBSD" -o "$UNAME" = "SunOS" -o "$UNAME" = "HP-UX" -o "$UNAME" = "NetBSD" ]; then
             ${USERADD} -d "${DIR}" -s ${OSMYSHELL} -g "${GROUP}" "${USER}"
         elif [ "$UNAME" = "AIX" ]; then
-            GID=$(cat /etc/group | grep wazuh| cut -d':' -f 3)
+            GID=$(cat /etc/group | grep blackwell| cut -d':' -f 3)
             uid=$(( $GID + 1 ))
             echo "${USER}:x:$uid:$GID::${DIR}:/bin/false" >> /etc/passwd
         elif [ $(grep "Alpine Linux" /etc/os-release > /dev/null  && echo 1) ]; then

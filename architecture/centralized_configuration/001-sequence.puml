@@ -1,20 +1,20 @@
-' Copyright (C) 2015, Wazuh Inc.
-' Created by Wazuh, Inc. <info@wazuh.com>.
+' Copyright (C) 2015, Blackwell Inc.
+' Created by Blackwell, Inc. <info@blackwell.com>.
 ' This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 @startuml centralized_configuration
 
 hide footbox
 
-box "**Wazuh Master Node**"
-participant "wazuh-remoted" as masterremote
-participant "wazuh-clusterd" as mclusterd
+box "**Blackwell Master Node**"
+participant "blackwell-remoted" as masterremote
+participant "blackwell-clusterd" as mclusterd
 end box
-box "**Wazuh Worker Node**"
-participant "wazuh-clusterd" as wclusterd
-participant "wazuh-remoted" as workerremote
+box "**Blackwell Worker Node**"
+participant "blackwell-clusterd" as wclusterd
+participant "blackwell-remoted" as workerremote
 end box
-participant "**Wazuh Agent**\nwazuh-agentd" as agent
+participant "**Blackwell Agent**\nblackwell-agentd" as agent
 
 masterremote++
 mclusterd++

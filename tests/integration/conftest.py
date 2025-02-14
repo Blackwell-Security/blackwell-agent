@@ -1,6 +1,6 @@
 """
-Copyright (C) 2015-2024, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015-2024, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import os
@@ -9,27 +9,27 @@ import pytest
 import sys
 from typing import List
 
-from wazuh_testing import session_parameters
-from wazuh_testing.constants import platforms
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.constants.daemons import WAZUH_MANAGER, API_DAEMONS_REQUIREMENTS
-from wazuh_testing.constants.paths import ROOT_PREFIX
-from wazuh_testing.constants.paths.api import RBAC_DATABASE_PATH
-from wazuh_testing.constants.paths.logs import ACTIVE_RESPONSE_LOG_PATH, WAZUH_LOG_PATH, ALERTS_JSON_PATH, \
-                                               WAZUH_API_LOG_FILE_PATH, WAZUH_API_JSON_LOG_FILE_PATH
-from wazuh_testing.constants.paths.configurations import WAZUH_CLIENT_KEYS_PATH
-from wazuh_testing.logger import logger
-from wazuh_testing.tools import socket_controller
-from wazuh_testing.tools.monitors import queue_monitor
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.agent_simulator import create_agents, connect
-from wazuh_testing.tools.simulators.authd_simulator import AuthdSimulator
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import configuration, database, file, mocking, services
-from wazuh_testing.utils.file import remove_file, truncate_file
-from wazuh_testing.utils.manage_agents import remove_agents
-import wazuh_testing.utils.configuration as wazuh_configuration
-from wazuh_testing.utils.services import control_service
+from blackwell_testing import session_parameters
+from blackwell_testing.constants import platforms
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.constants.daemons import BLACKWELL_MANAGER, API_DAEMONS_REQUIREMENTS
+from blackwell_testing.constants.paths import ROOT_PREFIX
+from blackwell_testing.constants.paths.api import RBAC_DATABASE_PATH
+from blackwell_testing.constants.paths.logs import ACTIVE_RESPONSE_LOG_PATH, BLACKWELL_LOG_PATH, ALERTS_JSON_PATH, \
+                                               BLACKWELL_API_LOG_FILE_PATH, BLACKWELL_API_JSON_LOG_FILE_PATH
+from blackwell_testing.constants.paths.configurations import BLACKWELL_CLIENT_KEYS_PATH
+from blackwell_testing.logger import logger
+from blackwell_testing.tools import socket_controller
+from blackwell_testing.tools.monitors import queue_monitor
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.tools.simulators.agent_simulator import create_agents, connect
+from blackwell_testing.tools.simulators.authd_simulator import AuthdSimulator
+from blackwell_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from blackwell_testing.utils import configuration, database, file, mocking, services
+from blackwell_testing.utils.file import remove_file, truncate_file
+from blackwell_testing.utils.manage_agents import remove_agents
+import blackwell_testing.utils.configuration as blackwell_configuration
+from blackwell_testing.utils.services import control_service
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -Pytest configuration - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -119,50 +119,50 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
 
 
 @pytest.fixture(scope='session')
-def load_wazuh_basic_configuration():
+def load_blackwell_basic_configuration():
     """Load a new basic configuration to the manager"""
     # Load ossec.conf with all disabled settings
     minimal_configuration = configuration.get_minimal_configuration()
 
     # Make a backup from current configuration
-    backup_ossec_configuration = configuration.get_wazuh_conf()
+    backup_ossec_configuration = configuration.get_blackwell_conf()
 
     # Write new configuration
-    configuration.write_wazuh_conf(minimal_configuration)
+    configuration.write_blackwell_conf(minimal_configuration)
 
     yield
 
     # Restore the ossec.conf backup
-    configuration.write_wazuh_conf(backup_ossec_configuration)
+    configuration.write_blackwell_conf(backup_ossec_configuration)
 
 
 @pytest.fixture()
-def backup_wazuh_configuration() -> None:
-    """Backup wazuh configuration. Saves the initial configuration and restores it after the test."""
+def backup_blackwell_configuration() -> None:
+    """Backup blackwell configuration. Saves the initial configuration and restores it after the test."""
     # Save configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_blackwell_conf()
 
     yield
 
     # Restore configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_blackwell_conf(backup_config)
 
 
 @pytest.fixture()
-def set_wazuh_configuration(test_configuration: dict) -> None:
-    """Set wazuh configuration
+def set_blackwell_configuration(test_configuration: dict) -> None:
+    """Set blackwell configuration
 
     Args:
         test_configuration (dict): Configuration template data to write in the ossec.conf
     """
     # Save current configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_blackwell_conf()
 
     # Configuration for testing
-    test_config = configuration.set_section_wazuh_conf(test_configuration.get('sections'))
+    test_config = configuration.set_section_blackwell_conf(test_configuration.get('sections'))
 
     # Set new configuration
-    configuration.write_wazuh_conf(test_config)
+    configuration.write_blackwell_conf(test_config)
 
     # Set current configuration
     session_parameters.current_configuration = test_config
@@ -170,7 +170,7 @@ def set_wazuh_configuration(test_configuration: dict) -> None:
     yield
 
     # Restore previous configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_blackwell_conf(backup_config)
 
 
 @pytest.fixture()
@@ -196,19 +196,19 @@ def configure_local_internal_options_function(request):
                                  'parameter has been passed explicitly, nor is the variable local_internal_options '
                                  'found in the module.') from AttributeError
 
-    backup_local_internal_options = wazuh_configuration.get_local_internal_options_dict()
+    backup_local_internal_options = blackwell_configuration.get_local_internal_options_dict()
 
     logger.debug(f"Set local_internal_option to {str(local_internal_options)}")
-    wazuh_configuration.set_local_internal_options_dict(local_internal_options)
+    blackwell_configuration.set_local_internal_options_dict(local_internal_options)
 
     yield
 
     logger.debug(f"Restore local_internal_option to {str(backup_local_internal_options)}")
-    wazuh_configuration.set_local_internal_options_dict(backup_local_internal_options)
+    blackwell_configuration.set_local_internal_options_dict(backup_local_internal_options)
 
 
 @pytest.fixture()
-def restart_wazuh_function(request):
+def restart_blackwell_function(request):
     """Restart before starting a test, and stop it after finishing.
 
        Args:
@@ -236,7 +236,7 @@ def restart_wazuh_function(request):
         logger.debug(f"Stopping all daemons")
         control_service('stop')
     else:
-        # Stop a list daemons in order (as Wazuh does)
+        # Stop a list daemons in order (as Blackwell does)
         daemons.reverse()
         for daemon in daemons:
             logger.debug(f"Stopping {daemon}")
@@ -255,7 +255,7 @@ def file_monitoring(request):
     if hasattr(request.module, 'file_to_monitor'):
         file_to_monitor = getattr(request.module, 'file_to_monitor')
     else:
-        file_to_monitor = WAZUH_LOG_PATH
+        file_to_monitor = BLACKWELL_LOG_PATH
 
     logger.debug(f"Initializing file to monitor to {file_to_monitor}")
 
@@ -270,11 +270,11 @@ def file_monitoring(request):
 
 def truncate_monitored_files_implementation() -> None:
     """Truncate all the log files and json alerts files before and after the test execution"""
-    if services.get_service() == WAZUH_MANAGER:
-        log_files = [WAZUH_LOG_PATH, ALERTS_JSON_PATH, WAZUH_API_LOG_FILE_PATH,
-                     WAZUH_API_JSON_LOG_FILE_PATH, WAZUH_CLIENT_KEYS_PATH]
+    if services.get_service() == BLACKWELL_MANAGER:
+        log_files = [BLACKWELL_LOG_PATH, ALERTS_JSON_PATH, BLACKWELL_API_LOG_FILE_PATH,
+                     BLACKWELL_API_JSON_LOG_FILE_PATH, BLACKWELL_CLIENT_KEYS_PATH]
     else:
-        log_files = [WAZUH_LOG_PATH]
+        log_files = [BLACKWELL_LOG_PATH]
 
     for log_file in log_files:
         if os.path.isfile(os.path.join(ROOT_PREFIX, log_file)):
@@ -300,14 +300,14 @@ def truncate_monitored_files_module() -> None:
 
 
 def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
-    """Helper function to handle Wazuh daemons.
+    """Helper function to handle Blackwell daemons.
 
     It uses `daemons_handler_configuration` of each module in order to configure the behavior of the fixture.
 
     The  `daemons_handler_configuration` should be a dictionary with the following keys:
         daemons (list, optional): List with every daemon to be used by the module. In case of empty a ValueError
             will be raised
-        all_daemons (boolean): Configure to restart all wazuh services. Default `False`.
+        all_daemons (boolean): Configure to restart all blackwell services. Default `False`.
         ignore_errors (boolean): Configure if errors in daemon handling should be ignored. This option is available
         in order to use this fixture along with invalid configuration. Default `False`
 
@@ -326,19 +326,19 @@ def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
                 raise ValueError
 
         if 'all_daemons' in config:
-            logger.debug(f"Wazuh control set to {config['all_daemons']}")
+            logger.debug(f"Blackwell control set to {config['all_daemons']}")
             all_daemons = config['all_daemons']
 
         if 'ignore_errors' in config:
             logger.debug(f"Ignore error set to {config['ignore_errors']}")
             ignore_errors = config['ignore_errors']
     else:
-        logger.debug("Wazuh control set to 'all_daemons'")
+        logger.debug("Blackwell control set to 'all_daemons'")
         all_daemons = True
 
     try:
         if all_daemons:
-            logger.debug('Restarting wazuh using wazuh-control')
+            logger.debug('Restarting blackwell using blackwell-control')
             services.control_service('restart')
         else:
             for daemon in daemons:
@@ -358,7 +358,7 @@ def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
     yield
 
     if all_daemons:
-        logger.debug('Stopping wazuh using wazuh-control')
+        logger.debug('Stopping blackwell using blackwell-control')
         services.control_service('stop')
     else:
         if daemons == API_DAEMONS_REQUIREMENTS: daemons.reverse()  # Stop in reverse, otherwise the next start will fail
@@ -388,13 +388,13 @@ def daemons_handler_module(request: pytest.FixtureRequest) -> None:
 
 
 @pytest.fixture(scope='module')
-def restart_wazuh_daemon_after_finishing_module(daemon: str = None) -> None:
-    """Restart a Wazuh daemons and clears the wazuh log after the test module finishes execution.
+def restart_blackwell_daemon_after_finishing_module(daemon: str = None) -> None:
+    """Restart a Blackwell daemons and clears the blackwell log after the test module finishes execution.
     Args:
         daemon (str): provide which daemon to restart. If None, all daemons will be restarted.
     """
     yield
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(BLACKWELL_LOG_PATH)
     services.control_service("restart", daemon=daemon)
 
 
@@ -402,7 +402,7 @@ def configure_local_internal_options_handler(request: pytest.FixtureRequest, tes
     """Configure the local internal options file.
 
     Takes the `local_internal_options` variable from the request.
-    The `local_internal_options` is a dict with keys and values as the Wazuh `local_internal_options` format.
+    The `local_internal_options` is a dict with keys and values as the Blackwell `local_internal_options` format.
     E.g.: local_internal_options = {'monitord.rotate_log': '0', 'syscheck.debug': '0' }
 
     Args:
@@ -437,7 +437,7 @@ def configure_local_internal_options(request: pytest.FixtureRequest, test_metada
     """Configure the local internal options file.
 
     Takes the `local_internal_options` variable from the request.
-    The `local_internal_options` is a dict with keys and values as the Wazuh `local_internal_options` format.
+    The `local_internal_options` is a dict with keys and values as the Blackwell `local_internal_options` format.
     E.g.: local_internal_options = {'monitord.rotate_log': '0', 'syscheck.debug': '0' }
 
     Args:
@@ -466,7 +466,7 @@ def configure_sockets_environment_implementation(request: pytest.FixtureRequest)
     """
     monitored_sockets_params = getattr(request.module, 'monitored_sockets_params')
 
-    # Stop wazuh-service and ensure all daemons are stopped
+    # Stop blackwell-service and ensure all daemons are stopped
     services.control_service('stop')
     services.wait_expected_daemon_status(running_condition=False)
 
@@ -583,7 +583,7 @@ def connect_to_sockets_module(request: pytest.FixtureRequest) -> None:
 
 @pytest.fixture(scope='module')
 def mock_agent_module():
-    """Fixture to create a mocked agent in wazuh databases"""
+    """Fixture to create a mocked agent in blackwell databases"""
     agent_id = mocking.create_mocked_agent(name='mocked_agent')
 
     yield agent_id
@@ -722,19 +722,19 @@ def add_user_in_rbac(request):
 @pytest.fixture(autouse=True)
 def autostart_simulators(request: pytest.FixtureRequest) -> None:
     """
-    Fixture for starting simulators in wazuh-agent executions.
+    Fixture for starting simulators in blackwell-agent executions.
 
     This fixture starts both Authd and Remoted simulators only in the cases where the service is not
-    WAZUH_MANAGER, and when the test function is not already using the simulator fixture, if it does
+    BLACKWELL_MANAGER, and when the test function is not already using the simulator fixture, if it does
     use one of them, only start the remaining simulator.
 
-    This is required so all wazuh-agent instances are being tested with the wazuh-manager connection
+    This is required so all blackwell-agent instances are being tested with the blackwell-manager connection
     being mocked.
     """
     create_authd = 'authd_simulator' not in request.fixturenames
     create_remoted = 'remoted_simulator' not in request.fixturenames
 
-    if services.get_service() is not WAZUH_MANAGER:
+    if services.get_service() is not BLACKWELL_MANAGER:
         authd = AuthdSimulator() if create_authd else None
         remoted = RemotedSimulator() if create_remoted else None
 
@@ -743,7 +743,7 @@ def autostart_simulators(request: pytest.FixtureRequest) -> None:
 
     yield
 
-    if services.get_service() is not WAZUH_MANAGER:
+    if services.get_service() is not BLACKWELL_MANAGER:
         authd.shutdown() if create_authd else None
         remoted.shutdown() if create_remoted else None
 

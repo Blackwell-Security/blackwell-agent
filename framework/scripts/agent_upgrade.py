@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -13,17 +13,17 @@ from time import sleep
 from connexion import ProblemException
 
 # Set framework path
-path.append(dirname(argv[0]) + '/../framework')  # It is necessary to import Wazuh package
+path.append(dirname(argv[0]) + '/../framework')  # It is necessary to import Blackwell package
 
 # Import framework
 try:
-    import wazuh.agent
-    from wazuh.agent import upgrade_agents, get_upgrade_result, get_agents
-    from wazuh.core import common
-    from wazuh.core.exception import WazuhError
-    from wazuh.core.cluster import utils as cluster_utils
+    import blackwell.agent
+    from blackwell.agent import upgrade_agents, get_upgrade_result, get_agents
+    from blackwell.core import common
+    from blackwell.core.exception import BlackwellError
+    from blackwell.core.cluster import utils as cluster_utils
 except Exception as e:
-    print("Error importing 'Wazuh' package.\n\n{0}\n".format(e))
+    print("Error importing 'Blackwell' package.\n\n{0}\n".format(e))
     exit()
 
 
@@ -45,7 +45,7 @@ def get_script_arguments() -> argparse.Namespace:
     parser.add_argument("-a", "--agents", nargs='+', help="Agent IDs to upgrade.")
     parser.add_argument("-r", "--repository", type=str, help="Specify a repository URL. [Default: {0}]".format(
         common.WPK_REPO_URL_4_X))
-    parser.add_argument("-v", "--version", type=str, help="Version to upgrade. [Default: latest Wazuh version]")
+    parser.add_argument("-v", "--version", type=str, help="Version to upgrade. [Default: latest Blackwell version]")
     parser.add_argument("-F", "--force", action="store_true",
                         help="Forces the agents to upgrade, ignoring version validations.")
     parser.add_argument("-s", "--silent", action="store_true", help="Do not show output.")
@@ -62,7 +62,7 @@ def get_script_arguments() -> argparse.Namespace:
 
 def list_outdated():
     """Print outdated agents."""
-    agents = wazuh.agent.get_outdated_agents()
+    agents = blackwell.agent.get_outdated_agents()
     if agents.total_affected_items == 0:
         print("All agents are updated.")
     else:
@@ -223,8 +223,8 @@ async def main():
         await check_status(affected_agents=result.affected_items, result_dict=agents_versions,
                            failed_agents=failed_agents, silent=args.silent)
 
-    except WazuhError as wazuh_err:
-        print(f"Error {wazuh_err.code}: {wazuh_err.message}")
+    except BlackwellError as blackwell_err:
+        print(f"Error {blackwell_err.code}: {blackwell_err.message}")
         if args.debug:
             raise
     except ProblemException as e:

@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for denied ips
-  description: Command config wazuh manager for denied ips
+- name: Command config blackwell manager for denied ips
+  description: Command config blackwell manager for denied ips
   configuration_parameters:
     ALLOWED-IPS: '127.0.0.0/24'
     DENIED-IPS: '127.0.0.1'
@@ -10,8 +10,8 @@
     ipv6: 'no'
 
 
-- name: Command config wazuh manager for denied ips
-  description: Command config wazuh manager for denied ips
+- name: Command config blackwell manager for denied ips
+  description: Command config blackwell manager for denied ips
   configuration_parameters:
     ALLOWED-IPS: '0000:0000:0000:0000:0000:0000:0000:0001/64'
     DENIED-IPS: '::1'
@@ -22,8 +22,8 @@
     ipv6: 'yes'
 
 
-- name: Command config wazuh manager for denied ips
-  description: Command config wazuh manager for denied ips
+- name: Command config blackwell manager for denied ips
+  description: Command config blackwell manager for denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1/64'
     DENIED-IPS: '::1'

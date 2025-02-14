@@ -1,13 +1,13 @@
 - name: REMOTED_ENDPOINT
   description: remoted statistics endpoint
   configuration_parameters:
-    ENDPOINT: wazuh-remoted
+    ENDPOINT: blackwell-remoted
   metadata:
-    endpoint: wazuh-remoted
+    endpoint: blackwell-remoted
 
 - name: ANALYSISD_ENDPOINT
   description: analysisd statistics endpoint
   configuration_parameters:
-    ENDPOINT: wazuh-analysisd
+    ENDPOINT: blackwell-analysisd
   metadata:
-    endpoint: wazuh-analysisd
+    endpoint: blackwell-analysisd

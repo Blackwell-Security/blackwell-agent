@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -10,7 +10,7 @@ from aws_bucket import AWSBucket, AWSCustomBucket, AWSLogsBucket
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
 import aws_tools
 
-GUARDDUTY_URL = 'https://documentation.wazuh.com/current/amazon/services/supported-services/guardduty.html'
+GUARDDUTY_URL = 'https://documentation.blackwell.com/current/amazon/services/supported-services/guardduty.html'
 GUARDDUTY_DEPRECATED_MESSAGE = 'The functionality to process GuardDuty logs stored in S3 via Kinesis was deprecated ' \
                                'in {release}. Consider configuring GuardDuty to store its findings directly in an S3 ' \
                                'bucket instead. Check {url} for more information.'

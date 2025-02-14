@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * November, 2020.
  *
  * This program is free software; you can redistribute it
@@ -22,17 +22,17 @@
 #include "../headers/read-alert.h"
 #include "../../os_csyslogd/csyslogd.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/json_queue_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/json_queue_wrappers.h"
 #include "../wrappers/externals/cJSON/cJSON_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/linux/socket_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
 #include "../wrappers/posix/time_wrappers.h"
 #include "../wrappers/externals/pcre2/pcre2_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
+#include "../wrappers/blackwell/shared/validate_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../wrappers/blackwell/shared/file_op_wrappers.h"
 
 #define MAX_FOREVER_ITS (10)
 

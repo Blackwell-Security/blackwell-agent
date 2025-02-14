@@ -1,0 +1,9 @@
+blackwell-agent: embedded-library
+blackwell-agent: embedded-zlib
+blackwell-agent: possible-gpl-code-linked-with-openssl
+blackwell-agent: new-package-should-close-itp-bug
+blackwell-agent: possibly-insecure-handling-of-tmp-files-in-maintainer-script
+blackwell-agent: non-standard-dir-in-var
+blackwell-agent: file-in-unusual-dir
+blackwell-agent: hardening-no-fortify-functions
+blackwell-agent: hardening-no-relro

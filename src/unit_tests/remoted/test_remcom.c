@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -19,11 +19,11 @@
 
 #include "../wrappers/posix/select_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/remoted/state_wrappers.h"
-#include "../wrappers/wazuh/remoted/config_wrappers.h"
-#include "../wrappers/wazuh/remoted/manager_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
+#include "../wrappers/blackwell/remoted/state_wrappers.h"
+#include "../wrappers/blackwell/remoted/config_wrappers.h"
+#include "../wrappers/blackwell/remoted/manager_wrappers.h"
 
 char* remcom_output_builder(int error_code, const char* message, cJSON* data_json);
 size_t remcom_dispatch(char * command, char ** output);

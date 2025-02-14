@@ -1,5 +1,5 @@
-# Copyright (C) 2023, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2023, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -32,17 +32,17 @@ alert_template = {
     'id': 'alert_id',
     'full_log': 'full log.',
     'decoder': {'name': 'decoder-name'},
-    'location': 'wazuh-X',
+    'location': 'blackwell-X',
 }
 
-options_template = {'pretext': 'Wazuh-X -- Alert generated', 'author_name': 'The amazing Wazuh', 'footer': 'Slack API'}
+options_template = {'pretext': 'Blackwell-X -- Alert generated', 'author_name': 'The amazing Blackwell', 'footer': 'Slack API'}
 
 msg_template = (
-    '{"severity": 1, "pretext": "Wazuh-X -- Alert generated", "title": "alert description", "text": "full log.", '
+    '{"severity": 1, "pretext": "Blackwell-X -- Alert generated", "title": "alert description", "text": "full log.", '
     '"rule_id": "rule-id", "timestamp": "year-month-dayThours:minuts:seconds+0000", "id": "alert_id", '
     '"all_fields": {"timestamp": "2023-02-23T00:00:00+00:00", "rule": {"level": 0, '
     '"description": "alert description", "id": "rule-id", "firedtimes": 1}, "id": "alert_id", "full_log": '
-    '"full log.", "decoder": {"name": "decoder-name"}, "location": "wazuh-X", "author_name": "The amazing Wazuh",'
+    '"full log.", "decoder": {"name": "decoder-name"}, "location": "blackwell-X", "author_name": "The amazing Blackwell",'
     '"footer": "Slack API"}'
 )
 slack_webhook = ''

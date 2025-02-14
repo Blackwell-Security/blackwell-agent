@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #include "headers/sec.h"
 #include "os_crypto/sha1/sha1_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
     /* Remove static qualifier when unit testing */
     #define static
 

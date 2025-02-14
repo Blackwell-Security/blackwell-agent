@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -16,11 +16,11 @@
 #include "alerts/alerts.h"
 #include "decoder.h"
 #include "syscheck_op.h"
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 #include "os_net/os_net.h"
-#include "wazuhdb_op.h"
+#include "blackwelldb_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 /* Remove static qualifier when testing */
 #define static
 
@@ -47,7 +47,7 @@ static int SumCompare (const char *s1, const char *s2);
 // Check for exceed num of changes
 static int fim_check_changes (int saved_frequency, long saved_time, Eventinfo *lf);
 
-// Send control message to wazuhdb
+// Send control message to blackwelldb
 static int fim_control_msg (char *key, time_t value, Eventinfo *lf, _sdb *sdb);
 
 //Update field date at last event generated
@@ -59,7 +59,7 @@ int fim_database_clean (Eventinfo *lf, _sdb *sdb);
 // Clean sdb memory
 void sdb_clean(_sdb *localsdb);
 
-// Get timestamp for last scan from wazuhdb
+// Get timestamp for last scan from blackwelldb
 int fim_get_scantime (long *ts, Eventinfo *lf, _sdb *sdb, const char *param);
 
 // Process fim alert
@@ -79,13 +79,13 @@ static int fim_process_alert(_sdb *sdb, Eventinfo *lf, cJSON *event);
 */
 static int fim_generate_alert(Eventinfo *lf, syscheck_event_t event_type, cJSON *attributes, cJSON *old_attributes, cJSON *audit);
 
-// Send save query to Wazuh DB
+// Send save query to Blackwell DB
 static void fim_send_db_save(_sdb * sdb, const char * agent_id, cJSON * data);
 
-// Send delete query to Wazuh DB
+// Send delete query to Blackwell DB
 void fim_send_db_delete(_sdb * sdb, const char * agent_id, const char * path);
 
-// Send a query to Wazuh DB
+// Send a query to Blackwell DB
 void fim_send_db_query(int * sock, const char * query);
 
 // Build change comment
@@ -267,7 +267,7 @@ int DecodeSyscheck(Eventinfo *lf, _sdb *sdb)
     char *w_sum = NULL;
     char *f_name;
 
-    /* Every syscheck message must be in the following format (OSSEC - Wazuh v3.10):
+    /* Every syscheck message must be in the following format (OSSEC - Blackwell v3.10):
      * 'checksum' 'filename'
      * or
      * 'checksum'!'extradata' 'filename'
@@ -328,7 +328,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
     int changes = 0;
     int i = 0;
     char *ttype[OS_SIZE_128];
-    char *wazuhdb_query = NULL;
+    char *blackwelldb_query = NULL;
     char *new_check_sum = NULL;
     char *old_check_sum = NULL;
     char *response = NULL;
@@ -343,19 +343,19 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
     memset(&oldsum, 0, sizeof(sk_sum_t));
     memset(&newsum, 0, sizeof(sk_sum_t));
 
-    os_calloc(OS_SIZE_6144 + 1, sizeof(char), wazuhdb_query);
+    os_calloc(OS_SIZE_6144 + 1, sizeof(char), blackwelldb_query);
     os_strdup(c_sum, new_check_sum);
 
-    snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck load %s", lf->agent_id, f_name);
+    snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck load %s", lf->agent_id, f_name);
 
     os_calloc(OS_SIZE_6144, sizeof(char), response);
-    db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+    db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
     // Fail trying load info from DDBB
 
     switch (db_result) {
     case -2:
-        merror("FIM decoder: Bad load query: '%s'.", wazuhdb_query);
+        merror("FIM decoder: Bad load query: '%s'.", blackwelldb_query);
         // Fallthrough
     case -1:
         os_free(lf->data);
@@ -363,7 +363,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
     }
 
     if(check_sum = wstr_chr(response, ' '), !check_sum) {
-        merror("FIM decoder: Bad response: '%s' '%s'.", wazuhdb_query, response);
+        merror("FIM decoder: Bad response: '%s' '%s'.", blackwelldb_query, response);
         goto exit_fail;
     }
     *(check_sum++) = '\0';
@@ -372,7 +372,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
         goto exit_fail;
     }
 
-    //extract changes and date_alert fields only available from wazuh_db
+    //extract changes and date_alert fields only available from blackwell_db
     sk_decode_extradata(&oldsum, check_sum);
 
     os_strdup(check_sum, old_check_sum);
@@ -393,7 +393,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
         goto exit_ok;
     }
 
-    wazuhdb_query[0] = '\0';
+    blackwelldb_query[0] = '\0';
     switch (decode_newsum) {
         case 1: // File deleted
             os_strdup(SYSCHECK_EVENT_STRINGS[FIM_DELETED], lf->fields[FIM_EVENT_TYPE].value);
@@ -404,16 +404,16 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
                 goto exit_ok;
             }
 
-            snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck delete %s",
+            snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck delete %s",
                     lf->agent_id,
                     f_name
             );
 
-            db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+            db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
             switch (db_result) {
             case -2:
-                merror("FIM decoder: Bad delete query: '%s'.", wazuhdb_query);
+                merror("FIM decoder: Bad delete query: '%s'.", blackwelldb_query);
                 // Fallthrough
             case -1:
                 goto exit_fail;
@@ -454,7 +454,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
             // We need to escape the checksum because it will have
             // spaces if the event comes from Windows
             char *checksum_esc = wstr_replace(new_check_sum, " ", "\\ ");
-            snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck save %s %s!%d:%ld:%s %s",
+            snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck save %s %s!%d:%ld:%s %s",
                     lf->agent_id,
                     *ttype,
                     checksum_esc,
@@ -465,11 +465,11 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
             );
             os_free(sym_path);
             os_free(checksum_esc);
-            db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+            db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
             switch (db_result) {
             case -2:
-                merror("FIM decoder: Bad save/update query: '%s'.", wazuhdb_query);
+                merror("FIM decoder: Bad save/update query: '%s'.", blackwelldb_query);
                 // Fallthrough
             case -1:
                 goto exit_fail;
@@ -532,7 +532,7 @@ int fim_db_search(char *f_name, char *c_sum, char *w_sum, Eventinfo *lf, _sdb *s
         os_free(response);
         os_free(new_check_sum);
         os_free(old_check_sum);
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
 
         return (1);
     } else {
@@ -545,7 +545,7 @@ exit_ok:
     os_free(response);
     os_free(new_check_sum);
     os_free(old_check_sum);
-    os_free(wazuhdb_query);
+    os_free(blackwelldb_query);
     return (0);
 
 exit_fail:
@@ -554,7 +554,7 @@ exit_fail:
     os_free(response);
     os_free(new_check_sum);
     os_free(old_check_sum);
-    os_free(wazuhdb_query);
+    os_free(blackwelldb_query);
     return (-1);
 }
 
@@ -896,7 +896,7 @@ int fim_check_changes (int saved_frequency, long saved_time, Eventinfo *lf) {
 }
 
 int fim_control_msg(char *key, time_t value, Eventinfo *lf, _sdb *sdb) {
-    char *wazuhdb_query = NULL;
+    char *blackwelldb_query = NULL;
     char *response = NULL;
     char *msg = NULL;
     int db_result;
@@ -936,23 +936,23 @@ int fim_control_msg(char *key, time_t value, Eventinfo *lf, _sdb *sdb) {
     }
 
     if (*msg != '\0') {
-        os_calloc(OS_SIZE_6144 + 1, sizeof(char), wazuhdb_query);
+        os_calloc(OS_SIZE_6144 + 1, sizeof(char), blackwelldb_query);
 
-        snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck scan_info_update %s %ld",
+        snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck scan_info_update %s %ld",
                 lf->agent_id,
                 msg,
                 (long int)value
         );
 
         os_calloc(OS_SIZE_6144, sizeof(char), response);
-        db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+        db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
         switch (db_result) {
         case -2:
-            merror("FIM decoder: Bad result from scan_info query: '%s'.", wazuhdb_query);
+            merror("FIM decoder: Bad result from scan_info query: '%s'.", blackwelldb_query);
             // Fallthrough
         case -1:
-            os_free(wazuhdb_query);
+            os_free(blackwelldb_query);
             os_free(response);
             os_free(msg);
             return db_result;
@@ -986,19 +986,19 @@ int fim_control_msg(char *key, time_t value, Eventinfo *lf, _sdb *sdb) {
 
         // Start scan 3rd_check=2nd_check 2nd_check=1st_check 1st_check=value
         if (strcmp(key, HC_FIM_DB_SFS) == 0) {
-            snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck control %ld",
+            snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck control %ld",
                     lf->agent_id,
                     (long int)value
             );
 
-            db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+            db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
             switch (db_result) {
             case -2:
-                merror("FIM decoder: Bad result from checks control query: '%s'.", wazuhdb_query);
+                merror("FIM decoder: Bad result from checks control query: '%s'.", blackwelldb_query);
                 // Fallthrough
             case -1:
-                os_free(wazuhdb_query);
+                os_free(blackwelldb_query);
                 os_free(response);
                 os_free(msg);
                 return db_result;
@@ -1010,7 +1010,7 @@ int fim_control_msg(char *key, time_t value, Eventinfo *lf, _sdb *sdb) {
             fim_database_clean(lf, sdb);
         }
 
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
         os_free(response);
         os_free(msg);
         return (1);
@@ -1021,91 +1021,91 @@ int fim_control_msg(char *key, time_t value, Eventinfo *lf, _sdb *sdb) {
 }
 
 int fim_update_date (char *file, Eventinfo *lf, _sdb *sdb) {
-    char *wazuhdb_query = NULL;
+    char *blackwelldb_query = NULL;
     char *response = NULL;
     int db_result;
 
-    os_calloc(OS_SIZE_6144 + 1, sizeof(char), wazuhdb_query);
+    os_calloc(OS_SIZE_6144 + 1, sizeof(char), blackwelldb_query);
 
-    snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck updatedate %s",
+    snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck updatedate %s",
             lf->agent_id,
             file
     );
 
     os_calloc(OS_SIZE_6144, sizeof(char), response);
-    db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+    db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
     switch (db_result) {
     case -2:
-        merror("FIM decoder: Bad result updating date field: '%s'.", wazuhdb_query);
+        merror("FIM decoder: Bad result updating date field: '%s'.", blackwelldb_query);
         // Fallthrough
     case -1:
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
         os_free(response);
         return (-1);
     }
 
     mdebug2("FIM Agent '%s' file %s update timestamp for last event", lf->agent_id, file);
 
-    os_free(wazuhdb_query);
+    os_free(blackwelldb_query);
     os_free(response);
     return (1);
 }
 
 int fim_database_clean (Eventinfo *lf, _sdb *sdb) {
     // If any entry has a date less than last_check it should be deleted.
-    char *wazuhdb_query = NULL;
+    char *blackwelldb_query = NULL;
     char *response = NULL;
     int db_result;
 
-    os_calloc(OS_SIZE_6144 + 1, sizeof(char), wazuhdb_query);
+    os_calloc(OS_SIZE_6144 + 1, sizeof(char), blackwelldb_query);
 
-    snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck cleandb ",
+    snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck cleandb ",
             lf->agent_id
     );
 
     os_calloc(OS_SIZE_6144, sizeof(char), response);
-    db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+    db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
     switch (db_result) {
     case -2:
-        merror("FIM decoder: Bad result from cleandb query: '%s'.", wazuhdb_query);
+        merror("FIM decoder: Bad result from cleandb query: '%s'.", blackwelldb_query);
         // Fallthrough
     case -1:
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
         os_free(response);
         return (-1);
     }
 
     mdebug2("Agent '%s' FIM database has been cleaned", lf->agent_id);
 
-    os_free(wazuhdb_query);
+    os_free(blackwelldb_query);
     os_free(response);
     return (1);
 
 }
 
 int fim_get_scantime (long *ts, Eventinfo *lf, _sdb *sdb, const char* param) {
-    char *wazuhdb_query = NULL;
+    char *blackwelldb_query = NULL;
     char *response = NULL;
     char *output;
     int db_result;
 
-    os_calloc(OS_SIZE_6144 + 1, sizeof(char), wazuhdb_query);
+    os_calloc(OS_SIZE_6144 + 1, sizeof(char), blackwelldb_query);
 
-    snprintf(wazuhdb_query, OS_SIZE_6144, "agent %s syscheck scan_info_get %s",
+    snprintf(blackwelldb_query, OS_SIZE_6144, "agent %s syscheck scan_info_get %s",
             lf->agent_id, param
     );
 
     os_calloc(OS_SIZE_6144, sizeof(char), response);
-    db_result = wdbc_query_ex(&sdb->socket, wazuhdb_query, response, OS_SIZE_6144);
+    db_result = wdbc_query_ex(&sdb->socket, blackwelldb_query, response, OS_SIZE_6144);
 
     switch (db_result) {
     case -2:
-        merror("FIM decoder: Bad result getting scan date '%s'.", wazuhdb_query);
+        merror("FIM decoder: Bad result getting scan date '%s'.", blackwelldb_query);
         // Fallthrough
     case -1:
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
         os_free(response);
         return (-1);
     }
@@ -1114,7 +1114,7 @@ int fim_get_scantime (long *ts, Eventinfo *lf, _sdb *sdb, const char* param) {
 
     if (!output) {
         merror("FIM decoder: Bad formatted response '%s'", response);
-        os_free(wazuhdb_query);
+        os_free(blackwelldb_query);
         os_free(response);
         return (-1);
     }
@@ -1124,7 +1124,7 @@ int fim_get_scantime (long *ts, Eventinfo *lf, _sdb *sdb, const char* param) {
 
     mdebug2("Agent '%s' FIM %s '%ld'", lf->agent_id, param, *ts);
 
-    os_free(wazuhdb_query);
+    os_free(blackwelldb_query);
     os_free(response);
     return (1);
 }
@@ -1878,7 +1878,7 @@ void fim_adjust_checksum(sk_sum_t *newsum, char **checksum) {
 
         // We need to escape the character ':' from the permissions
         //because we are going to compare against escaped permissions
-        // sent by wazuh-db
+        // sent by blackwell-db
         char *esc_perms = wstr_replace(newsum->win_perm, ":", "\\:");
         wm_strcat(checksum, esc_perms, 0);
         free(esc_perms);

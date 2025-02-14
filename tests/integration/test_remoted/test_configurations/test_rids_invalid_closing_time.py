@@ -1,23 +1,23 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Blackwell Inc.
+ Created by Blackwell, Inc. <info@blackwell.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
 import pytest
 
 from pathlib import Path
-from wazuh_testing.constants.paths.configurations import WAZUH_CONF_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
+from blackwell_testing.constants.paths.configurations import BLACKWELL_CONF_PATH
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
-from wazuh_testing.modules.remoted import patterns
-from wazuh_testing.modules.api import utils
+from blackwell_testing.modules.remoted.configuration import REMOTED_DEBUG
+from blackwell_testing.modules.remoted import patterns
+from blackwell_testing.modules.api import utils
 
 import sys
 from sys import stderr
@@ -39,10 +39,10 @@ local_internal_options = {REMOTED_DEBUG: '2'}
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_rids_closing_time_invalid(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, restart_wazuh_expect_error, capsys):
+                            set_blackwell_configuration, restart_blackwell_expect_error, capsys):
 
     '''
-    description: Check if 'wazuh-remoted' fails when an invalid 'rids_closing_time' value is set. For this purpose,
+    description: Check if 'blackwell-remoted' fails when an invalid 'rids_closing_time' value is set. For this purpose,
                  it uses the configuration from test cases and check if the warning has been logged.
 
     parameters:
@@ -57,17 +57,17 @@ def test_rids_closing_time_invalid(test_configuration, test_metadata, configure_
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
+            brief: Configure the Blackwell local internal options using the values from `local_internal_options`.
         - daemons_handler:
             type: fixture
             brief: Starts/Restarts the daemons indicated in `daemons_handler_configuration` before each test,
                    once the test finishes, stops the daemons.
-        - restart_wazuh_expect_error
+        - restart_blackwell_expect_error
             type: fixture
             brief: Restart service when expected error is None, once the test finishes stops the daemons.
     '''
 
-    log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     log_monitor.start(callback=generate_callback(patterns.WARNING_INVALID_VALUE_FOR, replacement={"option": 'rids_closing_time'}))
     assert log_monitor.callback_result

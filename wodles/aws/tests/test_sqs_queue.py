@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '.'))
 import aws_utils as utils
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-import wazuh_integration
+import blackwell_integration
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'subscribers'))
 import sqs_queue
@@ -25,13 +25,13 @@ SAMPLE_MESSAGE = {"handle": SAMPLE_RAW_MESSAGE['Messages'][0]['ReceiptHandle']}
 SAMPLE_URL = "sqs-test-url.com"
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.get_client')
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.get_client')
 @patch('s3_log_handler.AWSS3LogHandler.__init__', return_value=None)
 @patch('sqs_message_processor.AWSQueueMessageProcessor.__init__')
 @patch('sqs_queue.AWSSQSQueue._get_sqs_url')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effet=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_initializes_properly(mock_wazuh_integration, mock_get_sqs_url, mock_message_processor,
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effet=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_initializes_properly(mock_blackwell_integration, mock_get_sqs_url, mock_message_processor,
                                             mock_bucket_log_handler_init, mock_client, mock_sts_client):
     """Test if the instances of AWSSQSQueue are created properly."""
     mock_sts_client.return_value = mock_client
@@ -44,7 +44,7 @@ def test_aws_sqs_queue_initializes_properly(mock_wazuh_integration, mock_get_sqs
     integration = sqs_queue.AWSSQSQueue(message_processor=mock_message_processor,
                                         bucket_handler=mock_bucket_log_handler_init,
                                         **kwargs)
-    mock_wazuh_integration.assert_called_with(integration,
+    mock_blackwell_integration.assert_called_with(integration,
                                               access_key=None, secret_key=None,
                                               iam_role_arn=kwargs["iam_role_arn"],
                                               profile=None,
@@ -63,9 +63,9 @@ def test_aws_sqs_queue_initializes_properly(mock_wazuh_integration, mock_get_sqs
 
 
 @patch('sqs_queue.AWSSQSQueue._get_sqs_url', return_value=SAMPLE_URL)
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_delete_message(mock_wazuh_integration, mock_sts_client, mock_get_url):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_delete_message(mock_blackwell_integration, mock_sts_client, mock_get_url):
     """Test 'delete_message' method sends the given message to SQS."""
     instance = utils.get_mocked_aws_sqs_queue()
     instance.delete_message(SAMPLE_MESSAGE)
@@ -73,9 +73,9 @@ def test_aws_sqs_queue_delete_message(mock_wazuh_integration, mock_sts_client, m
     instance.client.delete_message.assert_called_with(QueueUrl=SAMPLE_URL, ReceiptHandle=SAMPLE_MESSAGE["handle"])
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_delete_message_handles_exception_when_deleting_message(mock_wazuh_integration, mock_sts_client):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_delete_message_handles_exception_when_deleting_message(mock_blackwell_integration, mock_sts_client):
     """Test 'delete_message' handles exceptions raised when trying to delete a message from SQS."""
     instance = utils.get_mocked_aws_sqs_queue()
     instance.client.delete_message.side_effect = Exception
@@ -86,9 +86,9 @@ def test_aws_sqs_queue_delete_message_handles_exception_when_deleting_message(mo
 
 
 @patch('sqs_queue.AWSSQSQueue._get_sqs_url', return_value=SAMPLE_URL)
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_fetch_messages(mock_wazuh_integration, mock_sts_client, mock_get_url):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_fetch_messages(mock_blackwell_integration, mock_sts_client, mock_get_url):
     """Test 'fetch_messages' method retrieves one or more messages from the specified queue."""
     instance = utils.get_mocked_aws_sqs_queue()
     mock_receive = instance.client.receive_message
@@ -101,9 +101,9 @@ def test_aws_sqs_queue_fetch_messages(mock_wazuh_integration, mock_sts_client, m
     assert type(raw_messages) is dict
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_fetch_messages_handles_exception_when_getting_messages(mock_wazuh_integration, mock_sts_client):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_fetch_messages_handles_exception_when_getting_messages(mock_blackwell_integration, mock_sts_client):
     """Test 'fetch_messages' handles exceptions raised when trying to retrieve messages from SQS."""
     instance = utils.get_mocked_aws_sqs_queue()
 
@@ -116,9 +116,9 @@ def test_aws_sqs_queue_fetch_messages_handles_exception_when_getting_messages(mo
 
 
 @patch('sqs_queue.AWSSQSQueue.fetch_messages', return_value=SAMPLE_RAW_MESSAGE)
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_get_messages(mock_wazuh_integration, mock_sts_client, mock_fetch):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_get_messages(mock_blackwell_integration, mock_sts_client, mock_fetch):
     """Test 'get_messages' method returns parsed messages."""
     instance = utils.get_mocked_aws_sqs_queue()
     mocked_processor_extract = instance.message_processor.extract_message_info
@@ -126,9 +126,9 @@ def test_aws_sqs_queue_get_messages(mock_wazuh_integration, mock_sts_client, moc
     mocked_processor_extract.assert_called_with(SAMPLE_RAW_MESSAGE['Messages'])
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_sqs_queue_sync_events(mock_wazuh_integration, mock_sts_client):
+@patch('blackwell_integration.BlackwellIntegration.get_sts_client')
+@patch('blackwell_integration.BlackwellIntegration.__init__', side_effect=blackwell_integration.BlackwellIntegration.__init__)
+def test_aws_sqs_queue_sync_events(mock_blackwell_integration, mock_sts_client):
     """Test 'sync_events' method gets messages from the SQS queue, sends them to AnalysisD
     and deletes from the queue until it is empty."""
     instance = utils.get_mocked_aws_sqs_queue()

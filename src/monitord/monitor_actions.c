@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -11,7 +11,7 @@
 #include "shared.h"
 #include "monitord.h"
 #include "read-agents.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
 
 static int mon_send_agent_msg(char *agent, char *msg);
 int sock = -1;
@@ -108,7 +108,7 @@ void monitor_agents_alert(){
                     }
                 }
         } else {
-            mdebug1("Unable to retrieve agent's '%s' data from Wazuh DB", agent_hash_node->key);
+            mdebug1("Unable to retrieve agent's '%s' data from Blackwell DB", agent_hash_node->key);
             OSHash_Delete(agents_to_alert_hash, agent_hash_node->key);
         }
         cJSON_Delete(j_agent_info);
@@ -151,7 +151,7 @@ void monitor_agents_deletion(){
                     cJSON_Delete(j_agent_info);
                 }
             } else {
-                mdebug1("Unable to retrieve agent's '%d' data from Wazuh DB", agents_array[i]);
+                mdebug1("Unable to retrieve agent's '%d' data from Blackwell DB", agents_array[i]);
                 snprintf(str_agent_id, 12, "%d", agents_array[i]);
                 OSHash_Delete(agents_to_alert_hash, str_agent_id);
             }

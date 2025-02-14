@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 #
 # Example:
@@ -22,7 +22,7 @@ from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy.sql.expression import select
 
 import const
-import wazuh.core.utils as core_utils
+import blackwell.core.utils as core_utils
 
 Base = declarative_base()
 
@@ -769,7 +769,7 @@ def main(database=None):
     # User and group permissions
     os.chmod(database, 0o660)
     uid = pwd.getpwnam("root").pw_uid
-    gid = grp.getgrnam("wazuh").gr_gid
+    gid = grp.getgrnam("blackwell").gr_gid
     os.chown(database, uid, gid)
 
 

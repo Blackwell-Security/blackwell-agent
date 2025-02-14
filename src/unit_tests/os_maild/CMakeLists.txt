@@ -18,10 +18,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_MAILD_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_MAILD_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 # Include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate tests
 list(APPEND os_maild_names "test_printtable")
@@ -37,8 +37,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${os_maild_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_MAILD_O
         ${TEST_DEPS}
     )

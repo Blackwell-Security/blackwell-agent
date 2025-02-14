@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -8,11 +8,11 @@
  * Foundation
  */
 
-#if defined(Darwin) || (defined(__linux__) && defined(WAZUH_UNIT_TESTING))
+#if defined(Darwin) || (defined(__linux__) && defined(BLACKWELL_UNIT_TESTING))
 #include "macos_log.h"
 
 /* Removes STATIC/INLINE qualifiers from the tests */
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 #define STATIC
 #define INLINE
 #else

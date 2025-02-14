@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -7,18 +7,18 @@ from unittest.mock import call, ANY, patch, MagicMock
 
 import pytest
 
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
-        from wazuh.tests.util import RBAC_bypasser
+with patch('blackwell.core.common.blackwell_uid'):
+    with patch('blackwell.core.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
+        from blackwell.tests.util import RBAC_bypasser
 
-        del sys.modules['wazuh.rbac.orm']
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
 
         import scripts.agent_upgrade as agent_upgrade
-        from wazuh.core.exception import WazuhError, WazuhInternalError
-        from wazuh.core.results import AffectedItemsWazuhResult
+        from blackwell.core.exception import BlackwellError, BlackwellInternalError
+        from blackwell.core.results import AffectedItemsBlackwellResult
 
 
 @patch('scripts.agent_upgrade.exit')
@@ -35,7 +35,7 @@ def test_get_script_arguments(mock_ArgumentParser):
     mock_ArgumentParser.return_value.add_argument.assert_has_calls([
         call('-a', '--agents', nargs='+', help='Agent IDs to upgrade.'),
         call('-r', '--repository', type=str, help='Specify a repository URL. [Default: packages.wazuh.com/4.x/wpk/]'),
-        call('-v', '--version', type=str, help='Version to upgrade. [Default: latest Wazuh version]'),
+        call('-v', '--version', type=str, help='Version to upgrade. [Default: latest Blackwell version]'),
         call('-F', '--force', action='store_true', help='Forces the agents to upgrade, ignoring version validations.'),
         call('-s', '--silent', action='store_true', help='Do not show output.'),
         call('-l', '--list_outdated', action='store_true', help='Generates a list with all outdated agents.'),
@@ -47,7 +47,7 @@ def test_get_script_arguments(mock_ArgumentParser):
 
 
 @pytest.mark.parametrize('api_response, total_affected_items', [
-    ({'version': 'Wazuh v4.2.1', 'id': '002', 'name': 'test'}, 1),
+    ({'version': 'Blackwell v4.2.1', 'id': '002', 'name': 'test'}, 1),
     ({}, 0)
 ])
 def test_list_outdated(capfd, api_response, total_affected_items):
@@ -60,11 +60,11 @@ def test_list_outdated(capfd, api_response, total_affected_items):
     total_affected_items : int
         Number of affected items.
     """
-    result = AffectedItemsWazuhResult()
+    result = AffectedItemsBlackwellResult()
     result.affected_items = [api_response]
     result.total_affected_items = total_affected_items
 
-    with patch('wazuh.agent.get_outdated_agents', return_value=result):
+    with patch('blackwell.agent.get_outdated_agents', return_value=result):
         agent_upgrade.list_outdated()
         out, err = capfd.readouterr()
         if total_affected_items:
@@ -207,11 +207,11 @@ async def test_main_ko(capfd):
     agent_upgrade.args = MagicMock()
     agent_upgrade.args.list_outdated = ['001']
 
-    with patch('scripts.agent_upgrade.list_outdated', side_effect=WazuhError(1000)):
-        with pytest.raises(WazuhError, match='.* 1000 .*'):
+    with patch('scripts.agent_upgrade.list_outdated', side_effect=BlackwellError(1000)):
+        with pytest.raises(BlackwellError, match='.* 1000 .*'):
             await agent_upgrade.main()
         out, err = capfd.readouterr()
-        assert out == 'Error 1000: Wazuh Internal Error\n'
+        assert out == 'Error 1000: Blackwell Internal Error\n'
 
     with patch('scripts.agent_upgrade.list_outdated', side_effect=Exception):
         with pytest.raises(Exception):
@@ -224,10 +224,10 @@ async def test_main_internal_error_ko(capfd):
     """Check that the main function exits successfully when there's an internal error."""
     agent_upgrade.args = MagicMock()
     agent_upgrade.args.list_outdated = []
-    exc = WazuhInternalError(1816, 'Agent information not found in database')
+    exc = BlackwellInternalError(1816, 'Agent information not found in database')
 
     with patch('scripts.agent_upgrade.cluster_utils.forward_function', return_value=exc):
-        with pytest.raises(WazuhInternalError, match='.* 1816 .*'):
+        with pytest.raises(BlackwellInternalError, match='.* 1816 .*'):
             await agent_upgrade.main()
         out, err = capfd.readouterr()
         assert out == 'Internal error: Error 1816 - Agent information not found in database\n'

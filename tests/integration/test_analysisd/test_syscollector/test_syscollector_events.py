@@ -1,14 +1,14 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
 brief: These tests will check if the Syscollector events, which are processed by
-       the `wazuh-analysisd` daemon, generates appropriate alerts based on the
+       the `blackwell-analysisd` daemon, generates appropriate alerts based on the
        information contained in the delta.
 
 
@@ -21,7 +21,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -38,7 +38,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/syscollector.html\
+    - https://documentation.blackwell.com/current/user-manual/capabilities/syscollector.html\
         #using-syscollector-information-to-trigger-alerts
 '''
 import json
@@ -46,11 +46,11 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH
-from wazuh_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
-from wazuh_testing.modules.analysisd import utils, configuration as analysisd_config
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import configuration
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH
+from blackwell_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
+from blackwell_testing.modules.analysisd import utils, configuration as analysisd_config
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import configuration
 
 from . import TEST_CASES_PATH, RULES_SAMPLE_PATH
 
@@ -81,7 +81,7 @@ def test_syscollector_events(test_metadata, configure_local_internal_options, mo
     '''
     description: Check if Analysisd handle Syscollector deltas properly by generating alerts.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     tier: 2
 
@@ -91,7 +91,7 @@ def test_syscollector_events(test_metadata, configure_local_internal_options, mo
             brief: Test case metadata.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - mock_agent_module:
             type: fixture
             brief: Create mock agent and get agent_id.
@@ -100,7 +100,7 @@ def test_syscollector_events(test_metadata, configure_local_internal_options, mo
             brief: Copies custom rules_file before test, deletes after test.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - wait_for_analysisd_startup:
             type: fixture
             brief: Wait until analysisd is ready.

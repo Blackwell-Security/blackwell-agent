@@ -247,7 +247,7 @@ stages:
     request:
       <<: *all_roles_request
       params:
-        search: wazuh
+        search: blackwell
     response:
       status_code: 200
       json:
@@ -294,7 +294,7 @@ stages:
     request:
       <<: *all_roles_request
       params:
-        search: wazuh
+        search: blackwell
         noexist: True
     response:
       status_code: 400
@@ -571,7 +571,7 @@ stages:
       <<: *all_policies_request
       params:
         select: name
-        search: wazuh
+        search: blackwell
         limit: 2
     response:
       verify_response_with:
@@ -584,9 +584,9 @@ stages:
         error: 0
         data:
           affected_items:
-            - name: wazuhPolicy
+            - name: blackwellPolicy
               id: 100
-            - name: wazuh-wuiPolicy
+            - name: blackwell-wuiPolicy
               id: 101
           total_affected_items: 2
       save:
@@ -598,7 +598,7 @@ stages:
     request:
       <<: *all_policies_request
       params:
-        search: wazuh
+        search: blackwell
     response:
       status_code: 200
       json:
@@ -633,7 +633,7 @@ stages:
     request:
       <<: *all_policies_request
       params:
-        search: wazuh
+        search: blackwell
         noexist: True
     response:
       status_code: 400
@@ -994,7 +994,7 @@ stages:
     request:
       <<: *all_rules_request
       params:
-        search: wazuh
+        search: blackwell
         noexist: True
     response:
       status_code: 400
@@ -1128,7 +1128,7 @@ marks:
   - parametrize:
       key: field
       vals:
-        - wazuh-wui
+        - blackwell-wui
         - normal
 
 stages:
@@ -1147,12 +1147,12 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
               roles:
                 - 1
             - id: 2
-              username: wazuh-wui
+              username: blackwell-wui
               allow_run_as: true
               roles:
                 - 1
@@ -1226,7 +1226,7 @@ stages:
       params:
         limit: 1
         select: username
-        search: wazuh-wui
+        search: blackwell-wui
     response:
       verify_response_with:
         # Check response item keys are the selected keys
@@ -1239,7 +1239,7 @@ stages:
         data:
           affected_items:
             - id: 2
-              username: wazuh-wui
+              username: blackwell-wui
           total_affected_items: !anyint
           total_failed_items: 0
           failed_items: [ ]
@@ -1364,7 +1364,7 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
           failed_items:
             - error:
@@ -1387,9 +1387,9 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
             - id: 2
-              username: wazuh-wui
+              username: blackwell-wui
           failed_items:
             - error:
                 code: 5001
@@ -1419,7 +1419,7 @@ stages:
     request:
       <<: *all_users_request
       params:
-        search: "-wazuh"
+        search: "-blackwell"
     response:
       status_code: 200
       json:
@@ -1543,7 +1543,7 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
               roles:
                 - 1
@@ -1564,7 +1564,7 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
           failed_items: []
           total_affected_items: 1
           total_failed_items: 0
@@ -1722,7 +1722,7 @@ stages:
           node:id:
             description: Reference cluster nodes via node ID (i.e. node:id:worker1)
           decoder:file:
-            description: Reference decoder files via its path (i.e. decoder:file:0005-wazuh_decoders.xml)
+            description: Reference decoder files via its path (i.e. decoder:file:0005-blackwell_decoders.xml)
           list:file:
             description: Reference list files via its filename (i.e. list:file:audit-keys)
           rule:file:

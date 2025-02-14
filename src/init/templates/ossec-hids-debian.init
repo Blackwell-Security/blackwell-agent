@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Copyright (C) 2015, Wazuh Inc.
-# OSSEC         Controls Wazuh
+# Copyright (C) 2015, Blackwell Inc.
+# OSSEC         Controls Blackwell
 # Author:       Daniel B. Cid <dcid@ossec.net>
 # Modified for Debian by Michael Starks (patch by Costas Drogos)
 
@@ -13,24 +13,24 @@
 # Should-Stop:       $network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start and stop Wazuh
-# Description:       Controls Wazuh daemons
+# Short-Description: Start and stop Blackwell
+# Description:       Controls Blackwell daemons
 #
 ### END INIT INFO
 
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+BLACKWELL_HOME=BLACKWELL_HOME_TMP
+BLACKWELL_CONTROL="$BLACKWELL_HOME/bin/blackwell-control"
 
 start() {
-    ${WAZUH_CONTROL} start
+    ${BLACKWELL_CONTROL} start
 }
 
 stop() {
-    ${WAZUH_CONTROL} stop
+    ${BLACKWELL_CONTROL} stop
 }
 
 status() {
-    ${WAZUH_CONTROL} status
+    ${BLACKWELL_CONTROL} status
 }
 
 case "$1" in

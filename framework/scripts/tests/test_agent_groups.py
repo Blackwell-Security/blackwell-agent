@@ -1,21 +1,21 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
 import sys
 from unittest.mock import call, patch, MagicMock
 
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
-        from wazuh.tests.util import RBAC_bypasser
+with patch('blackwell.core.common.blackwell_uid'):
+    with patch('blackwell.core.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
+        from blackwell.tests.util import RBAC_bypasser
 
-        del sys.modules['wazuh.rbac.orm']
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
         from scripts import agent_groups
-        from wazuh import agent
+        from blackwell import agent
 
 
 @patch('scripts.agent_groups.exit')

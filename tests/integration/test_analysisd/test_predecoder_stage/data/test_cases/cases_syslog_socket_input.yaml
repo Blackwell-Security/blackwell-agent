@@ -3,7 +3,7 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module": "wazuh-logtest"},
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module": "blackwell-logtest"},
       "command": "log_processing", "parameters": {"location":"master->/var/log/syslog",
       "log_format": "syslog", "event": "Dec 29 10:00:01 linux-agent sshd[29205]: Invalid user blimey from
       18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -14,8 +14,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "2015 Dec 29 10:00:01 linux-agent sshd[29205]: Invalid user blimey from
       18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -26,8 +26,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "2009-05-22T09:36:46.214994-07:00 linux-agent sshd[29205]: Invalid user
       blimey from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -38,8 +38,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "2015-04-16 21:51:02,805 linux-agent sshd[29205]: Invalid user blimey
       from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -50,8 +50,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "Mon Apr 17 18:27:14 2006 1 64.160.42.130 linux-agent sshd[29205]:
       Invalid user blimey from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -62,8 +62,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "01/28-09:13:16.240702 linux-agent sshd[29205]: Invalid user blimey from
       18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -74,8 +74,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "01/28/1979-09:13:16.240702 linux-agent sshd[29205]: Invalid user blimey
       from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -86,8 +86,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "[Fri Feb 11 18:06:35 2004] [warn] linux-agent sshd[29205]: Invalid user
       blimey from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -98,8 +98,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "2021-04-21 10:16:09.404756-0700 linux-agent sshd[29205]: Invalid user
       blimey from 18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -110,8 +110,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "Mär 02 17:30:52 linux-agent sshd[29205]: Invalid user blimey from
       18.18.18.18 port 48928", "token": "21218e6b"}}
@@ -123,8 +123,8 @@
   configuration_parameters:
   metadata:
     input: >-
-      {"version": 1, "origin": {"name": "wazuh-logtest", "module":
-      "wazuh-logtest"}, "command": "log_processing", "parameters":
+      {"version": 1, "origin": {"name": "blackwell-logtest", "module":
+      "blackwell-logtest"}, "command": "log_processing", "parameters":
       {"location":"master->/var/log/syslog", "log_format": "syslog", "event":
       "2022-12-20T15:02:53.123+00:00 localhost sshd[25474]: Accepted password for
       rromero from 192.168.1.133 port 49765 ssh2", "token": "21218e6b"}}

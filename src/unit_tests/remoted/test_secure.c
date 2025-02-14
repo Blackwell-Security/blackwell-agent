@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,23 +18,23 @@
 #include "../../remoted/remoted.h"
 #include "../wrappers/common.h"
 #include "../wrappers/linux/socket_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_metadata_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_metadata_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/posix/stat_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
-#include "../wrappers/wazuh/shared/queue_linked_op_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/keys_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/msgs_wrappers.h"
-#include "../wrappers/wazuh/remoted/queue_wrappers.h"
-#include "../wrappers/wazuh/remoted/manager_wrappers.h"
-#include "../wrappers/wazuh/remoted/netbuffer_wrappers.h"
-#include "../wrappers/wazuh/remoted/netcounter_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/msgs_wrappers.h"
-#include "../wrappers/wazuh/remoted/state_wrappers.h"
-#include "../wrappers/wazuh/shared_modules/router_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
+#include "../wrappers/blackwell/shared/queue_linked_op_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/keys_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/msgs_wrappers.h"
+#include "../wrappers/blackwell/remoted/queue_wrappers.h"
+#include "../wrappers/blackwell/remoted/manager_wrappers.h"
+#include "../wrappers/blackwell/remoted/netbuffer_wrappers.h"
+#include "../wrappers/blackwell/remoted/netcounter_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/msgs_wrappers.h"
+#include "../wrappers/blackwell/remoted/state_wrappers.h"
+#include "../wrappers/blackwell/shared_modules/router_wrappers.h"
+#include "../wrappers/blackwell/shared/hash_op_wrappers.h"
 #include "../../remoted/secure.c"
 
 typedef struct test_agent_info {

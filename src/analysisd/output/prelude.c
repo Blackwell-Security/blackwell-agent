@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -9,7 +9,7 @@
  */
 
 /*
- * Wazuh to Prelude
+ * Blackwell to Prelude
  */
 
 #ifdef PRELUDE_OUTPUT_ENABLED
@@ -30,8 +30,8 @@
 #define ANALYZER_MANUFACTURER __site
 #define ANALYZER_VERSION __ossec_version
 
-/** Wazuh to prelude severity mapping. **/
-static const char *(wazuh2prelude_sev[]) = {"info", "info", "info", "info",
+/** Blackwell to prelude severity mapping. **/
+static const char *(blackwell2prelude_sev[]) = {"info", "info", "info", "info",
                                "low", "low", "low", "low",
                                "medium", "medium", "medium", "medium",
                                "high", "high", "high", "high", "high"
@@ -75,7 +75,7 @@ add_idmef_object(idmef_message_t *msg, const char *object, const char *value)
 
     ret = idmef_path_set(path, msg, val);
     if (ret < 0) {
-        merror("Wazuh2Prelude: IDMEF: Cannot add object '%s': %s.",
+        merror("Blackwell2Prelude: IDMEF: Cannot add object '%s': %s.",
                object, prelude_strerror(ret));
     }
 
@@ -118,7 +118,7 @@ setup_analyzer(idmef_analyzer_t *analyzer)
     return 0;
 
 err:
-    merror("Wazuh2Prelude: %s: IDMEF error: %s.",
+    merror("Blackwell2Prelude: %s: IDMEF error: %s.",
            prelude_strsource(ret), prelude_strerror(ret));
 
     return -1;
@@ -303,7 +303,7 @@ void OS_PreludeLog(const Eventinfo *lf)
     /* Generate prelude alert */
     ret = idmef_message_new(&idmef);
     if ( ret < 0 ) {
-        merror("Wazuh2Prelude: Cannot create IDMEF message");
+        merror("Blackwell2Prelude: Cannot create IDMEF message");
         return;
     }
 
@@ -312,7 +312,7 @@ void OS_PreludeLog(const Eventinfo *lf)
 
     add_idmef_object(idmef, "alert.assessment.impact.severity",
                      (lf->generated_rule->level > 15) ? "high" :
-                     wazuh2prelude_sev[lf->generated_rule->level]);
+                     blackwell2prelude_sev[lf->generated_rule->level]);
 
     add_idmef_object(idmef, "alert.assessment.impact.completion", "succeeded");
 
@@ -372,13 +372,13 @@ void OS_PreludeLog(const Eventinfo *lf)
             add_idmef_object(idmef, "alert.classification.reference(-1).meaning", _prelude_data);
         }
 
-        /* Check Wazuh rules for reference */
+        /* Check Blackwell rules for reference */
         if (lf->generated_rule->sigid) {
             add_idmef_object(idmef, "alert.classification.reference(>>).origin", "vendor-specific");
 
             snprintf(_prelude_data, 256, "Rule:%d", lf->generated_rule->sigid);
             add_idmef_object(idmef, "alert.classification.reference(-1).name", _prelude_data);
-            add_idmef_object(idmef, "alert.classification.reference(-1).meaning", "Wazuh Ruleset");
+            add_idmef_object(idmef, "alert.classification.reference(-1).meaning", "Blackwell Ruleset");
 
             snprintf(_prelude_data, 256, "https://github.com/wazuh/wazuh/tree/master/ruleset");
             add_idmef_object(idmef, "alert.classification.reference(-1).url", _prelude_data);
@@ -425,7 +425,7 @@ void OS_PreludeLog(const Eventinfo *lf)
 
         /* Break up the list of groups on the "," boundary
          * For each section create a prelude reference classification
-         * that points back to Wazuh ruleset for more infomation.
+         * that points back to Blackwell ruleset for more infomation.
          */
         if (lf->generated_rule->group) {
             char *copy_group;
@@ -439,7 +439,7 @@ void OS_PreludeLog(const Eventinfo *lf)
                 snprintf(_prelude_data, 256, "Group:%s", copy_group);
                 add_idmef_object(idmef, "alert.classification.reference(-1).name", _prelude_data);
 
-                add_idmef_object(idmef, "alert.classification.reference(-1).meaning", "Wazuh Ruleset");
+                add_idmef_object(idmef, "alert.classification.reference(-1).meaning", "Blackwell Ruleset");
 
                 snprintf(_prelude_data, 256, "https://github.com/wazuh/wazuh/tree/master/ruleset");
                 add_idmef_object(idmef, "alert.classification.reference(-1).url", _prelude_data);

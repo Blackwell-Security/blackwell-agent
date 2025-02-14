@@ -1,7 +1,7 @@
 #!/bin/bash
-# Program to build OSX wazuh-agent
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Program to build OSX blackwell-agent
+# Blackwell package generator
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -40,7 +40,7 @@ function build() {
     if [ "${MAKE_COMPILATION}" == "yes" ]; then
     make -C ${SOURCES_PATH}/src deps TARGET=agent
 
-    echo "Generating Wazuh executables"
+    echo "Generating Blackwell executables"
     make -j $BUILD_JOBS -C ${SOURCES_PATH}/src DYLD_FORCE_FLAT_NAMESPACE=1 DEBUG=$DEBUG TARGET=agent build
     fi
 

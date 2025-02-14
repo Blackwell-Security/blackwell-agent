@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -19,7 +19,7 @@
 #include "../../addagent/manage_agents.h"
 #include "../../headers/sec.h"
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 void keys_init(keystore *keys, key_mode_t key_mode, int save_removed) {
     /* Initialize hashes */

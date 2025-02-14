@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -9,14 +9,14 @@ from sys import exit
 
 
 @lru_cache(maxsize=None)
-def find_wazuh_path() -> str:
+def find_blackwell_path() -> str:
     """
-    Get the Wazuh installation path.
+    Get the Blackwell installation path.
 
     Returns
     -------
     str
-        Path where Wazuh is installed or empty string if there is no framework in the environment.
+        Path where Blackwell is installed or empty string if there is no framework in the environment.
     """
     abs_path = os.path.abspath(os.path.dirname(__file__))
     allparts = []
@@ -32,19 +32,19 @@ def find_wazuh_path() -> str:
             abs_path = parts[0]
             allparts.insert(0, parts[1])
 
-    wazuh_path = ''
+    blackwell_path = ''
     try:
         for i in range(0, allparts.index('wodles')):
-            wazuh_path = os.path.join(wazuh_path, allparts[i])
+            blackwell_path = os.path.join(blackwell_path, allparts[i])
     except ValueError:
         pass
 
-    return wazuh_path
+    return blackwell_path
 
 
-def call_wazuh_control(option: str) -> str:
+def call_blackwell_control(option: str) -> str:
     """
-    Execute the wazuh-control script with the parameters specified.
+    Execute the blackwell-control script with the parameters specified.
 
     Parameters
     ----------
@@ -54,89 +54,89 @@ def call_wazuh_control(option: str) -> str:
     Returns
     -------
     str
-        The output of the call to wazuh-control.
+        The output of the call to blackwell-control.
     """
-    wazuh_control = os.path.join(find_wazuh_path(), "bin", "wazuh-control")
+    blackwell_control = os.path.join(find_blackwell_path(), "bin", "blackwell-control")
     try:
-        proc = subprocess.Popen([wazuh_control, option], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([blackwell_control, option], stdout=subprocess.PIPE)
         (stdout, stderr) = proc.communicate()
         return stdout.decode()
     except (OSError, ChildProcessError):
-        print(f'ERROR: a problem occurred while executing {wazuh_control}')
+        print(f'ERROR: a problem occurred while executing {blackwell_control}')
         exit(1)
 
 
-def get_wazuh_info(field: str) -> str:
+def get_blackwell_info(field: str) -> str:
     """
-    Execute the wazuh-control script with the 'info' argument, filtering by field if specified.
+    Execute the blackwell-control script with the 'info' argument, filtering by field if specified.
 
     Parameters
     ----------
     field : str
-        The field of the output that's being requested. Its value can be 'WAZUH_VERSION', 'WAZUH_REVISION' or
-        'WAZUH_TYPE'.
+        The field of the output that's being requested. Its value can be 'BLACKWELL_VERSION', 'BLACKWELL_REVISION' or
+        'BLACKWELL_TYPE'.
 
     Returns
     -------
     str
-        The output of the wazuh-control script.
+        The output of the blackwell-control script.
     """
-    wazuh_info = call_wazuh_control("info")
-    if not wazuh_info:
+    blackwell_info = call_blackwell_control("info")
+    if not blackwell_info:
         return "ERROR"
 
     if not field:
-        return wazuh_info
+        return blackwell_info
 
-    env_variables = wazuh_info.rsplit("\n")
+    env_variables = blackwell_info.rsplit("\n")
     env_variables.remove("")
-    wazuh_env_vars = dict()
+    blackwell_env_vars = dict()
     for env_variable in env_variables:
         key, value = env_variable.split("=")
-        wazuh_env_vars[key] = value.replace("\"", "")
+        blackwell_env_vars[key] = value.replace("\"", "")
 
-    return wazuh_env_vars[field]
+    return blackwell_env_vars[field]
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_version() -> str:
+def get_blackwell_version() -> str:
     """
-    Return the version of Wazuh installed.
+    Return the version of Blackwell installed.
 
     Returns
     -------
     str
-        The version of Wazuh installed.
+        The version of Blackwell installed.
     """
-    return get_wazuh_info("WAZUH_VERSION")
+    return get_blackwell_info("BLACKWELL_VERSION")
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_revision() -> str:
+def get_blackwell_revision() -> str:
     """
-    Return the revision of the Wazuh instance installed.
+    Return the revision of the Blackwell instance installed.
 
     Returns
     -------
     str
-        The revision of the Wazuh instance installed.
+        The revision of the Blackwell instance installed.
     """
-    return get_wazuh_info("WAZUH_REVISION")
+    return get_blackwell_info("BLACKWELL_REVISION")
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_type() -> str:
+def get_blackwell_type() -> str:
     """
-    Return the type of Wazuh instance installed.
+    Return the type of Blackwell instance installed.
 
     Returns
     -------
     str
-        The type of Wazuh instance installed.
+        The type of Blackwell instance installed.
     """
-    return get_wazuh_info("WAZUH_TYPE")
+    return get_blackwell_info("BLACKWELL_TYPE")
 
 
-ANALYSISD = os.path.join(find_wazuh_path(), 'queue', 'sockets', 'queue')
+ANALYSISD = os.path.join(find_blackwell_path(), 'queue', 'sockets', 'queue')
 # Max size of the event that ANALYSISID can handle
 MAX_EVENT_SIZE = 65535

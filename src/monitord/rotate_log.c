@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * June 12, 2017.
  *
  * This program is free software; you can redistribute it
@@ -79,7 +79,7 @@ void w_rotate_log(int compress, int keep_log_days, int new_day, int rotate_json,
     // /var/ossec/logs/ossec.json
     snprintf(old_path_json, PATH_MAX, "%s", LOGJSONFILE);
     // /var/ossec/logs/ossec
-    snprintf(base_dir, PATH_MAX, "logs/wazuh");
+    snprintf(base_dir, PATH_MAX, "logs/blackwell");
 #endif
 
     os_snprintf(year_dir, PATH_MAX, "%s/%d", base_dir, tm.tm_year + 1900);

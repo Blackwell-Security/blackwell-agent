@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * May 04, 2022
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #define REM_MAX_NUM_AGENTS_STATS 150
 
 #include <stdint.h>
-#include "../wazuh_db/helpers/wdb_global_helpers.h"
+#include "../blackwell_db/helpers/wdb_global_helpers.h"
 
 /* Status structures */
 

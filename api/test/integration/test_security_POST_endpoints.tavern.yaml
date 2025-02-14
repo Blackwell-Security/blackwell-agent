@@ -1055,7 +1055,7 @@ stages:
 test_name: POST /security/user/authenticate/run_as
 
 stages:
-  - name: Log in with wazuh-wui and default rules and expect admin permissions (1/2)
+  - name: Log in with blackwell-wui and default rules and expect admin permissions (1/2)
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/security/user/authenticate/run_as"
@@ -1071,7 +1071,7 @@ stages:
         extra_kwargs:
           expected_roles: [1]
 
-  - name: Log in with wazuh-wui and default rules and expect admin permissions (2/2)
+  - name: Log in with blackwell-wui and default rules and expect admin permissions (2/2)
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/security/user/authenticate/run_as"
@@ -1087,7 +1087,7 @@ stages:
         extra_kwargs:
           expected_roles: [1]
 
-  - name: Log in with wazuh-wui and no matching rule
+  - name: Log in with blackwell-wui and no matching rule
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/security/user/authenticate/run_as"

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -13,7 +13,7 @@
 
 #define VERSION 1
 #ifndef ARGV0
-#define ARGV0 "wazuh-analysisd"
+#define ARGV0 "blackwell-analysisd"
 #endif
 
 /**

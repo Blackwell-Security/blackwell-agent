@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell content manager
+ * Copyright (C) 2015, Blackwell Inc.
  * June 21, 2023.
  *
  * This program is free software; you can redistribute it
@@ -74,7 +74,7 @@ class Monitoring final
             //     {
             //         "epoch": "1726271464",
             //         "timestamp": "23:51:04",
-            //         "cluster": "wazuh-cluster",
+            //         "cluster": "blackwell-cluster",
             //         "status": "green",
             //         "node.total": "1",
             //         "node.data": "1",

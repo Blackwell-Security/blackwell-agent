@@ -1,5 +1,5 @@
-# Copyright (C) 2023, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2023, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -34,10 +34,10 @@ alert_template = {
     'id': 'alert_id',
     'full_log': 'full log.',
     'decoder': {'name': 'decoder-name'},
-    'location': 'wazuh-X',
+    'location': 'blackwell-X',
 }
 
-options_template = {'client': 'Wazuh-X -- Alert generated'}
+options_template = {'client': 'Blackwell-X -- Alert generated'}
 
 msg_template = {
     'payload': {
@@ -48,7 +48,7 @@ msg_template = {
     },
     'routing_key': f'{apikey_pagerduty}',
     'event_action': 'trigger',
-    'client': 'Wazuh-X -- Alert generated',
+    'client': 'Blackwell-X -- Alert generated',
     'client_url': 'https://monitoring.example.com',
 }
 

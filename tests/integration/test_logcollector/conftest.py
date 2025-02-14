@@ -1,51 +1,51 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+           Created by Blackwell, Inc. <info@blackwell.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 '''
 import pytest
 
 from os.path import join as path_join
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.paths import WAZUH_PATH
-from wazuh_testing.constants.paths.configurations import WAZUH_CONF_PATH
-from wazuh_testing.constants.daemons import LOGCOLLECTOR_DAEMON
-from wazuh_testing.modules.logcollector.patterns import LOGCOLLECTOR_MODULE_START
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import callbacks, configuration
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.utils.file import truncate_file, replace_regex_in_file, write_json_file
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.paths import BLACKWELL_PATH
+from blackwell_testing.constants.paths.configurations import BLACKWELL_CONF_PATH
+from blackwell_testing.constants.daemons import LOGCOLLECTOR_DAEMON
+from blackwell_testing.modules.logcollector.patterns import LOGCOLLECTOR_MODULE_START
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils import callbacks, configuration
+from blackwell_testing.utils.services import control_service
+from blackwell_testing.utils.file import truncate_file, replace_regex_in_file, write_json_file
 
 # Logcollector internal paths
-LOGCOLLECTOR_OFE_PATH = path_join(WAZUH_PATH, 'queue', 'logcollector', 'file_status.json')
+LOGCOLLECTOR_OFE_PATH = path_join(BLACKWELL_PATH, 'queue', 'logcollector', 'file_status.json')
 
 @pytest.fixture()
 def stop_logcollector(request):
-    """Stop wazuh-logcollector and truncate logs file."""
+    """Stop blackwell-logcollector and truncate logs file."""
     control_service('stop', daemon=LOGCOLLECTOR_DAEMON)
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(BLACKWELL_LOG_PATH)
 
 
 @pytest.fixture()
 def wait_for_logcollector_start(request):
     # Wait for logcollector thread to start
-    log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
     log_monitor.start(callback=callbacks.generate_callback(LOGCOLLECTOR_MODULE_START))
     assert (log_monitor.callback_result != None), f'Error logcollector start event not detected'
 
 @pytest.fixture()
-def remove_all_localfiles_wazuh_config(request):
-    """Configure a custom settting for testing. Restart Wazuh is needed for applying the configuration. """
+def remove_all_localfiles_blackwell_config(request):
+    """Configure a custom settting for testing. Restart Blackwell is needed for applying the configuration. """
     # Backup the original configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_blackwell_conf()
 
     # Remove localfiles from the configuration
     list_tags = [r"<localfile>[\s\S]*?<\/localfile>"]
-    replace_regex_in_file(list_tags, [''] * len(list_tags), WAZUH_CONF_PATH, True)
+    replace_regex_in_file(list_tags, [''] * len(list_tags), BLACKWELL_CONF_PATH, True)
 
     yield
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_blackwell_conf(backup_config)
 
 
 @pytest.fixture()

@@ -1,8 +1,8 @@
 #!/bin/sh
 # postinstall script for Solaris VMs
-# Wazuh, Inc 2015
+# Blackwell, Inc 2015
 
-# install wazuh dependencies & some important packages
+# install blackwell dependencies & some important packages
 
 if [ "$(uname -v)" = "11.3" ]; then
   export PATH="${PATH}:/usr/sfw/bin:/opt/csw/bin"

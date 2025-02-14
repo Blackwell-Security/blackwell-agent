@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import csv
@@ -22,7 +22,7 @@ sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
 import aws_tools
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
-import wazuh_integration
+import blackwell_integration
 
 
 class AWSS3LogHandler:
@@ -39,7 +39,7 @@ class AWSS3LogHandler:
         Returns
         -------
         list[dict]
-            List of extracted events to send to Wazuh.
+            List of extracted events to send to Blackwell.
         """
         raise NotImplementedError
 
@@ -54,7 +54,7 @@ class AWSS3LogHandler:
         raise NotImplementedError
 
 
-class AWSSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler):
+class AWSSubscriberBucket(blackwell_integration.BlackwellIntegration, AWSS3LogHandler):
     """Class for processing events from AWS S3 buckets.
 
     Attributes
@@ -65,7 +65,7 @@ class AWSSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler):
         IAM Role.
     """
     def __init__(self, service_endpoint: str = None, sts_endpoint: str = None, profile: str = None, **kwargs):
-        wazuh_integration.WazuhIntegration.__init__(self, access_key=None,
+        blackwell_integration.BlackwellIntegration.__init__(self, access_key=None,
                                                     secret_key=None,
                                                     profile=profile,
                                                     service_name='s3',
@@ -162,7 +162,7 @@ class AWSSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler):
         Returns
         -------
         list[dict]
-            List of extracted events to send to Wazuh.
+            List of extracted events to send to Blackwell.
         """
 
         with self.decompress_file(bucket, log_key=log_path) as f:
@@ -242,7 +242,7 @@ class AWSSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler):
             self.send_msg(msg)
 
 
-class AWSSLSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler):
+class AWSSLSubscriberBucket(blackwell_integration.BlackwellIntegration, AWSS3LogHandler):
     """Class for processing AWS Security Lake events from S3.
 
     Attributes
@@ -258,7 +258,7 @@ class AWSSLSubscriberBucket(wazuh_integration.WazuhIntegration, AWSS3LogHandler)
     """
 
     def __init__(self, service_endpoint: str = None, sts_endpoint: str = None, profile: str = None, **kwargs):
-        wazuh_integration.WazuhIntegration.__init__(self, access_key=None,
+        blackwell_integration.BlackwellIntegration.__init__(self, access_key=None,
                                                     secret_key=None,
                                                     profile=profile,
                                                     service_name='s3',
@@ -322,7 +322,7 @@ class AWSSecurityHubSubscriberBucket(AWSSubscriberBucket):
         details : dict
             Source dictionary containing the events from the log file.
         event : dict
-            Destination dictionary to be added to the event sent to Wazuh.
+            Destination dictionary to be added to the event sent to Blackwell.
         """
         fields = ['findings', 'actionName', 'actionDescription', 'actionDescription', 'insightName', 'insightArn',
                   'resultType', 'insightResults']
@@ -350,7 +350,7 @@ class AWSSecurityHubSubscriberBucket(AWSSubscriberBucket):
         Returns
         -------
         List[dict]
-            List of extracted events to send to Wazuh.
+            List of extracted events to send to Blackwell.
         """
         with self.decompress_file(bucket, log_key=log_path) as f:
             try:

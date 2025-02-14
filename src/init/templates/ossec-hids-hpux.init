@@ -1,34 +1,34 @@
 #!/bin/sh
 #
-# name: wazuh
-# purpose: Init script for Wazuh
-# Copyright (C) 2015, Wazuh Inc. <support@wazuh.com>
+# name: blackwell
+# purpose: Init script for Blackwell
+# Copyright (C) 2015, Blackwell Inc. <support@blackwell.com>
 #
 
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+BLACKWELL_HOME=BLACKWELL_HOME_TMP
+BLACKWELL_CONTROL="$BLACKWELL_HOME/bin/blackwell-control"
 
 case "$1" in
 start)
-    if [ -f "$WAZUH_CONTROL" ]; then
-        echo "Starting Wazuh"
-        ${WAZUH_CONTROL} start
+    if [ -f "$BLACKWELL_CONTROL" ]; then
+        echo "Starting Blackwell"
+        ${BLACKWELL_CONTROL} start
     fi
     ;;
 stop)
-    if [ -f "$WAZUH_CONTROL" ]; then
-        echo "Stopping Wazuh"
-        ${WAZUH_CONTROL} stop
+    if [ -f "$BLACKWELL_CONTROL" ]; then
+        echo "Stopping Blackwell"
+        ${BLACKWELL_CONTROL} stop
     fi
     ;;
 status)
-    if [ -f "$WAZUH_CONTROL" ]; then
-        ${WAZUH_CONTROL} status
+    if [ -f "$BLACKWELL_CONTROL" ]; then
+        ${BLACKWELL_CONTROL} status
     fi
     ;;
 restart)
-    if [ -f "$WAZUH_CONTROL" ]; then
-        ${WAZUH_CONTROL} restart
+    if [ -f "$BLACKWELL_CONTROL" ]; then
+        ${BLACKWELL_CONTROL} restart
     fi
     ;;
 *)

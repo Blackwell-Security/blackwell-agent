@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -7,10 +7,10 @@
  * Foundation
 */
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 #ifdef CLIENT
-#include "wazuh_modules/agent_upgrade/agent/wm_agent_upgrade_agent.h"
+#include "blackwell_modules/agent_upgrade/agent/wm_agent_upgrade_agent.h"
 
 static const char *XML_ENABLED = "enabled";
 static const char *XML_WAIT_START = "notification_wait_start";

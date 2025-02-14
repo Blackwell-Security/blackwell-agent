@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -12,7 +12,7 @@
 #include "../os_net/os_net.h"
 #include "remoted.h"
 #include "state.h"
-#include "../wazuh_db/helpers/wdb_global_helpers.h"
+#include "../blackwell_db/helpers/wdb_global_helpers.h"
 #include "router.h"
 #include "sym_load.h"
 #include "utils/flatbuffers/include/syscollector_synchronization_schema.h"
@@ -24,7 +24,7 @@ enum msg_type {
     MT_SYS_DELTAS,
     MT_SYS_SYNC,
 } msg_type_t;
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else
@@ -177,7 +177,7 @@ void HandleSecure()
         }
     }
 
-    // Reset all the agents' connection status in Wazuh DB
+    // Reset all the agents' connection status in Blackwell DB
     // The master will disconnect and alert the agents on its own DB. Thus, synchronization is not required.
     if (OS_SUCCESS != wdb_reset_agents_connection("synced", NULL))
         mwarn("Unable to reset the agents' connection status. Possible incorrect statuses until the agents get connected to the manager.");
@@ -468,7 +468,7 @@ STATIC void * close_fp_main(void * args) {
             }
         }
         key_unlock();
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef BLACKWELL_UNIT_TESTING
         break;
     #endif
     }

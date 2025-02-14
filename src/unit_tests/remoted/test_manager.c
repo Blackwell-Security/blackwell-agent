@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,18 +14,18 @@
 #include <stdio.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/os_crypto/sha256_op_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/shared/agent_op_wrappers.h"
-#include "../wrappers/wazuh/remoted/shared_download_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/sha256_op_wrappers.h"
+#include "../wrappers/blackwell/shared/hash_op_wrappers.h"
+#include "../wrappers/blackwell/shared/agent_op_wrappers.h"
+#include "../wrappers/blackwell/remoted/shared_download_wrappers.h"
 #include "../wrappers/posix/dirent_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
-#include "../wrappers/wazuh/remoted/request_wrappers.h"
-#include "../wrappers/wazuh/remoted/remoted_op_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_global_helpers_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
+#include "../wrappers/blackwell/remoted/request_wrappers.h"
+#include "../wrappers/blackwell/remoted/remoted_op_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_global_helpers_wrappers.h"
+#include "../wrappers/blackwell/shared/hash_op_wrappers.h"
 
-#include "../wazuh_db/wdb.h"
+#include "../blackwell_db/wdb.h"
 #include "../remoted/remoted.h"
 #include "../remoted/shared_download.h"
 #include "../../remoted/manager.c"
@@ -546,7 +546,7 @@ void test_lookfor_agent_group_with_group()
 {
     const int agent_id = 1;
     const char agent_id_str[] = "001";
-    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Wazuh v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
+    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Blackwell v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
     char *r_group = NULL;
     char *test_group = strdup("TESTGROUP");
 
@@ -566,7 +566,7 @@ void test_lookfor_agent_group_set_default_group()
 {
     const int agent_id = 1;
     const char agent_id_str[] = "001";
-    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Wazuh v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
+    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Blackwell v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
     char *r_group = NULL;
 
     expect_value(__wrap_wdb_get_agent_group, id, agent_id);
@@ -596,7 +596,7 @@ void test_lookfor_agent_group_set_group_worker()
 {
     const int agent_id = 1;
     const char agent_id_str[] = "001";
-    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Wazuh v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
+    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Blackwell v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
     char *r_group = NULL;
 
     cJSON *input = cJSON_CreateObject();
@@ -654,7 +654,7 @@ void test_lookfor_agent_group_set_group_worker_error()
 {
     const int agent_id = 1;
     const char agent_id_str[] = "001";
-    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Wazuh v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
+    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Blackwell v4.2.0 / ab73af41699f13fdd81903b5f23d8d00\nc2305e0ac17e7176e924294c69cc7a24 merged.mg\n#\"_agent_ip\":10.0.2.4";
     char *r_group = NULL;
 
     cJSON *input = cJSON_CreateObject();
@@ -712,7 +712,7 @@ void test_lookfor_agent_group_msg_without_enter()
 {
     const int agent_id = 2;
     const char agent_id_str[] = "002";
-    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Wazuh v4.2.0 / ab73af41699f13fdd81903b5f23d8d00c2305e0ac17e7176e924294c69cc7a24 merged.mg";
+    char *msg = "Linux |localhost.localdomain |4.18.0-240.22.1.el8_3.x86_64 |#1 SMP Thu Apr 8 19:01:30 UTC 2021 |x86_64 [CentOS Linux|centos: 8.3] - Blackwell v4.2.0 / ab73af41699f13fdd81903b5f23d8d00c2305e0ac17e7176e924294c69cc7a24 merged.mg";
     char *r_group = NULL;
 
     expect_value(__wrap_wdb_get_agent_group, id, agent_id);
@@ -4639,10 +4639,10 @@ void test_save_controlmsg_agent_invalid_version(void **state)
 
     expect_string(__wrap__mdebug1, formatted_msg, "Agent NEW_AGENT sent HC_STARTUP from ''");
 
-    expect_string(__wrap_compare_wazuh_versions, version1, "v4.5.0");
-    expect_string(__wrap_compare_wazuh_versions, version2, "v4.6.0");
-    expect_value(__wrap_compare_wazuh_versions, compare_patch, false);
-    will_return(__wrap_compare_wazuh_versions, -1);
+    expect_string(__wrap_compare_blackwell_versions, version1, "v4.5.0");
+    expect_string(__wrap_compare_blackwell_versions, version2, "v4.6.0");
+    expect_value(__wrap_compare_blackwell_versions, compare_patch, false);
+    will_return(__wrap_compare_blackwell_versions, -1);
 
     expect_string(__wrap__mdebug2, formatted_msg, "Unable to connect agent: '001': 'Incompatible version'");
 
@@ -5062,10 +5062,10 @@ void test_save_controlmsg_startup(void **state)
 
     expect_string(__wrap__mdebug1, formatted_msg, "Agent NEW_AGENT sent HC_STARTUP from ''");
 
-    expect_string(__wrap_compare_wazuh_versions, version1, "v4.5.0");
-    expect_string(__wrap_compare_wazuh_versions, version2, "v4.5.0");
-    expect_value(__wrap_compare_wazuh_versions, compare_patch, false);
-    will_return(__wrap_compare_wazuh_versions, 0);
+    expect_string(__wrap_compare_blackwell_versions, version1, "v4.5.0");
+    expect_string(__wrap_compare_blackwell_versions, version2, "v4.5.0");
+    expect_value(__wrap_compare_blackwell_versions, compare_patch, false);
+    will_return(__wrap_compare_blackwell_versions, 0);
 
     expect_function_call(__wrap_OSHash_Create);
     will_return(__wrap_OSHash_Create, 1);
@@ -5137,7 +5137,7 @@ void test_save_controlmsg_shutdown(void **state)
     expect_string(__wrap_wdb_update_agent_connection_status, sync_status, "synced");
     will_return(__wrap_wdb_update_agent_connection_status, OS_SUCCESS);
 
-    expect_string(__wrap_SendMSG, message, "1:wazuh-remoted:ossec: Agent stopped: 'NEW_AGENT->10.2.2.5'.");
+    expect_string(__wrap_SendMSG, message, "1:blackwell-remoted:ossec: Agent stopped: 'NEW_AGENT->10.2.2.5'.");
     expect_string(__wrap_SendMSG, locmsg, "[001] (NEW_AGENT) 10.2.2.5");
     expect_any(__wrap_SendMSG, loc);
     will_return(__wrap_SendMSG, -1);
@@ -5151,7 +5151,7 @@ void test_save_controlmsg_shutdown(void **state)
 
     expect_string(__wrap__minfo, formatted_msg, "Successfully reconnected to 'queue/sockets/queue'");
 
-    expect_string(__wrap_SendMSG, message, "1:wazuh-remoted:ossec: Agent stopped: 'NEW_AGENT->10.2.2.5'.");
+    expect_string(__wrap_SendMSG, message, "1:blackwell-remoted:ossec: Agent stopped: 'NEW_AGENT->10.2.2.5'.");
     expect_string(__wrap_SendMSG, locmsg, "[001] (NEW_AGENT) 10.2.2.5");
     expect_any(__wrap_SendMSG, loc);
     will_return(__wrap_SendMSG, -1);

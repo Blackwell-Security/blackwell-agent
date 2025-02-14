@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Wazuh Template Selector
-# Copyright (C) 2015, Wazuh Inc.
+# Blackwell Template Selector
+# Copyright (C) 2015, Blackwell Inc.
 # November 18, 2016.
 #
 # This program is free software; you can redistribute it

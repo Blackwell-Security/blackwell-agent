@@ -1,0 +1,17 @@
+[Unit]
+Description=Blackwell agent
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+
+ExecStart=/usr/bin/env BLACKWELL_HOME_TMP/bin/blackwell-control start
+ExecStop=/usr/bin/env BLACKWELL_HOME_TMP/bin/blackwell-control stop
+ExecReload=/usr/bin/env BLACKWELL_HOME_TMP/bin/blackwell-control reload
+
+KillMode=process
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

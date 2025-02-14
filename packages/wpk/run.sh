@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-DIRECTORY="wazuh*"
+DIRECTORY="blackwell*"
 REPOSITORY="https://github.com/wazuh/wazuh"
 REFERENCE=""
 OUT_NAME=""
@@ -10,10 +10,10 @@ HAVE_PKG_NAME_WIN=false
 HAVE_PKG_NAME_MAC=false
 HAVE_PKG_NAME_LINUX=false
 AWS_REGION="us-east-1"
-KEYPATH="/etc/wazuh"
+KEYPATH="/etc/blackwell"
 WPKCERT="${KEYPATH}/wpkcert.pem"
 WPKKEY="${KEYPATH}/wpkcert.key"
-OUTDIR="/var/local/wazuh"
+OUTDIR="/var/local/blackwell"
 CHECKSUMDIR="/var/local/checksum"
 
 
@@ -117,7 +117,7 @@ main() {
         rm -f wpkcert.key.json
     fi
 
-    # Get Wazuh
+    # Get Blackwell
     curl -sL ${REPOSITORY}/tarball/${REFERENCE} | tar zx
     cd ${DIRECTORY}
 

@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,9 +9,9 @@ type: integration
 
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when
        these files are modified. Specifically, these tests will verify that FIM does not limit
-       the size of the 'queue/diff/local' folder where Wazuh stores the compressed files used
+       the size of the 'queue/diff/local' folder where Blackwell stores the compressed files used
        to perform the 'diff' operation when the 'disk_quota' option is enabled with specific values.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'blackwell-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - linux
@@ -47,8 +47,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
 
 pytest_args:
     - fim_mode:
@@ -70,18 +70,18 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG, FILE_MAX_SIZE, RT_DELAY
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import DISK_QUOTA_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED, \
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.fim.configuration import SYSCHECK_DEBUG, FILE_MAX_SIZE, RT_DELAY
+from blackwell_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import DISK_QUOTA_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED, \
                                                ERROR_MSG_FILE_LIMIT_REACHED, EVENT_UNABLE_DIFF
-from wazuh_testing.modules.fim.utils import make_diff_file_path
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import write_file, translate_size
-from wazuh_testing.utils.random import get_random_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.modules.fim.utils import make_diff_file_path
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.file import write_file, translate_size
+from blackwell_testing.utils.random import get_random_string
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -104,9 +104,9 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2, FILE_MAX_S
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_disk_quota_values(test_configuration, test_metadata, configure_local_internal_options,
-                           truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, file_to_monitor, daemons_handler, detect_end_scan):
+                           truncate_monitored_files, set_blackwell_configuration, folder_to_monitor, file_to_monitor, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon limits the size of the diff folder to generate
+    description: Check if the 'blackwell-syscheckd' daemon limits the size of the diff folder to generate
                  'diff' information from a specific value of the 'disk_quota' option. For this purpose,
                  the test will monitor a directory, create a testing file smaller than the configured quota,
                  and check if the compressed file has been created. Then, it will increase the size of
@@ -114,7 +114,7 @@ def test_disk_quota_values(test_configuration, test_metadata, configure_local_in
                  reached quota limit has been generated with the content_changes correct message, and
                  the compressed file in the 'queue/diff/local' directory does not exist.
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 1
 
@@ -131,7 +131,7 @@ def test_disk_quota_values(test_configuration, test_metadata, configure_local_in
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - folder_to_monitor:
@@ -142,7 +142,7 @@ def test_disk_quota_values(test_configuration, test_metadata, configure_local_in
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - detect_end_scan
             type: fixture
             brief: Check first scan end.
@@ -177,10 +177,10 @@ def test_disk_quota_values(test_configuration, test_metadata, configure_local_in
     to_write = "test_string" + get_random_string(int(size_limit / 10))
     write_file(file_to_monitor, data=to_write)
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    content_changes = str(wazuh_log_monitor.callback_result)
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(callback=generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    content_changes = str(blackwell_log_monitor.callback_result)
     assert 'test_string' in content_changes or 'More changes...' in content_changes, 'Wrong content_changes field'
 
     if not os.path.exists(diff_file_path):
@@ -190,13 +190,13 @@ def test_disk_quota_values(test_configuration, test_metadata, configure_local_in
     to_write += get_random_string(int(size_limit * 3))
     write_file(file_to_monitor, data=to_write)
 
-    wazuh_log_monitor.start(callback=generate_callback(DISK_QUOTA_LIMIT_REACHED), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FILE_LIMIT_REACHED
+    blackwell_log_monitor.start(callback=generate_callback(DISK_QUOTA_LIMIT_REACHED), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_FILE_LIMIT_REACHED
 
     # Check the content_changes field in the event
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_UNABLE_DIFF), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    assert 'Unable to calculate diff due to \'disk_quota\' limit has been reached.' in wazuh_log_monitor.callback_result, 'Wrong content_changes field'
+    blackwell_log_monitor.start(callback=generate_callback(EVENT_UNABLE_DIFF), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    assert 'Unable to calculate diff due to \'disk_quota\' limit has been reached.' in blackwell_log_monitor.callback_result, 'Wrong content_changes field'
 
     if test_metadata.get('fim_mode') == 'whodata' and sys.platform == WINDOWS:
         time.sleep(5)

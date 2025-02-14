@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -21,7 +21,7 @@ MOCK_RESPONSE = {
                     'patch':0
                 },
                 'tag':'v4.9.0',
-                'title':'Wazuh v4.9.0'
+                'title':'Blackwell v4.9.0'
             },
         ],
         'patch': []
@@ -29,7 +29,7 @@ MOCK_RESPONSE = {
 }
 
 class Handler(BaseHTTPRequestHandler):
-    """Custom HTTP request handler to respond to Wazuh's CTI service requests."""
+    """Custom HTTP request handler to respond to Blackwell's CTI service requests."""
 
     def do_GET(self):
         if re.search('/cti/v1/ping', self.path):

@@ -10,9 +10,9 @@ help="помощь"
 
 # Global
 moreinfo="Дополнительная информация: "
-starting="Запуск Wazuh"
+starting="Запуск Blackwell"
 systemis="Система"
-modifiedinit="Init скрипт модифицирован чтобы програма Wazuh запускалась при перезагрузке компьютера."
+modifiedinit="Init скрипт модифицирован чтобы програма Blackwell запускалась при перезагрузке компьютера."
 noboot="Система неизвестна. Никаких скриптов начала запуска не добавлено."
 
 # Part 1
@@ -28,7 +28,7 @@ localchose="Выбран локальный тип утановки"
 
 # Part 2
 settingupenv="Производится конфигурация параметров установки"
-wheretoinstall="Укажите куда установить Wazuh"
+wheretoinstall="Укажите куда установить Blackwell"
 installat="Программа будет установлена в "
 deletedir="Указанный каталог уже существует. Удалить его?"
 
@@ -43,8 +43,8 @@ usingsmtp="Испльзуется SMTP сервер: "
 whatsmtp="Каков Ваш SMTP сервер ip/host?"
 
 # Part 3.1/agent
-serverip="Какой IP адрес у Вашего Wazuh сервера?"
-serveraddr="Какой IP адрес (Hostname) у Вашего Wazuh сервера?"
+serverip="Какой IP адрес у Вашего Blackwell сервера?"
+serveraddr="Какой IP адрес (Hostname) у Вашего Blackwell сервера?"
 addingip="Добавляется IP адрес сервера"
 addingname="Добавляется IP (host) адрес сервера"
 
@@ -91,21 +91,21 @@ yesrunauthd="Запуск службы Auth"
 
 # Part 4
 installing="Производится установка"
-startwazuh="Вы хотите запустить Wazuh после установки?"
-nowazuhstart="Wazuh не запускается в конце установки."
-yeswazuhstart="Wazuh начнется в конце установки."
+startblackwell="Вы хотите запустить Blackwell после установки?"
+noblackwellstart="Blackwell не запускается в конце установки."
+yesblackwellstart="Blackwell начнется в конце установки."
 runningmake="Исполняется Makefile"
 
 # Final
 configurationdone="Конфигурация произведена успешно"
-tostart="Запустить Wazuh"
-tostop="Завершить работу Wazuh"
+tostart="Запустить Blackwell"
+tostop="Завершить работу Blackwell"
 configat="Вы можете прочитать и отредактировать конфигурацию здесь"
 addserveragent="Вы должны добавить агентов прежде чем они получат права доступа"
 presskey="Нажмите Ввод (ENTER) чтобы продолжить"
 
 # Update
-wanttoupdate="Wazuh уже установлен на этой машине. Хотите ли Вы обновить его?"
+wanttoupdate="Blackwell уже установлен на этой машине. Хотите ли Вы обновить его?"
 mustuninstall="Установка не может продолжаться без удаления старых версий. Выход."
 unabletoupdate="Невозможно произвести обновление. Потребуется полная установка заново"
 updatecompleted="Обновление завершено успешно."

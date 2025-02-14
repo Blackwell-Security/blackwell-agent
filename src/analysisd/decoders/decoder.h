@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -71,7 +71,7 @@ typedef struct {
     void (*plugindecoder)(void *lf, void *rule_hash, void *decoder_match);
     void* (**order)(struct _Eventinfo *, char *, const char *);
 
-    bool internal_saving;      ///< Used to free decoderinfo structure in wazuh-logtest
+    bool internal_saving;      ///< Used to free decoderinfo structure in blackwell-logtest
 } OSDecoderInfo;
 
 /* List structure */

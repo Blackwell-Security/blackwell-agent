@@ -1,6 +1,6 @@
 /*
- * Wazuh Indexer Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Indexer Configuration
+ * Copyright (C) 2015, Blackwell Inc.
  * August 31, 2023.
  *
  * This program is free software; you can redistribute it

@@ -1,5 +1,5 @@
-- name: Command config wazuh manager  for RIDS
-  description: Command config wazuh manager for RIDS
+- name: Command config blackwell manager  for RIDS
+  description: Command config blackwell manager for RIDS
   configuration_parameters:
     PORT: '1514'
   metadata:
@@ -8,8 +8,8 @@
     expected_start: False
 
 
-- name: Command config wazuh manager  for RIDS
-  description: Command config wazuh manager for RIDS
+- name: Command config blackwell manager  for RIDS
+  description: Command config blackwell manager for RIDS
   configuration_parameters:
     PORT: '1514'
   metadata:
@@ -17,8 +17,8 @@
     remoted.worker_pool: 1
     expected_start: True
 
-- name: Command config wazuh manager  for RIDS
-  description: Command config wazuh manager for RIDS
+- name: Command config blackwell manager  for RIDS
+  description: Command config blackwell manager for RIDS
   configuration_parameters:
     PORT: '1514'
   metadata:

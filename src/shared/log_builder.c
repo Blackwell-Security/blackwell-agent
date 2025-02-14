@@ -3,7 +3,7 @@
  * @brief Definition of the shared log builder library
  * @date 2019-12-06
  *
- * @copyright Copyright (C) 2015 Wazuh, Inc.
+ * @copyright Copyright (C) 2015 Blackwell, Inc.
  */
 
 /*
@@ -16,7 +16,7 @@
 #include "shared.h"
 #include "client-agent/agentd.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #ifdef WIN32

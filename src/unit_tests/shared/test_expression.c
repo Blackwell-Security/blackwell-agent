@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,8 +15,8 @@
 #include "shared.h"
 #include "expression.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/os_regex/os_regex_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/os_regex/os_regex_wrappers.h"
 #include "../wrappers/externals/pcre2/pcre2_wrappers.h"
 
 

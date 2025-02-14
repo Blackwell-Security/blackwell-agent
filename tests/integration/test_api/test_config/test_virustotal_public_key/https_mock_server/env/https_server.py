@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -29,7 +29,7 @@ MOCK_ERROR_RESPONSE = {
 
 
 class Handler(BaseHTTPRequestHandler):
-    """Custom HTTP request handler to respond to Wazuh's VirusTotal API requests."""
+    """Custom HTTP request handler to respond to Blackwell's VirusTotal API requests."""
 
     def do_GET(self):
         expected_api_header = 'x-apikey'

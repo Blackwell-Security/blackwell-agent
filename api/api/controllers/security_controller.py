@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -19,19 +19,19 @@ from api.models.security_model import (CreateUserModel, PolicyModel, RoleModel,
                                        RuleModel, UpdateUserModel)
 from api.util import (deprecate_endpoint, parse_api_param, raise_if_exc,
                       remove_nones_to_dict)
-from wazuh import security, __version__
-from wazuh.core.cluster.control import get_system_nodes
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-from wazuh.core.exception import WazuhException, WazuhPermissionError
-from wazuh.core.results import AffectedItemsWazuhResult, WazuhResult
-from wazuh.core.security import revoke_tokens
-from wazuh.rbac import preprocessor
+from blackwell import security, __version__
+from blackwell.core.cluster.control import get_system_nodes
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+from blackwell.core.exception import BlackwellException, BlackwellPermissionError
+from blackwell.core.results import AffectedItemsBlackwellResult, BlackwellResult
+from blackwell.core.security import revoke_tokens
+from blackwell.rbac import preprocessor
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 auth_re = re.compile(r'basic (.*)', re.IGNORECASE)
 
 
-@deprecate_endpoint(link=f'https://documentation.wazuh.com/{__version__}/user-manual/api/reference.html#'
+@deprecate_endpoint(link=f'https://documentation.blackwell.com/{__version__}/user-manual/api/reference.html#'
                          f'operation/api.controllers.security_controller.login_user')
 async def deprecated_login_user(user: str, raw: bool = False) -> ConnexionResponse:
     """User/password authentication to get an access token.
@@ -62,13 +62,13 @@ async def deprecated_login_user(user: str, raw: bool = False) -> ConnexionRespon
     token = None
     try:
         token = generate_token(user_id=user, data=data.dikt)
-    except WazuhException as e:
+    except BlackwellException as e:
         raise_if_exc(e)
 
     return ConnexionResponse(body=token,
                              content_type='text/plain',
                              status_code=200) if raw else \
-           ConnexionResponse(body=dumps(WazuhResult({'data': TokenResponseModel(token=token)})),
+           ConnexionResponse(body=dumps(BlackwellResult({'data': TokenResponseModel(token=token)})),
                              content_type=JSON_CONTENT_TYPE,
                              status_code=200)
 
@@ -102,13 +102,13 @@ async def login_user(user: str, raw: bool = False) -> ConnexionResponse:
     token = None
     try:
         token = generate_token(user_id=user, data=data.dikt)
-    except WazuhException as e:
+    except BlackwellException as e:
         raise_if_exc(e)
 
     return ConnexionResponse(body=token,
                              content_type='text/plain',
                              status_code=200) if raw else \
-           ConnexionResponse(body=dumps(WazuhResult({'data': TokenResponseModel(token=token)})),
+           ConnexionResponse(body=dumps(BlackwellResult({'data': TokenResponseModel(token=token)})),
                              content_type=JSON_CONTENT_TYPE,
                              status_code=200)
 
@@ -144,13 +144,13 @@ async def run_as_login(user: str, raw: bool = False) -> ConnexionResponse:
     token = None
     try:
         token = generate_token(user_id=user, data=data.dikt, auth_context=auth_context)
-    except WazuhException as e:
+    except BlackwellException as e:
         raise_if_exc(e)
 
     return ConnexionResponse(body=token,
                              content_type='text/plain',
                              status_code=200) if raw else \
-           ConnexionResponse(body=dumps(WazuhResult({'data': TokenResponseModel(token=token)})),
+           ConnexionResponse(body=dumps(BlackwellResult({'data': TokenResponseModel(token=token)})),
                              content_type=JSON_CONTENT_TYPE,
                              status_code=200)
 
@@ -200,7 +200,7 @@ async def get_user_me_policies(pretty: bool = False, wait_for_complete: bool = F
     ConnexionResponse
         API response with the user RBAC policies and mode.
     """
-    data = WazuhResult({'data': request.context['token_info']['rbac_policies'],
+    data = BlackwellResult({'data': request.context['token_info']['rbac_policies'],
                         'message': "Current user processed policies information was returned"})
 
     return json_response(data, pretty=pretty)
@@ -1213,8 +1213,8 @@ async def revoke_all_tokens(pretty: bool = False) -> ConnexionResponse:
                           nodes=nodes
                           )
     data = raise_if_exc(await dapi.distribute_function())
-    if type(data) == AffectedItemsWazuhResult and len(data.affected_items) == 0:
-        raise_if_exc(WazuhPermissionError(4000, data.message))
+    if type(data) == AffectedItemsBlackwellResult and len(data.affected_items) == 0:
+        raise_if_exc(BlackwellPermissionError(4000, data.message))
 
     return json_response(data, pretty=pretty)
 

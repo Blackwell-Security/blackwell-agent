@@ -1,6 +1,6 @@
 /*
- * Wazuh - Shared Modules utils tests
- * Copyright (C) 2015-2023, Wazuh Inc.
+ * Blackwell - Shared Modules utils tests
+ * Copyright (C) 2015-2023, Blackwell Inc.
  * October 6, 2023.
  *
  * This program is free software; you can redistribute it
@@ -29,7 +29,7 @@ public:
 protected:
     /// Folder for the temporary files used in the tests
     const std::filesystem::path m_testFolder {std::filesystem::temp_directory_path() /
-                                              "wazuh/test_files/json_array_parser"};
+                                              "blackwell/test_files/json_array_parser"};
 
     /**
      * @brief Helper function to create a test file.

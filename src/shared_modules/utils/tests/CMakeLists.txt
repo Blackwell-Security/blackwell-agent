@@ -30,7 +30,7 @@ file(GLOB UTIL_CXX_UNITTEST_COMMON_SRC
     "loggerHelper_test.cpp"
     "globHelper_test.cpp"
     "socketDBWrapper_test.cpp"
-    "wazuhDBQueryBuilder_test.cpp"
+    "blackwellDBQueryBuilder_test.cpp"
     "main.cpp"
 )
 

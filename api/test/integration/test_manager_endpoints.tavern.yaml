@@ -17,23 +17,23 @@ stages:
         error: 0
         data:
           affected_items:
-            - wazuh-agentlessd: !anystr
-              wazuh-analysisd: !anystr
-              wazuh-authd: !anystr
-              wazuh-csyslogd: !anystr
-              wazuh-dbd: !anystr
-              wazuh-execd: !anystr
-              wazuh-integratord: !anystr
-              wazuh-logcollector: !anystr
-              wazuh-maild: !anystr
-              wazuh-monitord: !anystr
-              wazuh-remoted: !anystr
-              wazuh-reportd: !anystr
-              wazuh-syscheckd: !anystr
-              wazuh-apid: !anystr
-              wazuh-clusterd: !anystr
-              wazuh-db: !anystr
-              wazuh-modulesd: !anystr
+            - blackwell-agentlessd: !anystr
+              blackwell-analysisd: !anystr
+              blackwell-authd: !anystr
+              blackwell-csyslogd: !anystr
+              blackwell-dbd: !anystr
+              blackwell-execd: !anystr
+              blackwell-integratord: !anystr
+              blackwell-logcollector: !anystr
+              blackwell-maild: !anystr
+              blackwell-monitord: !anystr
+              blackwell-remoted: !anystr
+              blackwell-reportd: !anystr
+              blackwell-syscheckd: !anystr
+              blackwell-apid: !anystr
+              blackwell-clusterd: !anystr
+              blackwell-db: !anystr
+              blackwell-modulesd: !anystr
           failed_items: []
           total_affected_items: 1
           total_failed_items: 0
@@ -302,14 +302,14 @@ stages:
         error: 0
         data:
           affected_items:
-            - name: wazuh-remoted
-            - name: wazuh-analysisd
-            - name: wazuh-db
+            - name: blackwell-remoted
+            - name: blackwell-analysisd
+            - name: blackwell-db
           total_affected_items: 3
           failed_items: []
           total_failed_items: 0
 
-  # GET /manager/daemons/stats?daemons_list=wazuh-remoted
+  # GET /manager/daemons/stats?daemons_list=blackwell-remoted
   - name: Get statistics from a single daemon
     request:
       verify: False
@@ -318,19 +318,19 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        daemons_list: wazuh-remoted
+        daemons_list: blackwell-remoted
     response:
       status_code: 200
       json:
         error: 0
         data:
           affected_items:
-            - name: wazuh-remoted
+            - name: blackwell-remoted
           total_affected_items: 1
           failed_items: []
           total_failed_items: 0
 
-  # GET /manager/daemons/stats?daemons_list=wazuh-remoted,wazuh-db,wazuh-analysisd
+  # GET /manager/daemons/stats?daemons_list=blackwell-remoted,blackwell-db,blackwell-analysisd
   - name: Get statistics from a list of daemons
     request:
       verify: False
@@ -339,16 +339,16 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        daemons_list: wazuh-remoted,wazuh-db,wazuh-analysisd
+        daemons_list: blackwell-remoted,blackwell-db,blackwell-analysisd
     response:
       status_code: 200
       json:
         error: 0
         data:
           affected_items:
-            - name: wazuh-remoted
-            - name: wazuh-db
-            - name: wazuh-analysisd
+            - name: blackwell-remoted
+            - name: blackwell-db
+            - name: blackwell-analysisd
           total_affected_items: 3
           failed_items: []
           total_failed_items: 0
@@ -702,7 +702,7 @@ stages:
             total_failed_items: 0
 
   # GET /manager/logs
-  - name: Filters -> tag=wazuh-analysisd, limit=1
+  - name: Filters -> tag=blackwell-analysisd, limit=1
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/manager/logs"
@@ -710,7 +710,7 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        tag: wazuh-analysisd
+        tag: blackwell-analysisd
         limit: 1
     response:
         status_code: 200
@@ -724,7 +724,7 @@ stages:
             total_failed_items: 0
 
   # GET /manager/logs
-  - name: Filters -> tag=wazuh-syscheckd, limit=1
+  - name: Filters -> tag=blackwell-syscheckd, limit=1
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/manager/logs"
@@ -732,7 +732,7 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        tag: wazuh-syscheckd
+        tag: blackwell-syscheckd
         limit: 1
     response:
         status_code: 200
@@ -745,7 +745,7 @@ stages:
             total_affected_items: !anyint
             total_failed_items: 0
 
-  - name: Filters by query (tag=wazuh-syscheckd, level=info)
+  - name: Filters by query (tag=blackwell-syscheckd, level=info)
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/manager/logs"
@@ -753,14 +753,14 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        q: tag=wazuh-syscheckd;level=info
+        q: tag=blackwell-syscheckd;level=info
     response:
       status_code: 200
       verify_response_with:
         - function: tavern_utils:test_expected_value
           extra_kwargs:
             key: "tag"
-            expected_values: "wazuh-syscheckd"
+            expected_values: "blackwell-syscheckd"
         - function: tavern_utils:test_expected_value
           extra_kwargs:
             key: "level"
@@ -793,7 +793,7 @@ stages:
       headers:
         Authorization: "Bearer {test_login_token}"
       params:
-        tag: wazuh-unknown-daemon
+        tag: blackwell-unknown-daemon
     response:
       status_code: 200
       json:
@@ -1287,10 +1287,10 @@ stages:
           total_affected_items: 1
           total_failed_items: 0
 
-  - name: Show the config of wazuh-db/internal in the manager
+  - name: Show the config of blackwell-db/internal in the manager
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/manager/configuration/wazuh-db/internal"
+      url: "{protocol:s}://{host:s}:{port:d}/manager/configuration/blackwell-db/internal"
       method: GET
       headers:
         Authorization: "Bearer {test_login_token}"
@@ -1300,7 +1300,7 @@ stages:
         error: !anyint
         data:
           affected_items:
-            - wazuh_db:
+            - blackwell_db:
                 commit_time_max: !anyint
                 commit_time_min: !anyint
                 open_db_limit: !anyint
@@ -1309,10 +1309,10 @@ stages:
           total_affected_items: 1
           total_failed_items: 0
 
-  - name: Show the config of wazuh-db/wdb in the manager
+  - name: Show the config of blackwell-db/wdb in the manager
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/manager/configuration/wazuh-db/wdb"
+      url: "{protocol:s}://{host:s}:{port:d}/manager/configuration/blackwell-db/wdb"
       method: GET
       headers:
         Authorization: "Bearer {test_login_token}"
@@ -1526,7 +1526,7 @@ test_name: GET /manager/version/check with update_check disabled
 
 stages:
 
-  - name: Get wazuh version
+  - name: Get blackwell version
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/"
@@ -1537,7 +1537,7 @@ stages:
       status_code: 200
       save:
         json:
-          wazuh_version: data.api_version
+          blackwell_version: data.api_version
 
   - name: Get available updates
     request:
@@ -1551,7 +1551,7 @@ stages:
       verify_response_with:
         function: tavern_utils:validate_update_check_response
         extra_kwargs:
-          current_version: "v{wazuh_version:s}"
+          current_version: "v{blackwell_version:s}"
           update_check: false
 
   - name: Get available updates with force option
@@ -1568,14 +1568,14 @@ stages:
       verify_response_with:
         function: tavern_utils:validate_update_check_response
         extra_kwargs:
-          current_version: "v{wazuh_version:s}"
+          current_version: "v{blackwell_version:s}"
           update_check: false
 
 ---
 test_name: GET /manager/version/check with update_check enabled
 
 stages:
-  - name: Get wazuh version
+  - name: Get blackwell version
     request:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/"
@@ -1586,7 +1586,7 @@ stages:
       status_code: 200
       save:
         json:
-          wazuh_version: data.api_version
+          blackwell_version: data.api_version
   
   - name: Enable update check
     request:
@@ -1641,7 +1641,7 @@ stages:
       verify_response_with:
         function: tavern_utils:validate_update_check_response
         extra_kwargs:
-          current_version: "v{wazuh_version:s}"
+          current_version: "v{blackwell_version:s}"
           update_check: true
 
   - name: Get available updates with force option
@@ -1660,7 +1660,7 @@ stages:
       verify_response_with:
         function: tavern_utils:validate_update_check_response
         extra_kwargs:
-          current_version: "v{wazuh_version:s}"
+          current_version: "v{blackwell_version:s}"
           update_check: true
 
 ---

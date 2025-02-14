@@ -85,7 +85,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        command: "restart-wazuh0"
+        command: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
       params:
         agents_list: '009'
@@ -112,7 +112,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        command: "restart-wazuh0"
+        command: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
       params:
         agents_list: '251'
@@ -151,7 +151,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        comMmand: "restart-wazuh0"
+        comMmand: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
       params:
         agents_list: '005'
@@ -167,7 +167,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        command: "restart-wazuh0"
+        command: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
       params:
         agents_list: '003'
@@ -200,7 +200,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        command: "restart-wazuh0"
+        command: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
     response:
       status_code: 200
@@ -240,7 +240,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
         content-type: application/json
       json:
-        comMmand: "restart-wazuh0"
+        comMmand: "restart-blackwell0"
         arguments: ["-", "null", "(from_the_server)", "(no_rule_id)"]
     response:
       status_code: 400

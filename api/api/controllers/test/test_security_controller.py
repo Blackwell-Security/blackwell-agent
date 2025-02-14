@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -12,10 +12,10 @@ from connexion.testing import TestContext
 from api.controllers.util import JSON_CONTENT_TYPE
 from api.controllers.test.utils import CustomAffectedItems
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('blackwell.common.blackwell_uid'):
+    with patch('blackwell.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
         from api.controllers.security_controller import (
             add_policy, add_role, add_rule, create_user,
             delete_security_config, delete_users, edit_run_as, get_policies,
@@ -27,14 +27,14 @@ with patch('wazuh.common.wazuh_uid'):
             security_revoke_tokens, set_role_policy, set_role_rule,
             set_user_role, update_policy, update_role, update_rule,
             update_user)
-        from wazuh import security
-        from wazuh.core.exception import WazuhException, WazuhPermissionError
-        from wazuh.core.results import AffectedItemsWazuhResult
-        from wazuh.rbac import preprocessor
-        from wazuh.tests.util import RBAC_bypasser
+        from blackwell import security
+        from blackwell.core.exception import BlackwellException, BlackwellPermissionError
+        from blackwell.core.results import AffectedItemsBlackwellResult
+        from blackwell.rbac import preprocessor
+        from blackwell.tests.util import RBAC_bypasser
 
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
 
 
 @pytest.fixture
@@ -50,7 +50,7 @@ def mock_request():
             m_req.query_params = MagicMock()
             m_req.query_params.get = MagicMock(return_value=None)
             m_req.context = {
-                'token_info': {'sub': 'wazuh', 'run_as': 'manager', 'rbac_policies': {}}
+                'token_info': {'sub': 'blackwell', 'run_as': 'manager', 'rbac_policies': {}}
             }
             yield m_req
 
@@ -88,8 +88,8 @@ async def test_login_user(mock_token, mock_exc, mock_dapi, mock_remove, mock_dfu
 @patch('api.controllers.security_controller.generate_token', return_value='token')
 @pytest.mark.parametrize('mock_bool', [True, False])
 async def test_login_user_ko(mock_token, mock_exc, mock_dapi, mock_remove, mock_dfunc, mock_bool):
-    """Verify 'login_user' endpoint is handling WazuhException as expected."""
-    mock_token.side_effect = WazuhException(999)
+    """Verify 'login_user' endpoint is handling BlackwellException as expected."""
+    mock_token.side_effect = BlackwellException(999)
     result = await login_user(user='001', raw=mock_bool)
     f_kwargs = {'user_id': '001'}
     mock_dapi.assert_called_once_with(f=preprocessor.get_permissions,
@@ -140,8 +140,8 @@ async def test_run_as_login(mock_token, mock_exc, mock_dapi, mock_remove, mock_d
 @pytest.mark.parametrize('mock_bool', [True, False])
 async def test_run_as_login_ko(mock_token, mock_exc, mock_dapi, mock_remove, mock_dfunc,
                                mock_bool, mock_request):
-    """Verify 'run_as_login' endpoint is handling WazuhException as expected."""
-    mock_token.side_effect = WazuhException(999)
+    """Verify 'run_as_login' endpoint is handling BlackwellException as expected."""
+    mock_token.side_effect = BlackwellException(999)
     result = await run_as_login(user='001', raw=mock_bool)
     f_kwargs = {'user_id': '001', 'auth_context': await mock_request.json()}
     mock_dapi.assert_called_once_with(f=preprocessor.get_permissions,
@@ -183,7 +183,7 @@ async def test_get_user_me(mock_exc, mock_dapi, mock_remove, mock_dfunc, mock_re
 @pytest.mark.asyncio
 async def test_get_user_me_policies(mock_request):
     """Verify 'get_user_me_policies' endpoint is working as expected."""
-    with patch('api.controllers.security_controller.WazuhResult', return_value='mock_wr_result') as mock_wr:
+    with patch('api.controllers.security_controller.BlackwellResult', return_value='mock_wr_result') as mock_wr:
         result = await get_user_me_policies()
         mock_wr.assert_called_once_with({'data': mock_request.context['token_info']['rbac_policies'],
                                          'message': "Current user processed policies information was returned"})
@@ -915,11 +915,11 @@ async def test_revoke_all_tokens(mock_isins, mock_exc, mock_dapi, mock_remove, m
 @patch('api.controllers.security_controller.remove_nones_to_dict')
 @patch('api.controllers.security_controller.DistributedAPI.__init__', return_value=None)
 @patch('api.controllers.security_controller.raise_if_exc', return_value=CustomAffectedItems())
-@patch('api.controllers.security_controller.type', return_value=AffectedItemsWazuhResult)
+@patch('api.controllers.security_controller.type', return_value=AffectedItemsBlackwellResult)
 @patch('api.controllers.security_controller.len', return_value=0)
 async def test_revoke_all_tokens_ko(mock_type, mock_len, mock_exc, mock_dapi, mock_remove, mock_dfunc,
                                     mock_request):
-    """Verify 'revoke_all_tokens' endpoint is handling WazuhPermissionError as expected."""
+    """Verify 'revoke_all_tokens' endpoint is handling BlackwellPermissionError as expected."""
     with patch('api.controllers.security_controller.get_system_nodes', return_value=AsyncMock()) as mock_snodes:
         result = await revoke_all_tokens()
         mock_dapi.assert_called_once_with(f=security.wrapper_revoke_tokens,
@@ -933,7 +933,7 @@ async def test_revoke_all_tokens_ko(mock_type, mock_len, mock_exc, mock_dapi, mo
                                           nodes=mock_snodes.return_value
                                           )
         mock_exc.assert_has_calls([call(mock_dfunc.return_value),
-                                   call(WazuhPermissionError(4000, mock_exc.return_value.message))])
+                                   call(BlackwellPermissionError(4000, mock_exc.return_value.message))])
         assert mock_exc.call_count == 2
         mock_remove.assert_called_once_with({})
         assert isinstance(result, ConnexionResponse)

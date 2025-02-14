@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,7 +14,7 @@
 
 #include "shared.h"
 
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
 
 /* setup/teardown */

@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-analysisd' daemon uses a series of decoders and rules to analyze and interpret logs and events and
+brief: The 'blackwell-analysisd' daemon uses a series of decoders and rules to analyze and interpret logs and events and
        generate alerts when the decoded information matches the established rules. There is a feature to limit the
        number of events that the manager can process, in order to allow the correct functioning of the daemon. These
        tests check if this feature is enabled/disabled when desired.
@@ -21,7 +21,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -38,16 +38,16 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html#if-sid
+    - https://documentation.blackwell.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html#if-sid
 '''
 import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.analysisd import patterns
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import configuration, callbacks
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.analysisd import patterns
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import configuration, callbacks
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -74,25 +74,25 @@ daemons_handler_configuration = {'all_daemons': True}
 
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_enabled(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_enabled(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                  truncate_monitored_files, daemons_handler):
     """
     description: Check whether the event analysis limitation is activated after its activation in the configuration.
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Check in the ossec.log that a line has appeared indicating that EPS limiting has been enabled.
-            - Check that wazuh-analysisd is running (it has not been crashed).
+            - Check that blackwell-analysisd is running (it has not been crashed).
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -101,18 +101,18 @@ def test_enabled(test_configuration, test_metadata, load_wazuh_basic_configurati
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check in the log that the EPS limitation has been activated.
@@ -122,7 +122,7 @@ def test_enabled(test_configuration, test_metadata, load_wazuh_basic_configurati
         - The `cases_enabled` file provides the test cases.
     """
     # Start monitor
-    monitor_enabled = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    monitor_enabled = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     monitor_enabled.start(callback=callbacks.generate_callback(patterns.ANALYSISD_EPS_ENABLED, {
                               'maximum': str(test_metadata['maximum']),
                               'timeframe': str(test_metadata['timeframe'])
@@ -133,25 +133,25 @@ def test_enabled(test_configuration, test_metadata, load_wazuh_basic_configurati
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test2_configuration, test2_metadata), ids=test2_cases_ids)
-def test_disabled(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_disabled(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                  truncate_monitored_files, daemons_handler):
     """
     description: Check if when the EPS limitation setting is not applied, the feature is not activated.
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Look in the ossec.log to see if the EPS limitation activation does not appear.
-            - Check that wazuh-analysisd is running (it has not been crashed).
+            - Check that blackwell-analysisd is running (it has not been crashed).
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -160,18 +160,18 @@ def test_disabled(test_configuration, test_metadata, load_wazuh_basic_configurat
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check in the ossec.log to see if the EPS limitation activation does not appear.
@@ -181,7 +181,7 @@ def test_disabled(test_configuration, test_metadata, load_wazuh_basic_configurat
         - The `cases_disabled` file provides the test cases.
     """
     # Start monitor
-    monitor_disabled = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    monitor_disabled = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     monitor_disabled.start(callback=callbacks.generate_callback(patterns.ANALYSISD_EPS_DISABLED))
 
     # Check that expected log appears for rules if_sid field being invalid

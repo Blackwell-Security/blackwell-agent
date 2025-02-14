@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * Mar 26, 2018.
  *
  * This program is free software; you can redistribute it
@@ -8,7 +8,7 @@
  * Foundation.
  */
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else
@@ -272,7 +272,7 @@ void * asyscom_main(__attribute__((unused)) void * arg) {
         }
         os_free(buffer);
 
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef BLACKWELL_UNIT_TESTING
         break;
     #endif
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@
 #include "../../os_auth/auth.h"
 #include "../../addagent/manage_agents.h"
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 //Expected log messages to be checked on mocked log functions
 typedef struct _mocked_log {

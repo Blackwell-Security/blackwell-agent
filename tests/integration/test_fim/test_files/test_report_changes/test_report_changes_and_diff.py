@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will verify that FIM events include
        the 'content_changes' field with the tag 'More changes' when it exceeds the maximum size
        allowed, and the 'report_changes' option is enabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'blackwell-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - linux
@@ -51,8 +51,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
 
 pytest_args:
     - fim_mode:
@@ -74,18 +74,18 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.platforms import MACOS, WINDOWS
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG, RT_DELAY
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_MODIFIED, EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED, \
+from blackwell_testing.constants.platforms import MACOS, WINDOWS
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.fim.configuration import SYSCHECK_DEBUG, RT_DELAY
+from blackwell_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import EVENT_TYPE_MODIFIED, EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED, \
                                                EVENT_TYPE_DELETED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-from wazuh_testing.modules.fim.utils import make_diff_file_path, get_fim_event_data
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import write_file_write, delete_files_in_folder, truncate_file
-from wazuh_testing.utils.string import generate_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.modules.fim.utils import make_diff_file_path, get_fim_event_data
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.file import write_file_write, delete_files_in_folder, truncate_file
+from blackwell_testing.utils.string import generate_string
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -112,9 +112,9 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2, RT_DELAY: 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_local_internal_options,
-                        truncate_monitored_files, set_wazuh_configuration, create_paths_files, daemons_handler, detect_end_scan):
+                        truncate_monitored_files, set_blackwell_configuration, create_paths_files, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon reports the file changes (or truncates if required)
+    description: Check if the 'blackwell-syscheckd' daemon reports the file changes (or truncates if required)
                  in the generated events using the 'nodiff' tag and vice versa. For this purpose, the test
                  will monitor a directory and make file operations inside it. Then, it will check if a
                  'diff' file is created for the modified testing file. Finally, if the testing file matches
@@ -122,7 +122,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
                  'content_changes' field a message indicating that 'diff' is truncated because
                  the 'nodiff' option is used.
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 1
 
@@ -139,7 +139,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - create_paths_files:
@@ -147,7 +147,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
             brief: Create the required directory or file to edit.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - detect_end_scan
             type: fixture
             brief: Check first scan end.
@@ -161,7 +161,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
           when it does not match the 'nodiff' tag.
 
     input_description: A test case is contained in external YAML files (configuration_report_changes_and_diff.yaml, cases_report_changes_and_diff.yaml)
-                       which includes configuration settings for the 'wazuh-syscheckd' daemon and, these are
+                       which includes configuration settings for the 'blackwell-syscheckd' daemon and, these are
                        combined with the testing directories to be monitored defined in the module.
 
     expected_output:
@@ -177,34 +177,34 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
     folder = test_metadata.get('folder')
     test_file_path = os.path.join(folder, test_metadata.get('filename'))
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     # Create the file and and capture the event.
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(BLACKWELL_LOG_PATH)
     original_string = generate_string(1, '0')
     write_file_write(test_file_path, content=original_string)
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
+    blackwell_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
 
     # Modify the file without new content and check content_changes have the correct message
     time.sleep(1)
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(BLACKWELL_LOG_PATH)
     write_file_write(test_file_path, content=original_string)
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    assert 'No content changes were found for this file.' in str(wazuh_log_monitor.callback_result[0]), 'Wrong content_changes field'
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    assert 'No content changes were found for this file.' in str(blackwell_log_monitor.callback_result[0]), 'Wrong content_changes field'
 
     # Modify the file with new content.
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(BLACKWELL_LOG_PATH)
     modified_string = 'test_string' + generate_string(10, '1')
     write_file_write(test_file_path, content=modified_string)
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED), timeout=20)
-    assert wazuh_log_monitor.callback_result
-    event = get_fim_event_data(wazuh_log_monitor.callback_result)
+    blackwell_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED), timeout=20)
+    assert blackwell_log_monitor.callback_result
+    event = get_fim_event_data(blackwell_log_monitor.callback_result)
 
     # Validate content_changes attribute exists in the event
     diff_file = make_diff_file_path(folder=test_metadata.get('folder'), filename=test_metadata.get('filename'))
@@ -217,7 +217,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
     else:
         assert 'test_string' in event.get('content_changes'), 'Wrong content_changes field'
 
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(BLACKWELL_LOG_PATH)
     delete_files_in_folder(folder)
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_DELETED))
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['mode'] == test_metadata.get('fim_mode')
+    blackwell_log_monitor.start(generate_callback(EVENT_TYPE_DELETED))
+    assert get_fim_event_data(blackwell_log_monitor.callback_result)['mode'] == test_metadata.get('fim_mode')

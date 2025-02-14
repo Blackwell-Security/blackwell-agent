@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -41,7 +41,7 @@
 #define W_LOGTEST_JSON_ORIGIN_NAME            "name"    ///< The origin name of the request
 #define W_LOGTEST_JSON_ORIGIN_MODULE        "module"    ///< The origin module of the request
 
-/* Wazuh-logtest's fields names for the requests and responses */
+/* Blackwell-logtest's fields names for the requests and responses */
 #define W_LOGTEST_JSON_TOKEN                    "token"   ///< Token field name of json input/output
 #define W_LOGTEST_JSON_EVENT                    "event"   ///< Event field name of json input
 #define W_LOGTEST_JSON_LOGFORMAT           "log_format"   ///< Log format field name of json input
@@ -132,7 +132,7 @@ typedef struct w_logtest_connection_t {
 
 
 /**
- * @brief Initialize Wazuh Logtest. Initialize the listener and create threads
+ * @brief Initialize Blackwell Logtest. Initialize the listener and create threads
  * Then, call function w_logtest_clients_handler
  */
 void *w_logtest_init();
@@ -145,7 +145,7 @@ void *w_logtest_init();
 int w_logtest_init_parameters();
 
 /**
- * @brief Main function of Wazuh Logtest module
+ * @brief Main function of Blackwell Logtest module
  *
  * Listen and treat connections with clients
  *

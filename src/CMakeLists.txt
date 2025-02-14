@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(Wazuh)
+project(Blackwell)
 
 enable_testing()
 
@@ -92,8 +92,8 @@ if("${VERSION_FILE}" STREQUAL "")
 endif("${VERSION_FILE}" STREQUAL "")
 
 message("==============================================")
-message("Wazuh version: ${VERSION_FILE}")
-message("Wazuh revision: ${REVISION_FILE}")
+message("Blackwell version: ${VERSION_FILE}")
+message("Blackwell revision: ${REVISION_FILE}")
 message("==============================================")
 
 set(BENCHMARK_ENABLE_TESTING "OFF")
@@ -128,8 +128,8 @@ add_subdirectory(shared_modules/utils)
 add_subdirectory(shared_modules/router)
 add_subdirectory(shared_modules/content_manager)
 
-set(CURL_DEP wazuhext)
+set(CURL_DEP blackwellext)
 add_subdirectory(shared_modules/http-request)
 add_subdirectory(shared_modules/indexer_connector)
-add_subdirectory(wazuh_modules/vulnerability_scanner)
+add_subdirectory(blackwell_modules/vulnerability_scanner)
 add_subdirectory(shared_modules/keystore)

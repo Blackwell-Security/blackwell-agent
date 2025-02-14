@@ -30,7 +30,6 @@ IGNORE_DIRECTORIES=(
 IGNORE_FILES=(
     ".gitmodules"
     "bulk_rebrand.sh"
-    "bulk_rebrand.py"
     "invalid_utf8.xml" # Ignore Edge Case UTF-16 file
     "rebrand_log.log"
 )

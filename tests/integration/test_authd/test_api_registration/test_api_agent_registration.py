@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'wazuh-authd' daemon correctly handles the enrollment requests
+brief: These tests will check if the 'blackwell-authd' daemon correctly handles the enrollment requests
        from the API.
 
 tier: 0
@@ -20,8 +20,8 @@ components:
     - manager
 
 daemons:
-    - wazuh-authd
-    - wazuh-api
+    - blackwell-authd
+    - blackwell-api
 
 os_platform:
     - linux
@@ -46,7 +46,7 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/registering/restful-api-registration.html
+    - https://documentation.blackwell.com/current/user-manual/registering/restful-api-registration.html
 
 tags:
     - authd
@@ -59,9 +59,9 @@ import pytest
 import time
 from pathlib import Path
 
-from wazuh_testing.utils.client_keys import get_client_keys
-from wazuh_testing.modules.api.utils import get_base_url, login
-from wazuh_testing.utils.configuration import get_test_cases_data
+from blackwell_testing.utils.client_keys import get_client_keys
+from blackwell_testing.modules.api.utils import get_base_url, login
+from blackwell_testing.utils.configuration import get_test_cases_data
 
 from . import TEST_CASES_FOLDER_PATH
 
@@ -122,10 +122,10 @@ def test_agentd_server_configuration(test_metadata, truncate_monitored_files_mod
                                      daemons_handler_module, wait_for_api_startup_module):
     '''
     description:
-        Checks `wazuh-api` responds correctly to agent registration requests. Also, ensure client.keys is update
+        Checks `blackwell-api` responds correctly to agent registration requests. Also, ensure client.keys is update
         accordingly to the new agents parameters.
 
-    wazuh_min_version:
+    blackwell_min_version:
         4.4.0
 
     parameters:
@@ -140,7 +140,7 @@ def test_agentd_server_configuration(test_metadata, truncate_monitored_files_mod
             brief: Wait for api starts.
         - daemons_handler_module:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Verify that agents IPV4 agents can be registered

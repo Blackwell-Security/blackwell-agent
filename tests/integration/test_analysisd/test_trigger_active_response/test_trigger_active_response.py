@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -13,14 +13,14 @@ brief: Active responses perform various countermeasures to address active threat
 tier: 2
 
 modules:
-    - wazuh_analysisd
+    - blackwell_analysisd
     - active_response
 
 components:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -45,7 +45,7 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/active-response/#active-response
+    - https://documentation.blackwell.com/current/user-manual/capabilities/active-response/#active-response
 
 tags:
     - ar_analysisd
@@ -54,11 +54,11 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils import file
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import CONFIGS_PATH, TEST_CASES_PATH, CUSTOM_SCRIPTS_PATH, RULES_SAMPLE_PATH
 
@@ -80,27 +80,27 @@ monitored_file = '/tmp/file_to_monitor.log'
 
 # Test function
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_rules_triggers_ar(test_configuration, test_metadata, truncate_monitored_files, set_wazuh_configuration,
+def test_rules_triggers_ar(test_configuration, test_metadata, truncate_monitored_files, set_blackwell_configuration,
                                        prepare_ar_files, prepare_custom_rules_file, daemons_handler, fill_monitored_file):
     '''
     description: Check if an active response is triggered when an event matches with a rule.
 
     test_phases:
         - setup:
-            - Copy custom rule and active response files to Wazuh paths.
+            - Copy custom rule and active response files to Blackwell paths.
             - Create a new file which will be monitored with logcollector.
-            - Set wazuh configuration (add active_response command and localfile blocks).
+            - Set blackwell configuration (add active_response command and localfile blocks).
             - Fill the monitored file with the log to raise the alert.
         - test:
             - Check the alert is raised.
             - Check if the active response has been triggered (cthe file is created).
         - teardown:
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Clean logs files and restart blackwell to apply the configuration.
             - Remove generated file when triggering the active response.
             - Remove generated and custom copied files.
-            - Restart initial wazuh configuration.
+            - Restart initial blackwell configuration.
 
-    wazuh_min_version: 4.3.5
+    blackwell_min_version: 4.3.5
 
     parameters:
         - test_configuration:
@@ -111,8 +111,8 @@ def test_rules_triggers_ar(test_configuration, test_metadata, truncate_monitored
             brief: Get metadata from the module.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
-        - set_wazuh_configuration:
+            brief: Truncate blackwell logs.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - prepare_ar_files:
@@ -123,7 +123,7 @@ def test_rules_triggers_ar(test_configuration, test_metadata, truncate_monitored
             brief: Copies custom rules_file before test, deletes after test.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - fill_monitored_file:
             type: fixture
             brief: Fill the monitored file.

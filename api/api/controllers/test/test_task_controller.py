@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -9,16 +9,16 @@ import pytest
 from connexion.lifecycle import ConnexionResponse
 from api.controllers.test.utils import CustomAffectedItems
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('blackwell.common.blackwell_uid'):
+    with patch('blackwell.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
         from api.controllers.task_controller import get_tasks_status
-        from wazuh import task
-        from wazuh.core.common import DATABASE_LIMIT
-        from wazuh.tests.util import RBAC_bypasser
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        from blackwell import task
+        from blackwell.core.common import DATABASE_LIMIT
+        from blackwell.tests.util import RBAC_bypasser
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
 
 
 @pytest.mark.asyncio

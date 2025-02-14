@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 
@@ -12,15 +12,15 @@ from copy import copy
 from os import path, chdir, walk
 
 base = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
-framework = path.join(base, 'framework', 'wazuh')
+framework = path.join(base, 'framework', 'blackwell')
 api = path.join(base, 'api', 'api')
 integration_tests = path.join(base, 'api', 'test', 'integration')
 
 # Mapping file
 file_path = path.join(integration_tests, 'mapping', 'integration_test_api_endpoints.json')
 
-# Wazuh modules
-wazuh_modules = [
+# Blackwell modules
+blackwell_modules = [
     api,  # API
     framework,  # SDK, CORE and RBAC (recursive call)
     integration_tests  # Integration tests
@@ -55,8 +55,8 @@ def extract_module_from_path(file_path):
     """Extracts the module from the file path."""
     parts = file_path.split('/')
     # Assuming the module is the last part of the path
-    wazuh_modules = parts[-1]
-    return wazuh_modules
+    blackwell_modules = parts[-1]
+    return blackwell_modules
 
 def get_file_and_test_info(test_name, test_mapping, module_name):
     try:
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         test_tags = calculate_test_mappings()
 
         mapping_list = list()
-        for module in wazuh_modules:
+        for module in blackwell_modules:
             chdir(module)
             for root, dirs, files in sorted(walk('.')):
                 mappings = dict()
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         file_rel_path = sys.argv[1]
 
         if not path.exists(path.join(base, file_rel_path)):
-            print('The relative path does not exist. Example: "framework/wazuh/agent.py"')
+            print('The relative path does not exist. Example: "framework/blackwell/agent.py"')
             exit(0)
 
         with open(file_path) as f:

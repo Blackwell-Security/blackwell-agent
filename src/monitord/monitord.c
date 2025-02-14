@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -16,7 +16,7 @@
 #include "monitord.h"
 #include "config/config.h"
 #include "string_op.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
 #include "time.h"
 
 /* Global variables */

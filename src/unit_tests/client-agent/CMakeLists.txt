@@ -20,14 +20,14 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(CLIENT-AGENT ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(CLIENT-AGENT ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
 endif(${TARGET} STREQUAL "winagent")
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate agentd tests
 list(APPEND client-agent_names "test_start_agent")
@@ -104,8 +104,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${client-agent_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         CLIENT-AGENT
         ${TEST_DEPS}
     )

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -34,7 +34,7 @@
 #define CCLUSTER      0004000000
 #define CLGCSOCKET    0010000000
 #define CANDSOCKET    0020000000
-#define WAZUHDB       0040000000
+#define BLACKWELLDB       0040000000
 #define CLOGTEST      0100000000
 #define ATAMPERING    0200000000
 
@@ -48,7 +48,7 @@
                             (modules & CAGENT_CONFIG ) | (modules & CAGENTLESS    ) | (modules & CREPORTS      ) |\
                             (modules & CINTEGRATORD  ) | (modules & CWMODULE      ) | (modules & CLABELS       ) |\
                             (modules & CAUTHD        ) | (modules & CBUFFER       ) | (modules & CCLUSTER      ) |\
-                            (modules & CLGCSOCKET    ) | (modules & CLOGTEST      ) | (modules & WAZUHDB       ) |\
+                            (modules & CLGCSOCKET    ) | (modules & CLOGTEST      ) | (modules & BLACKWELLDB       ) |\
                             (modules & CANDSOCKET    ) )
 
 typedef enum needed_tags {
@@ -60,7 +60,7 @@ typedef enum needed_tags {
 
 
 #include "../os_xml/os_xml.h"
-#include "../config/wazuh_db-config.h"
+#include "../config/blackwell_db-config.h"
 #include "time.h"
 
 /* Main function to read the config */

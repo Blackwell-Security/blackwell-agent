@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -16,7 +16,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-authd
+    - blackwell-authd
 
 os_platform:
     - linux
@@ -45,14 +45,14 @@ import time
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.tools.monitors import queue_monitor
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import make_callback
-from wazuh_testing.utils.services import get_version
-from wazuh_testing.utils.sockets import get_host_name
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.tools.monitors import queue_monitor
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import make_callback
+from blackwell_testing.utils.services import get_version
+from blackwell_testing.utils.sockets import get_host_name
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 from utils import launch_agent_auth
@@ -62,8 +62,8 @@ from utils import launch_agent_auth
 pytestmark = [pytest.mark.agent, pytest.mark.linux, pytest.mark.win32, pytest.mark.tier(level=1)]
 
 # Cases metadata and its ids.
-cases_path = Path(TEST_CASES_PATH, 'cases_wazuh_agent_auth.yaml')
-config_path = Path(CONFIGS_PATH, 'config_wazuh_agent_auth.yaml')
+cases_path = Path(TEST_CASES_PATH, 'cases_blackwell_agent_auth.yaml')
+config_path = Path(CONFIGS_PATH, 'config_blackwell_agent_auth.yaml')
 config_parameters, test_metadata, cases_ids = get_test_cases_data(cases_path)
 test_configuration = load_configuration_template(config_path, config_parameters, test_metadata)
 
@@ -84,7 +84,7 @@ def launch_agent_with_retry(configuration, retries=5, delay=1):
 
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
-def test_agent_auth_enrollment(test_configuration, test_metadata, set_wazuh_configuration, daemons_handler_module,
+def test_agent_auth_enrollment(test_configuration, test_metadata, set_blackwell_configuration, daemons_handler_module,
                                set_keys, set_password, configure_socket_listener):
     """
     description:
@@ -92,7 +92,7 @@ def test_agent_auth_enrollment(test_configuration, test_metadata, set_wazuh_conf
         error log. Agent-auth will be executed using the different parameters and with different keys and password
         files scenarios as described in the test cases."
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 1
 
@@ -103,12 +103,12 @@ def test_agent_auth_enrollment(test_configuration, test_metadata, set_wazuh_conf
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - daemons_handler_module:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - shutdown_agentd:
             type: fixture
             brief: Shutdown agentd to avoid interferences with agent-auth test
@@ -128,7 +128,7 @@ def test_agent_auth_enrollment(test_configuration, test_metadata, set_wazuh_conf
         - The error log is generated as expected when the configuration is invalid.
 
     input_description:
-        Different test cases are contained in an external YAML file (wazuh_enrollment_tests.yaml) which includes the
+        Different test cases are contained in an external YAML file (blackwell_enrollment_tests.yaml) which includes the
         different available enrollment-related configurations.
 
     expected_output:
@@ -143,7 +143,7 @@ def test_agent_auth_enrollment(test_configuration, test_metadata, set_wazuh_conf
         expected_error = expected_error_dict['agent-auth'] if 'agent-auth' in expected_error_dict else \
                                                               expected_error_dict
         try:
-            log_monitor = FileMonitor(WAZUH_LOG_PATH)
+            log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
             log_monitor.start(timeout=10, callback=make_callback(expected_error, prefix='.*', escape=True))
         except Exception as error:
             expected_fail = test_metadata.get('expected_fail')

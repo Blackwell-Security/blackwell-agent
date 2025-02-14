@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,7 +17,7 @@
 
 #include "../../headers/shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/client-agent/notify_wrappers.h"
+#include "../wrappers/blackwell/client-agent/notify_wrappers.h"
 
 extern int g_ip_update_interval;
 int log_builder_update_host_ip(log_builder_t * builder);

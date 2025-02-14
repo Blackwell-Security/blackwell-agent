@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -142,7 +142,7 @@ def generate_msg(alert: any, options: any, apikey: str) -> str:
     msg: str
         The JSON message to send
     """
-    managed_security_url = 'https://wazuh.com'
+    managed_security_url = 'https://blackwell.com'
     level = alert['rule']['level']
 
     severity = 'info'
@@ -166,7 +166,7 @@ def generate_msg(alert: any, options: any, apikey: str) -> str:
             'group': groups,
             'custom_details': alert,
         },
-        'client': 'Wazuh Monitoring Service',
+        'client': 'Blackwell Monitoring Service',
         'client_url': managed_security_url,
     }
 

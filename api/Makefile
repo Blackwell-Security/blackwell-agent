@@ -1,19 +1,19 @@
-# Makefile for Wazuh API
-# Copyright (C) 2015, Wazuh Inc.
+# Makefile for Blackwell API
+# Copyright (C) 2015, Blackwell Inc.
 # May 3, 2017
 #
 # Syntax: make [ all | backup | install | restore | service ]
 
-WAZUH_GROUP       = wazuh
+BLACKWELL_GROUP       = blackwell
 INSTALLDIR       ?= /var/ossec
 
 MV_FILE        = mv -f
 RM_FILE        = rm -f
-INSTALL_DIR    = install -o root -g ${WAZUH_GROUP} -m 0750 -d
-INSTALL_RW_DIR = install -o root -g ${WAZUH_GROUP} -m 0770 -d
-INSTALL_EXEC   = install -o root -g ${WAZUH_GROUP} -m 0750
-INSTALL_FILE   = install -o root -g ${WAZUH_GROUP} -m 0640
-INSTALL_CONFIG_FILE   = install -o root -g ${WAZUH_GROUP} -m 0660
+INSTALL_DIR    = install -o root -g ${BLACKWELL_GROUP} -m 0750 -d
+INSTALL_RW_DIR = install -o root -g ${BLACKWELL_GROUP} -m 0770 -d
+INSTALL_EXEC   = install -o root -g ${BLACKWELL_GROUP} -m 0750
+INSTALL_FILE   = install -o root -g ${BLACKWELL_GROUP} -m 0640
+INSTALL_CONFIG_FILE   = install -o root -g ${BLACKWELL_GROUP} -m 0660
 PYTHON_BIN     = $(INSTALLDIR)/framework/python/bin/python3
 
 
@@ -35,12 +35,12 @@ install:
 	$(INSTALL_CONFIG_FILE) api/configuration/api.yaml ${INSTALLDIR}/api/configuration
 
 	$(INSTALL_DIR) $(INSTALLDIR)/api/scripts
-	$(INSTALL_FILE) scripts/wazuh_apid.py ${INSTALLDIR}/api/scripts
+	$(INSTALL_FILE) scripts/blackwell_apid.py ${INSTALLDIR}/api/scripts
 
     # Install scripts/%.py on $(INSTALLDIR)/bin/%
 	$(foreach script,$(wildcard scripts/*.py),$(INSTALL_EXEC) wrappers/generic_wrapper.sh $(patsubst scripts/%.py,$(INSTALLDIR)/bin/%,$(script));)
 	
-	$(MV_FILE) $(INSTALLDIR)/bin/wazuh_apid $(INSTALLDIR)/bin/wazuh-apid
+	$(MV_FILE) $(INSTALLDIR)/bin/blackwell_apid $(INSTALLDIR)/bin/blackwell-apid
 
 restore:
     # Restore old API config

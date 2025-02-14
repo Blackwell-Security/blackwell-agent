@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -23,7 +23,7 @@
 #include "../../analysisd/decoders/decoder.h"
 #include "../../analysisd/decoders/plugin_decoders.h"
 #include "../../analysisd/config.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 void FreeDecoderInfo(OSDecoderInfo *pi);
 char *_loadmemory(char *at, char *str, OSList* log_msg);

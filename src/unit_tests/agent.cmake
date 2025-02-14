@@ -1,24 +1,24 @@
-# Find the wazuh shared library
-find_library(WAZUHEXT NAMES libwazuhext.dylib HINTS "${SRC_FOLDER}")
-if(WAZUHEXT)
+# Find the blackwell shared library
+find_library(BLACKWELLEXT NAMES libblackwellext.dylib HINTS "${SRC_FOLDER}")
+if(BLACKWELLEXT)
   set(uname "Darwin")
 else()
   set(uname "Linux")
 endif()
-find_library(WAZUHEXT NAMES libwazuhext.so HINTS "${SRC_FOLDER}")
+find_library(BLACKWELLEXT NAMES libblackwellext.so HINTS "${SRC_FOLDER}")
 
-if(NOT WAZUHEXT)
-    message(FATAL_ERROR "libwazuhext not found! Aborting...")
+if(NOT BLACKWELLEXT)
+    message(FATAL_ERROR "libblackwellext not found! Aborting...")
 endif()
 
 # # Add compiling flags and set tests dependencies
 if(${uname} STREQUAL "Darwin")
-    set(TEST_DEPS ${WAZUHLIB} ${WAZUHEXT} -lpthread -ldl -fprofile-arcs -ftest-coverage)
-    add_compile_options(-ggdb -O0 -g -coverage -DTEST_AGENT -I/usr/local/include -DENABLE_SYSC -DWAZUH_UNIT_TESTING)
+    set(TEST_DEPS ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread -ldl -fprofile-arcs -ftest-coverage)
+    add_compile_options(-ggdb -O0 -g -coverage -DTEST_AGENT -I/usr/local/include -DENABLE_SYSC -DBLACKWELL_UNIT_TESTING)
 else()
     add_compile_options(-ggdb -O0 -g -coverage -DTEST_AGENT -DENABLE_AUDIT -DINOTIFY_ENABLED -fsanitize=address -fsanitize=undefined)
     link_libraries(-fsanitize=address -fsanitize=undefined)
-    set(TEST_DEPS ${WAZUHLIB} ${WAZUHEXT} -lpthread -lcmocka -ldl -fprofile-arcs -ftest-coverage)
+    set(TEST_DEPS ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread -lcmocka -ldl -fprofile-arcs -ftest-coverage)
 endif()
 
 if(NOT ${uname} STREQUAL "Darwin")
@@ -27,4 +27,4 @@ if(NOT ${uname} STREQUAL "Darwin")
   add_subdirectory(os_execd)
 endif()
 
-add_subdirectory(wazuh_modules)
+add_subdirectory(blackwell_modules)

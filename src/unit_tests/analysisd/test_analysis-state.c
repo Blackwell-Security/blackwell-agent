@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -20,9 +20,9 @@
 
 #include "../wrappers/common.h"
 #include "../wrappers/posix/time_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/shared/cluster_utils_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_global_helpers_wrappers.h"
+#include "../wrappers/blackwell/shared/hash_op_wrappers.h"
+#include "../wrappers/blackwell/shared/cluster_utils_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_global_helpers_wrappers.h"
 
 typedef struct test_struct {
     analysisd_agent_state_t *agent_state;

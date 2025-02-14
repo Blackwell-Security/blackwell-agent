@@ -1,6 +1,6 @@
 /*
- * Wazuh Vulnerability scanner
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Vulnerability scanner
+ * Copyright (C) 2015, Blackwell Inc.
  * April 22, 2024.
  *
  * This program is free software; you can redistribute it

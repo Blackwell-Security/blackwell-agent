@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Component Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell content manager - Component Tests
+ * Copyright (C) 2015, Blackwell Inc.
  * July 26, 2023.
  *
  * This program is free software; you can redistribute it

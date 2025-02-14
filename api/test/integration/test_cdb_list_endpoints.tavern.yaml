@@ -48,7 +48,7 @@ stages:
               relative_dirname: !anystr
               filename: !anystr
           failed_items: []
-          total_affected_items: 4 # Number of cdb_lists by default in Wazuh, this number may change anytime, update accordingly
+          total_affected_items: 4 # Number of cdb_lists by default in Blackwell, this number may change anytime, update accordingly
           total_failed_items: 0
       # Save some data for future use in the test
       save:
@@ -240,7 +240,7 @@ stages:
             - items: !anything
               relative_dirname: "{tavern.request_vars.params.relative_dirname}"
           failed_items: []
-          total_affected_items: 2 # Number of cdb_lists by default in Wazuh with this relative_dirname, this number may change anytime, update accordingly
+          total_affected_items: 2 # Number of cdb_lists by default in Blackwell with this relative_dirname, this number may change anytime, update accordingly
           total_failed_items: 0
 
     # GET /lists?limit=1&relative_dirname=wrong_dirname
@@ -510,11 +510,11 @@ stages:
         error: 0
         data:
           affected_items:
-            - audit-wazuh-w: write
-              audit-wazuh-r: read
-              audit-wazuh-a: attribute
-              audit-wazuh-x: execute
-              audit-wazuh-c: command
+            - audit-blackwell-w: write
+              audit-blackwell-r: read
+              audit-blackwell-a: attribute
+              audit-blackwell-x: execute
+              audit-blackwell-c: command
           total_affected_items: 1
           total_failed_items: 0
           failed_items: []

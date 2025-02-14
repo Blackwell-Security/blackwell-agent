@@ -40,7 +40,7 @@
     - section: cluster
       elements:
       - name:
-          value: wazuh
+          value: blackwell
       - node_name:
           value: node_0
       - node_type:

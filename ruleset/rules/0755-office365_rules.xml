@@ -1,7 +1,7 @@
 <!--
   -  Office365 rules
-  -  Created by Wazuh, Inc.
-  -  Copyright (C) 2015, Wazuh Inc.
+  -  Created by Blackwell, Inc.
+  -  Copyright (C) 2015, Blackwell Inc.
   -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
 -->
 
@@ -937,11 +937,11 @@ ID: 91531 - 91650
     </rule>
 
     <!-- This rule capture internal event, 3 request fail.
-        {"integration":"office365","office365":{"actor":"wazuh","tenant_id":"8CE4AF1D-20DC-4E7E-B306-1CEF89A3B898","subscription_name":"Audit.Exchange"}}
+        {"integration":"office365","office365":{"actor":"blackwell","tenant_id":"8CE4AF1D-20DC-4E7E-B306-1CEF89A3B898","subscription_name":"Audit.Exchange"}}
     -->
     <rule id="91648" level="3">
         <if_sid>91531</if_sid>
-        <field name="office365.actor">wazuh</field>
+        <field name="office365.actor">blackwell</field>
         <description>Office 365 module internal event, 3 request fail.</description>
         <options>no_full_log</options>
     </rule>

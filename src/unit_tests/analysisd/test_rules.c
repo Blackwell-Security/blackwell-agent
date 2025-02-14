@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,8 +17,8 @@
 #include "../../analysisd/config.h"
 #include "../../analysisd/eventinfo.h"
 #include "../../analysisd/analysisd.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/os_xml/os_xml_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/os_xml/os_xml_wrappers.h"
 
 char *loadmemory(char *at, const char *str, OSList* log_msg);
 int get_info_attributes(char **attributes, char **values, OSList* log_msg);

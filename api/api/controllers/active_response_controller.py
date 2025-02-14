@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -11,10 +11,10 @@ from api.controllers.util import json_response, JSON_CONTENT_TYPE
 from api.models.active_response_model import ActiveResponseModel
 from api.models.base_model_ import Body
 from api.util import remove_nones_to_dict, raise_if_exc
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-import wazuh.active_response as active_response
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+import blackwell.active_response as active_response
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 async def run_command(agents_list: str = '*', pretty: bool = False,

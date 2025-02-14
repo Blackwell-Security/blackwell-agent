@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell SysInfo
+ * Copyright (C) 2015, Blackwell Inc.
  * July 20, 2023.
  *
  * This program is free software; you can redistribute it
@@ -230,7 +230,7 @@ TEST_F(PKGWrapperTest, pkgVersionXML)
     std::string inputPath;
     inputPath += getwd(NULL);
     inputPath += "/input_files";
-    std::string package { "com.wazuh.pkg.wazuh-agent.plist" };
+    std::string package { "com.blackwell.pkg.blackwell-agent.plist" };
 
     struct PackageContext ctx
     {
@@ -238,16 +238,16 @@ TEST_F(PKGWrapperTest, pkgVersionXML)
     };
     std::shared_ptr<PKGWrapper> wrapper;
     EXPECT_NO_THROW(wrapper = std::make_shared<PKGWrapper>(ctx));
-    EXPECT_EQ(wrapper->name(), "wazuh-agent");
+    EXPECT_EQ(wrapper->name(), "blackwell-agent");
     EXPECT_EQ(wrapper->version(), "4.10.1");
     EXPECT_EQ(wrapper->groups(), " ");
-    EXPECT_EQ(wrapper->description(), "com.wazuh.pkg.wazuh-agent");
+    EXPECT_EQ(wrapper->description(), "com.blackwell.pkg.blackwell-agent");
     EXPECT_EQ(wrapper->architecture(), " ");
     EXPECT_EQ(wrapper->format(), "pkg");
     EXPECT_EQ(wrapper->osPatch(), "");
     EXPECT_EQ(wrapper->source(), "receipts");
     EXPECT_EQ(wrapper->location(), inputPath + "/" + package);
-    EXPECT_EQ(wrapper->vendor(), "wazuh");
+    EXPECT_EQ(wrapper->vendor(), "blackwell");
     EXPECT_EQ(wrapper->priority(), " ");
     EXPECT_EQ(wrapper->size(), 0);
     EXPECT_EQ(wrapper->install_time(), "2024-11-07T08:58:38Z");

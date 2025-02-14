@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import botocore
@@ -11,13 +11,13 @@ import s3_log_handler
 import sqs_message_processor
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
-import wazuh_integration
+import blackwell_integration
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
 import aws_tools
 
 
-class AWSSQSQueue(wazuh_integration.WazuhIntegration):
+class AWSSQSQueue(blackwell_integration.BlackwellIntegration):
     """Class for getting AWS SQS Queue notifications.
 
     Attributes
@@ -46,7 +46,7 @@ class AWSSQSQueue(wazuh_integration.WazuhIntegration):
                  sts_endpoint=None, service_endpoint=None, skip_on_error=False,
                  **kwargs):
         self.sqs_name = name
-        wazuh_integration.WazuhIntegration.__init__(self, access_key=None, secret_key=None,
+        blackwell_integration.BlackwellIntegration.__init__(self, access_key=None, secret_key=None,
                                                     iam_role_arn=iam_role_arn,
                                                     profile=profile, external_id=external_id, service_name='sqs',
                                                     sts_endpoint=sts_endpoint, skip_on_error=skip_on_error,

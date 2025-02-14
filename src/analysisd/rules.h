@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -217,7 +217,7 @@ typedef struct _RuleInfo {
     char ** mitre_tactic_id;
     char ** mitre_technique_id;
 
-    bool internal_saving;      ///< Used to free RuleInfo structure in wazuh-logtest
+    bool internal_saving;      ///< Used to free RuleInfo structure in blackwell-logtest
 
     /* Pointers to the rules which this one overwrites if it exists */
     OSList * rule_overwrite;

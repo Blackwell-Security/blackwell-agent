@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 from connexion.lifecycle import ConnexionRequest, ConnexionResponse
@@ -12,7 +12,7 @@ from api import configuration
 from api.middlewares import ip_block, ip_stats, LOGIN_ENDPOINT, RUN_AS_LOGIN_ENDPOINT
 from api.api_exception import BlockedIPException, MaxRequestsException, ExpectFailedException
 from api.controllers.util import json_response, ERROR_CONTENT_TYPE
-from wazuh.core.utils import get_utc_now
+from blackwell.core.utils import get_utc_now
 
 
 def prevent_bruteforce_attack(request: ConnexionRequest, attempts: int = 5):

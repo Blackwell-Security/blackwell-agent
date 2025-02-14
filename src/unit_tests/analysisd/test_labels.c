@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -13,7 +13,7 @@
 #include <cmocka.h>
 #include <stdio.h>
 
-#include "../wrappers/wazuh/wazuh_db/wdb_global_helpers_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_global_helpers_wrappers.h"
 
 #include "../analysisd/config.h"
 #include "../analysisd/labels.h"
@@ -61,7 +61,7 @@ void test_labels_find_agent_no_labels(void **state) {
     int sock = -1;
     char *agent_id = "001";
 
-    // Requesting labels to Wazuh DB
+    // Requesting labels to Blackwell DB
     expect_value(__wrap_wdb_get_agent_labels, id, 1);
     will_return(__wrap_wdb_get_agent_labels, NULL);
 
@@ -89,7 +89,7 @@ void test_labels_find_agent_with_labels(void **state) {
     cJSON_AddStringToObject(label3, "value", "value");
     cJSON_AddItemToArray(array, label3);
 
-    // Requesting labels to Wazuh DB
+    // Requesting labels to Blackwell DB
     expect_value(__wrap_wdb_get_agent_labels, id, 1);
     will_return(__wrap_wdb_get_agent_labels, array);
 

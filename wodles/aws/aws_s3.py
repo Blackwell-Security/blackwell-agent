@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 #
 #
@@ -16,9 +16,9 @@
 #   8 - Failed to decompress file
 #   9 - Failed to parse file
 #   10 - pyarrow module missing
-#   11 - Unable to connect to Wazuh
+#   11 - Unable to connect to Blackwell
 #   12 - Invalid type of bucket
-#   13 - Unexpected error sending message to Wazuh
+#   13 - Unexpected error sending message to Blackwell
 #   14 - Empty bucket
 #   15 - Invalid endpoint URL
 #   16 - Throttling error

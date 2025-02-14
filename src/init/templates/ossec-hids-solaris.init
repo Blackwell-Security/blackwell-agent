@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# Copyright (C) 2015, Wazuh Inc.
-# OSSEC         Controls Wazuh on Solaris systems
+# Copyright (C) 2015, Blackwell Inc.
+# OSSEC         Controls Blackwell on Solaris systems
 # Author:       Kayvan A. Sylvan <kayvan@sylvan.com>
 # Author:       Daniel B. Cid <dcid@ossec.net>
 #
 # chkconfig: 2345 99 15
-# description: Starts and stops Wazuh (Host Intrusion Detection System)
+# description: Starts and stops Blackwell (Host Intrusion Detection System)
 #
 # This will work on Solaris systems (maybe others too)
 #
@@ -16,12 +16,12 @@
 LANG=C
 export $LANG
 
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+BLACKWELL_HOME=BLACKWELL_HOME_TMP
+BLACKWELL_CONTROL="$BLACKWELL_HOME/bin/blackwell-control"
 
 start() {
-       echo -n "Starting Wazuh: "
-       ${WAZUH_CONTROL} start > /dev/null
+       echo -n "Starting Blackwell: "
+       ${BLACKWELL_CONTROL} start > /dev/null
        RETVAL=$?
        if [ $RETVAL -eq 0 ]; then
                echo success
@@ -33,8 +33,8 @@ start() {
 }
 
 stop() {
-       echo -n "Stopping Wazuh: "
-       ${WAZUH_CONTROL} stop > /dev/null
+       echo -n "Stopping Blackwell: "
+       ${BLACKWELL_CONTROL} stop > /dev/null
        RETVAL=$?
        if [ $RETVAL -eq 0 ]; then
                echo success
@@ -46,7 +46,7 @@ stop() {
 }
 
 status() {
-       ${WAZUH_CONTROL} status
+       ${BLACKWELL_CONTROL} status
 }
 
 

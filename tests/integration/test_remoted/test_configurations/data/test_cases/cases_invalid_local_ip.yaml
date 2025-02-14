@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for valid local ip
-  description: Command config wazuh manager for for valid local ip
+- name: Command config blackwell manager for valid local ip
+  description: Command config blackwell manager for for valid local ip
   configuration_parameters:
     IPV6: 'no'
     LOCAL_IP: '9.9.9.9'
@@ -8,8 +8,8 @@
     LOCAL_IP: '9.9.9.9'
 
 
-- name: Command config wazuh manager for valid local ip
-  description: Command config wazuh manager for for valid local ip
+- name: Command config blackwell manager for valid local ip
+  description: Command config blackwell manager for for valid local ip
   configuration_parameters:
     IPV6: 'no'
     LOCAL_IP: '1.1.1.1'
@@ -18,8 +18,8 @@
     LOCAL_IP: '1.1.1.1'
 
 
-- name: Command config wazuh manager for valid local ip
-  description: Command config wazuh manager for for valid local ip
+- name: Command config blackwell manager for valid local ip
+  description: Command config blackwell manager for for valid local ip
   configuration_parameters:
     IPV6: 'yes'
     LOCAL_IP: '::ffff:909:909'
@@ -28,8 +28,8 @@
     LOCAL_IP: '::ffff:909:909'
 
 
-- name: Command config wazuh manager for valid local ip
-  description: Command config wazuh manager for for valid local ip
+- name: Command config blackwell manager for valid local ip
+  description: Command config blackwell manager for for valid local ip
   configuration_parameters:
     IPV6: 'yes'
     LOCAL_IP: '::ffff:101:101'

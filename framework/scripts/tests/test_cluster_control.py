@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -50,7 +50,7 @@ def test_print_table(print_mock, map_mock):
 async def test_print_agents(local_client_mock, get_agents_mock, print_table_mock, itemgetter_mock, map_mock):
     """Test if the function is properly printing the requested agents' information."""
     filter_status = 'active'
-    filter_node = 'wazuh_worker'
+    filter_node = 'blackwell_worker'
     headers = {'id': 'ID', 'name': 'Name', 'ip': 'IP', 'status': 'Status', 'version': 'Version',
                'node_name': 'Node name'}
 
@@ -71,7 +71,7 @@ async def test_print_agents(local_client_mock, get_agents_mock, print_table_mock
 @patch('scripts.cluster_control.local_client.LocalClient', return_value='LocalClient return value')
 async def test_print_nodes(local_client_mock, get_agents_mock, print_table_mock, map_mock):
     """Test if the function is properly printing the requested nodes' information."""
-    filter_node = 'wazuh_worker'
+    filter_node = 'blackwell_worker'
     headers = ["Name", "Type", "Version", "Address"]
 
     await cluster_control.print_nodes(filter_node=filter_node)
@@ -86,10 +86,10 @@ async def test_print_nodes(local_client_mock, get_agents_mock, print_table_mock,
 @patch('builtins.print')
 @patch('scripts.cluster_control.get_utc_strptime')
 @patch('scripts.cluster_control.local_client.LocalClient', return_value='LocalClient return value')
-@patch('scripts.cluster_control.control.get_nodes', return_value={'items': [{'name': 'wazuh_worker'}]})
+@patch('scripts.cluster_control.control.get_nodes', return_value={'items': [{'name': 'blackwell_worker'}]})
 @patch('scripts.cluster_control.control.get_health',
        return_value={'n_connected_nodes': '1',
-                     'nodes': {'wazuh_worker2': {
+                     'nodes': {'blackwell_worker2': {
                          'info': {'ip': '0.0.0.0', 'version': '1.0', 'type': 'worker', 'n_active_agents': '0'},
                          'status': {'last_keep_alive': '11/02/1998',
                                     'last_check_integrity': {'date_start_master': 'n/a',
@@ -117,12 +117,12 @@ async def test_print_health(get_health_mock, get_nodes_mock, local_client_mock, 
     # Common variables
     config = {'name': 'cluster_name'}
     more = True
-    worker_status = get_health_mock.return_value['nodes']['wazuh_worker2']['status']
-    worker_info = get_health_mock.return_value['nodes']['wazuh_worker2']['info']
+    worker_status = get_health_mock.return_value['nodes']['blackwell_worker2']['status']
+    worker_info = get_health_mock.return_value['nodes']['blackwell_worker2']['info']
     get_utc_strptime_mock.side_effect = seconds_mock
 
     # Test cases 1 and 2
-    for filter_node in ['wazuh_worker', None]:
+    for filter_node in ['blackwell_worker', None]:
         # Reset mocks
         print_mock.reset_mock()
         local_client_mock.reset_mock()
@@ -133,7 +133,7 @@ async def test_print_health(get_health_mock, get_nodes_mock, local_client_mock, 
         await cluster_control.print_health(config=config, more=more, filter_node=filter_node)
         print_mock.assert_has_calls([call(f"Cluster name: {config['name']}\n\n"
                                           f"Connected nodes ({get_health_mock.return_value['n_connected_nodes']}):"),
-                                     call(f"\n    wazuh_worker2 ({worker_info['ip']})\n        "
+                                     call(f"\n    blackwell_worker2 ({worker_info['ip']})\n        "
                                           f"Version: {worker_info['version']}\n        "
                                           f"Type: {worker_info['type']}\n       "
                                           f" Active agents: {worker_info['n_active_agents']}\n        "
@@ -191,13 +191,13 @@ async def test_print_health(get_health_mock, get_nodes_mock, local_client_mock, 
 
     # Test case 3
     more = False
-    filter_node = 'wazuh_worker'
+    filter_node = 'blackwell_worker'
     print_mock.reset_mock()
     await cluster_control.print_health(config=config, more=more, filter_node=filter_node)
     print_mock.assert_called_once_with(f"Cluster name: {config['name']}\n\nLast completed synchronization for connected"
                                        f" nodes ({get_health_mock.return_value['n_connected_nodes']}):\n    "
-                                       f"wazuh_worker2 "
-                                       f"({get_health_mock.return_value['nodes']['wazuh_worker2']['info']['ip']}): "
+                                       f"blackwell_worker2 "
+                                       f"({get_health_mock.return_value['nodes']['blackwell_worker2']['info']['ip']}): "
                                        f"Integrity check: {worker_status['last_check_integrity']['date_end_master']} "
                                        f"| Integrity sync: {worker_status['last_sync_integrity']['date_end_master']} |"
                                        f" Agents-info: {worker_status['last_sync_agentinfo']['date_end_master']} | "
@@ -246,9 +246,9 @@ def test_usage(basename_mock, print_mock):
 @patch('logging.error')
 @patch('logging.basicConfig')
 @patch('argparse.ArgumentParser')
-@patch('wazuh.core.cluster.cluster.check_cluster_config')
-@patch('wazuh.core.cluster.utils.read_config', return_value='')
-@patch('wazuh.core.cluster.utils.get_cluster_status', return_value={'enabled': 'no', 'running': 'yes'})
+@patch('blackwell.core.cluster.cluster.check_cluster_config')
+@patch('blackwell.core.cluster.utils.read_config', return_value='')
+@patch('blackwell.core.cluster.utils.get_cluster_status', return_value={'enabled': 'no', 'running': 'yes'})
 async def test_main(get_cluster_status_mock, read_config_mock, check_cluster_config, parser_mock, logging_mock,
               logging_error_mock, asyncio_run_mock: MagicMock, exit_mock, event_loop):
     """Test the main function."""

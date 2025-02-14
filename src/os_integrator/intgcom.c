@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * Mar 26, 2018.
  *
  * This program is free software; you can redistribute it
@@ -11,7 +11,7 @@
 #include <shared.h>
 #include "os_net/os_net.h"
 #include "integrator.h"
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 size_t intgcom_dispatch(char * command, char ** output) {
 

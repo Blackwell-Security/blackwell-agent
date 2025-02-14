@@ -1,11 +1,11 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+           Created by Blackwell, Inc. <info@blackwell.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: Integratord manages Wazuh integrations with other applications such as Yara or Slack, by feeding
+brief: Integratord manages Blackwell integrations with other applications such as Yara or Slack, by feeding
 the integrated aplications with the alerts located in alerts.json file. This test module aims to validate that
 given a specific alert, the expected response is recieved, depending if it is a valid/invalid json alert, an
 overlong alert (64kb+) or what happens when it cannot read the file because it is missing.
@@ -19,7 +19,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-integratord
+    - blackwell-integratord
 
 os_platform:
     - Linux
@@ -29,8 +29,8 @@ os_version:
     - Ubuntu Focal
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/manager/manual-integration.html#slack
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-integratord.html
+    - https://documentation.blackwell.com/current/user-manual/manager/manual-integration.html#slack
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-integratord.html
 
 pytest_args:
     - tier:
@@ -46,19 +46,19 @@ import time
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON, WAZUH_DB_DAEMON, INTEGRATOR_DAEMON
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH, WAZUH_LOG_PATH
-from wazuh_testing.modules.analysisd.configuration import ANALYSISD_DEBUG
-from wazuh_testing.modules.integratord.configuration import INTEGRATORD_DEBUG
-from wazuh_testing.modules.integratord.patterns import INTEGRATORD_THIRD_PARTY_RESPONSE, INTEGRATORD_INODE_CHANGED, \
+from blackwell_testing import session_parameters
+from blackwell_testing.constants.daemons import ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON, INTEGRATOR_DAEMON
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH, BLACKWELL_LOG_PATH
+from blackwell_testing.modules.analysisd.configuration import ANALYSISD_DEBUG
+from blackwell_testing.modules.integratord.configuration import INTEGRATORD_DEBUG
+from blackwell_testing.modules.integratord.patterns import INTEGRATORD_THIRD_PARTY_RESPONSE, INTEGRATORD_INODE_CHANGED, \
                                                        INTEGRATORD_INVALID_ALERT_READ, INTEGRATORD_OVERLONG_ALERT_READ
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.commands import run_local_command_returning_output
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.utils.file import copy, remove_file
+from blackwell_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.commands import run_local_command_returning_output
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.utils.file import copy, remove_file
 
 
 # Marks
@@ -82,23 +82,23 @@ test3_configuration = load_configuration_template(test_configuration_path, test3
 # Variables
 TIME_TO_DETECT_FILE = 2
 TEMP_FILE_PATH = ALERTS_JSON_PATH + '.tmp'
-daemons_handler_configuration = {'daemons': [INTEGRATOR_DAEMON, WAZUH_DB_DAEMON, ANALYSISD_DAEMON]}
+daemons_handler_configuration = {'daemons': [INTEGRATOR_DAEMON, BLACKWELL_DB_DAEMON, ANALYSISD_DAEMON]}
 local_internal_options = {INTEGRATORD_DEBUG: '2', ANALYSISD_DEBUG: '1', MONITORD_ROTATE_LOG: '0'}
 
 
 # Tests
 @pytest.mark.tier(level=1)
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test1_configuration, test1_metadata), ids=test1_cases_ids)
-def test_integratord_change_json_inode(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_integratord_change_json_inode(test_configuration, test_metadata, set_blackwell_configuration, truncate_monitored_files,
                                        configure_local_internal_options, daemons_handler, wait_for_integratord_start):
     '''
-    description: Check that wazuh-integratord detects a change in the inode of the alerts.json and continues reading
+    description: Check that blackwell-integratord detects a change in the inode of the alerts.json and continues reading
                  alerts.
 
     test_phases:
         - setup:
             - Apply ossec.conf configuration changes according to the configuration template and use case.
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Configure internal options.
             - Restart the daemons defined in `daemons_handler_configuration`.
             - Wait for the restarted modules to start correctly.
@@ -106,17 +106,17 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
             - Wait until integratord is ready to read alerts.
             - Insert an alert in the `alerts.json` file.
             - Check if the alert was received by Slack.
-            - Replace the `alerts.json` file while wazuh-integratord is reading it.
-            - Wait for the inode change to be detected by wazuh-integratord.
-            - Check if wazuh-integratord detects that the file's inode has changed.
+            - Replace the `alerts.json` file while blackwell-integratord is reading it.
+            - Wait for the inode change to be detected by blackwell-integratord.
+            - Check if blackwell-integratord detects that the file's inode has changed.
             - Insert an alert in the `alerts.json` file.
             - Check if the alert is processed.
             - Check alert was received by Slack.
         - teardown:
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Restore initial configuration, both `ossec.conf` and `local_internal_options.conf`.
 
-    wazuh_min_version: 4.3.5
+    blackwell_min_version: 4.3.5
 
     tier: 1
 
@@ -127,9 +127,9 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration.
+            brief: Set blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -138,7 +138,7 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
             brief: Configure the local internal options file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - wait_for_integratord_start:
             type: fixture
             brief: Detect the start of the Integratord module in the ossec.log
@@ -151,11 +151,11 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
         - The `cases_integratord_read_json_alerts` file provides the test cases.
 
     expected_output:
-        - r'.+wazuh-integratord.*DEBUG: jqueue_next.*Alert file inode changed.*'
-        - r'.+wazuh-integratord.*Processing alert.*'
-        - r'.+wazuh-integratord.*<Response [200]>'
+        - r'.+blackwell-integratord.*DEBUG: jqueue_next.*Alert file inode changed.*'
+        - r'.+blackwell-integratord.*Processing alert.*'
+        - r'.+blackwell-integratord.*<Response [200]>'
     '''
-    wazuh_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_monitor = FileMonitor(BLACKWELL_LOG_PATH)
     command = f"echo '{test_metadata['alert_sample']}' >> {ALERTS_JSON_PATH}"
 
     # Wait until integratord is ready to read alerts
@@ -165,10 +165,10 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
     run_local_command_returning_output(command)
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
 
     # Check that expected log appears
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Change file to change inode
     copy(ALERTS_JSON_PATH, TEMP_FILE_PATH)
@@ -181,24 +181,24 @@ def test_integratord_change_json_inode(test_configuration, test_metadata, set_wa
     time.sleep(TIME_TO_DETECT_FILE)
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_INODE_CHANGED), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_INODE_CHANGED), timeout=session_parameters.default_timeout)
 
     # Check that expected log appears
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
     # Insert a new alert
     run_local_command_returning_output(command)
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
 
     # Check that expected log appears
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
 
 @pytest.mark.tier(level=1)
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test2_configuration, test2_metadata), ids=test2_cases_ids)
-def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_blackwell_configuration, truncate_monitored_files,
                                        configure_local_internal_options, daemons_handler, wait_for_integratord_start):
     '''
     description: Check that when a given alert is inserted into alerts.json, integratord works as expected. In case
@@ -207,7 +207,7 @@ def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wa
     test_phases:
         - setup:
             - Apply ossec.conf configuration changes according to the configuration template and use case.
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Configure internal options.
             - Restart the daemons defined in `daemons_handler_configuration`.
             - Wait for the restarted modules to start correctly.
@@ -215,10 +215,10 @@ def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wa
             - Insert a valid alert in the alerts.json file.
             - Check if the alert was received by Slack correctly (HTTP response status code: 200)
         - teardown:
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Restore initial configuration, both `ossec.conf` and `local_internal_options.conf`.
 
-    wazuh_min_version: 4.3.7
+    blackwell_min_version: 4.3.7
 
     tier: 1
 
@@ -229,9 +229,9 @@ def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wa
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration.
+            brief: Set blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -240,7 +240,7 @@ def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wa
             brief: Configure the local internal options file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - wait_for_integratord_start:
             type: fixture
             brief: Detect the start of the Integratord module in the ossec.log
@@ -253,23 +253,23 @@ def test_integratord_read_valid_alerts(test_configuration, test_metadata, set_wa
         - The `cases_integratord_read_valid_json_alerts` file provides the test cases.
 
     expected_output:
-        - r'.+wazuh-integratord.*alert_id.*\"integration\": \"slack\".*'
+        - r'.+blackwell-integratord.*alert_id.*\"integration\": \"slack\".*'
     '''
     sample = test_metadata['alert_sample']
-    wazuh_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     run_local_command_returning_output(f"echo '{sample}' >> {ALERTS_JSON_PATH}")
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(INTEGRATORD_THIRD_PARTY_RESPONSE), timeout=session_parameters.default_timeout)
 
     # Check that expected log appears
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result
 
 
 @pytest.mark.tier(level=1)
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test3_configuration, test3_metadata), ids=test3_cases_ids)
-def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_blackwell_configuration, truncate_monitored_files,
                                          configure_local_internal_options, daemons_handler, wait_for_integratord_start):
     '''
     description: Check that when a given alert is inserted into alerts.json, integratord works as expected. If the alert
@@ -278,18 +278,18 @@ def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_
     test_phases:
         - setup:
             - Apply ossec.conf configuration changes according to the configuration template and use case.
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Configure internal options.
             - Restart the daemons defined in `daemons_handler_configuration`.
             - Wait for the restarted modules to start correctly.
         - test:
             - Insert an invalid alert in the alerts.json file.
-            - Check if wazuh-integratord process the alert and report an error.
+            - Check if blackwell-integratord process the alert and report an error.
         - teardown:
-            - Truncate Wazuh's logs.
+            - Truncate Blackwell's logs.
             - Restore initial configuration, both `ossec.conf` and `local_internal_options.conf`.
 
-    wazuh_min_version: 4.3.7
+    blackwell_min_version: 4.3.7
 
     tier: 1
 
@@ -300,9 +300,9 @@ def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Set wazuh configuration.
+            brief: Set blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -311,7 +311,7 @@ def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_
             brief: Configure the local internal options file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - wait_for_integratord_start:
             type: fixture
             brief: Detect the start of the Integratord module in the ossec.log
@@ -324,12 +324,12 @@ def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_
         - The `cases_integratord_read_invalid_json_alerts` file provides the test cases.
 
     expected_output:
-        - r'.+wazuh-integratord.*WARNING: Invalid JSON alert read.*'
-        - r'.+wazuh-integratord.*WARNING: Overlong JSON alert read.*'
+        - r'.+blackwell-integratord.*WARNING: Invalid JSON alert read.*'
+        - r'.+blackwell-integratord.*WARNING: Overlong JSON alert read.*'
 
     '''
     sample = test_metadata['alert_sample']
-    wazuh_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     if test_metadata['alert_type'] == 'invalid':
         callback = INTEGRATORD_INVALID_ALERT_READ
@@ -342,7 +342,7 @@ def test_integratord_read_invalid_alerts(test_configuration, test_metadata, set_
     run_local_command_returning_output(f"echo '{sample}' >> {ALERTS_JSON_PATH}")
 
     # Start monitor
-    wazuh_monitor.start(callback=generate_callback(callback), timeout=session_parameters.default_timeout)
+    blackwell_monitor.start(callback=generate_callback(callback), timeout=session_parameters.default_timeout)
 
     # Check that expected log appears
-    assert wazuh_monitor.callback_result
+    assert blackwell_monitor.callback_result

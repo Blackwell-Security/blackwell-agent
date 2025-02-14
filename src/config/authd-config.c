@@ -1,6 +1,6 @@
 /*
  * Authd settings manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * May 29, 2017.
  *
  * This program is free software; you can redistribute it
@@ -18,7 +18,7 @@
 
 #ifndef WIN32
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else

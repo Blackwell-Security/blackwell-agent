@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -17,7 +17,7 @@
 
 #define IPV6_LINK_LOCAL_PREFIX "FE80:0000:0000:0000:"
 
-#define WAZUH_IPC_TIMEOUT 600    // seconds
+#define BLACKWELL_IPC_TIMEOUT 600    // seconds
 
 /* OS_Bindport*
  * Bind a specific port (protocol and a ip).

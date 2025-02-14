@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 import os
 import pytest
@@ -7,8 +7,8 @@ import subprocess
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.binaries import ACTIVE_RESPONSE_BIN_PATH
-from wazuh_testing.utils import file
+from blackwell_testing.constants.paths.binaries import ACTIVE_RESPONSE_BIN_PATH
+from blackwell_testing.utils import file
 
 
 @pytest.fixture(scope='module')

@@ -205,9 +205,9 @@ stages:
             - id: 99
               name: testing
             - id: 100
-              name: wazuh
+              name: blackwell
             - id: 101
-              name: wazuh-wui
+              name: blackwell-wui
             - id: 102
               name: technical
             - id: 103
@@ -480,7 +480,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
       method: PUT
       json:
-        name: wazuh-wuiModified
+        name: blackwell-wuiModified
     response:
       <<: *permission_denied
 

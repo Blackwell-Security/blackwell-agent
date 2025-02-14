@@ -1,11 +1,11 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
 
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_CONNECTION_PORT
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from blackwell_testing.constants.ports import DEFAULT_SSL_REMOTE_CONNECTION_PORT
+from blackwell_testing.tools.simulators.remoted_simulator import RemotedSimulator
 
 
 @pytest.fixture()

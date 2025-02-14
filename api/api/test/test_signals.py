@@ -47,8 +47,8 @@ async def test_cancel_signal_handler_catch_cancelled_error_and_dont_rise():
 
 @patch('api.signals.os.chmod')
 @patch('api.signals.os.chown')
-@patch('api.signals.common.wazuh_gid')
-@patch('api.signals.common.wazuh_uid')
+@patch('api.signals.common.blackwell_gid')
+@patch('api.signals.common.blackwell_uid')
 @pytest.mark.asyncio
 async def test_check_installation_uid_populate_uid_if_not_exists(
     uid_mock, gid_mock, chown_mock, chmod_mock, installation_uid_mock
@@ -89,21 +89,21 @@ async def test_get_update_information_injects_correct_data_into_app_context(
         'last_available_major': {
             'tag': 'v5.0.0',
             'description': '',
-            'title': 'Wazuh 5.0.0',
+            'title': 'Blackwell 5.0.0',
             'published_date': '2023-10-05T12:48:00Z',
             'semver': {'major': 5, 'minor': 0, 'patch': 0},
         },
         'last_available_minor': {
             'tag': 'v4.9.1',
             'description': '',
-            'title': 'Wazuh 4.9.1',
+            'title': 'Blackwell 4.9.1',
             'published_date': '2023-10-05T12:47:00Z',
             'semver': {'major': 4, 'minor': 9, 'patch': 1},
         },
         'last_available_patch': {
             'tag': 'v4.8.2',
             'description': '',
-            'title': 'Wazuh 4.8.2',
+            'title': 'Blackwell 4.8.2',
             'published_date': '2023-10-05T12:46:00Z',
             'semver': {'major': 4, 'minor': 8, 'patch': 2},
         },

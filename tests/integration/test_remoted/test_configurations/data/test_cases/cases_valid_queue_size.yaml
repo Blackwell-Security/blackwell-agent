@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for queue size
-  description: Command config wazuh manager for queue size
+- name: Command config blackwell manager for queue size
+  description: Command config blackwell manager for queue size
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -11,8 +11,8 @@
     queue_size: '1'
 
 
-- name: Command config wazuh manager for queue size
-  description: Command config wazuh manager for queue size
+- name: Command config blackwell manager for queue size
+  description: Command config blackwell manager for queue size
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -24,8 +24,8 @@
     queue_size: '1200'
 
 
-- name: Command config wazuh manager for queue size
-  description: Command config wazuh manager for queue size
+- name: Command config blackwell manager for queue size
+  description: Command config blackwell manager for queue size
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'

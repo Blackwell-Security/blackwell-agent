@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell content manager - Unit Tests
+ * Copyright (C) 2015, Blackwell Inc.
  * Jun 09, 2023.
  *
  * This program is free software; you can redistribute it

@@ -1,8 +1,8 @@
 <!--
   -  OSSEC rules
   -  Author: Daniel Cid.
-  -  Updated by Wazuh, Inc.
-  -  Copyright (C) 2015, Wazuh Inc.
+  -  Updated by Blackwell, Inc.
+  -  Copyright (C) 2015, Blackwell Inc.
   -  Copyright (C) 2009 Trend Micro Inc.
   -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
 -->
@@ -11,35 +11,35 @@
   <rule id="500" level="0">
     <category>ossec</category>
     <decoded_as>ossec</decoded_as>
-    <description>Grouping of wazuh rules.</description>
+    <description>Grouping of blackwell rules.</description>
   </rule>
 
   <rule id="501" level="3">
     <if_sid>500</if_sid>
     <if_fts />
     <match>Agent started</match>
-    <description>New wazuh agent connected.</description>
+    <description>New blackwell agent connected.</description>
     <group>pci_dss_10.6.1,gpg13_10.1,gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AU.6,tsc_CC7.2,tsc_CC7.3,</group>
   </rule>
 
   <rule id="502" level="3">
     <if_sid>500</if_sid>
     <match>Manager started</match>
-    <description>Wazuh server started.</description>
+    <description>Blackwell server started.</description>
     <group>pci_dss_10.6.1,gpg13_10.1,gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AU.6,tsc_CC7.2,tsc_CC7.3,</group>
   </rule>
 
   <rule id="503" level="3">
     <if_sid>500</if_sid>
     <match>Agent started</match>
-    <description>Wazuh agent started.</description>
+    <description>Blackwell agent started.</description>
     <group>pci_dss_10.6.1,pci_dss_10.2.6,gpg13_10.1,gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AU.6,nist_800_53_AU.14,nist_800_53_AU.5,tsc_CC7.2,tsc_CC7.3,tsc_CC6.8,</group>
   </rule>
 
   <rule id="504" level="3">
     <if_sid>500</if_sid>
     <match>Agent disconnected</match>
-    <description>Wazuh agent disconnected.</description>
+    <description>Blackwell agent disconnected.</description>
     <mitre>
       <id>T1562.001</id>
     </mitre>
@@ -49,7 +49,7 @@
   <rule id="505" level="3">
     <if_sid>500</if_sid>
     <match>Agent removed</match>
-    <description>Wazuh agent removed.</description>
+    <description>Blackwell agent removed.</description>
     <mitre>
       <id>T1562.001</id>
     </mitre>
@@ -59,7 +59,7 @@
   <rule id="506" level="3">
     <if_sid>500</if_sid>
     <match>Agent stopped</match>
-    <description>Wazuh agent stopped.</description>
+    <description>Blackwell agent stopped.</description>
     <mitre>
       <id>T1562.001</id>
     </mitre>
@@ -173,7 +173,7 @@
   <rule id="530" level="0">
     <if_sid>500</if_sid>
     <match>^ossec: output: </match>
-    <description>Wazuh process monitoring rules.</description>
+    <description>Blackwell process monitoring rules.</description>
     <group>process_monitor,</group>
   </rule>
 

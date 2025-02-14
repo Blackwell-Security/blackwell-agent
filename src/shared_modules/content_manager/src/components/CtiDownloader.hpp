@@ -1,6 +1,6 @@
 /*
- * Wazuh Content Manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Content Manager
+ * Copyright (C) 2015, Blackwell Inc.
  * Nov 30, 2023.
  *
  * This program is free software; you can redistribute it

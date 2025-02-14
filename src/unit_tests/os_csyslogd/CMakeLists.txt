@@ -18,10 +18,10 @@ set_target_properties(
     LINKER_LANGUAGE C
   )
 
-target_link_libraries(CSYSLOGD_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(CSYSLOGD_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 
 # Generate tests src/unit_tests/csyslogd/test_csyslogd.c
@@ -44,8 +44,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${csyslogd_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         CSYSLOGD_O
         ${TEST_DEPS}
     )

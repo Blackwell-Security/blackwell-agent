@@ -1,0 +1,12 @@
+# BLACKWELL SYSTEM FILE, PLEASE DO NOT MODIFY
+
+default_users:
+  blackwell:
+    description: Superuser of Blackwell.
+    password: blackwell
+    allow_run_as: True
+
+  blackwell-wui:
+    description: Superuser of Blackwell UI
+    password: blackwell-wui
+    allow_run_as: True

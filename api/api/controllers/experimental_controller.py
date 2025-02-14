@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -8,17 +8,17 @@ from functools import wraps
 from connexion import request
 from connexion.lifecycle import ConnexionResponse
 
-import wazuh.ciscat as ciscat
-import wazuh.rootcheck as rootcheck
-import wazuh.syscheck as syscheck
-import wazuh.syscollector as syscollector
+import blackwell.ciscat as ciscat
+import blackwell.rootcheck as rootcheck
+import blackwell.syscheck as syscheck
+import blackwell.syscollector as syscollector
 from api import configuration
 from api.controllers.util import json_response
 from api.util import remove_nones_to_dict, parse_api_param, raise_if_exc
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-from wazuh.core.exception import WazuhResourceNotFound
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+from blackwell.core.exception import BlackwellResourceNotFound
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 def check_experimental_feature_value(func):
@@ -27,7 +27,7 @@ def check_experimental_feature_value(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
         if not configuration.api_conf['experimental_features']:
-            raise_if_exc(WazuhResourceNotFound(1122))
+            raise_if_exc(BlackwellResourceNotFound(1122))
         else:
             return await func(*args, **kwargs)
 

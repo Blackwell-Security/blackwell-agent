@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#Copyright (C) 2015, Wazuh Inc.
+#Copyright (C) 2015, Blackwell Inc.
 
 set -e
 set -u

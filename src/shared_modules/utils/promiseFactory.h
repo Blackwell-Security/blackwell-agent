@@ -1,6 +1,6 @@
 /*
  * Promise factory
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * May 4, 2022.
  *
  * This program is free software; you can redistribute it

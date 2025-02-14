@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Blackwell package generator
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,7 +10,7 @@
 
 set -e
 CURRENT_PATH="$( cd $(dirname $0) ; pwd -P )"
-WAZUH_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
+BLACKWELL_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
 ARCHITECTURE="amd64"
 SYSTEM="deb"
 OUTDIR="${CURRENT_PATH}/output"
@@ -35,7 +35,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'wazuh-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
+    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'blackwell-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
 
     exit ${exit_code}
 }
@@ -57,7 +57,7 @@ download_file() {
 build_pkg() {
     if [ "$LEGACY" = "yes" ]; then
         REVISION="${REVISION}.el5"
-        TAR_URL="https://packages-dev.wazuh.com/utils/centos-5-i386-build/centos-5-i386.tar.gz"
+        TAR_URL="https://packages-dev.blackwell.com/utils/centos-5-i386-build/centos-5-i386.tar.gz"
         TAR_FILE="${CURRENT_PATH}/${SYSTEM}s/${ARCHITECTURE}/legacy/centos-5-i386.tar.gz"
         if [ ! -f "$TAR_FILE" ]; then
             download_file ${TAR_URL} "${CURRENT_PATH}/${SYSTEM}s/${ARCHITECTURE}/legacy"
@@ -87,14 +87,14 @@ build_pkg() {
     fi
 
     # Build the Debian package with a Docker container
-    docker run -t --rm -v ${OUTDIR}:/var/local/wazuh:Z \
+    docker run -t --rm -v ${OUTDIR}:/var/local/blackwell:Z \
         -e SYSTEM="$SYSTEM" \
         -e BUILD_TARGET="${TARGET}" \
         -e ARCHITECTURE_TARGET="${ARCHITECTURE}" \
         -e INSTALLATION_PATH="${INSTALLATION_PATH}" \
         -e IS_STAGE="${IS_STAGE}" \
-        -e WAZUH_BRANCH="${BRANCH}" \
-        -e WAZUH_VERBOSE="${VERBOSE}" \
+        -e BLACKWELL_BRANCH="${BRANCH}" \
+        -e BLACKWELL_VERBOSE="${VERBOSE}" \
         ${CUSTOM_CODE_VOL} \
         ${CONTAINER_NAME}:${DOCKER_TAG} \
         ${REVISION} ${JOBS} ${DEBUG} \
@@ -125,7 +125,7 @@ help() {
     echo "    -l, --legacy               [Optional only for RPM] Build package for CentOS 5."
     echo "    --dont-build-docker        [Optional] Locally built docker image will be used instead of generating a new one."
     echo "    --tag                      [Optional] Tag to use with the docker image."
-    echo "    --sources <path>           [Optional] Absolute path containing wazuh source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
+    echo "    --sources <path>           [Optional] Absolute path containing blackwell source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
     echo "    --is_stage                 [Optional] Use release name in package."
     echo "    --system                   [Optional] Select Package OS [rpm, deb]. By default is 'deb'."
     echo "    --src                      [Optional] Generate the source package in the destination directory."
@@ -226,7 +226,7 @@ main() {
             ;;
         "--sources")
             if [ -n "$2" ]; then
-               CUSTOM_CODE_VOL="-v $2:/wazuh-local-src:Z"
+               CUSTOM_CODE_VOL="-v $2:/blackwell-local-src:Z"
                shift 2
             else
                 help 1
@@ -263,7 +263,7 @@ main() {
 
     # Add a default source only if neither the branch nor a custom code volume is defined.
     if [ -z "${CUSTOM_CODE_VOL}" ] && [ -z "${BRANCH}" ]; then
-        CUSTOM_CODE_VOL="-v $WAZUH_PATH:/wazuh-local-src:Z"
+        CUSTOM_CODE_VOL="-v $BLACKWELL_PATH:/blackwell-local-src:Z"
     fi
 
     build && clean 0

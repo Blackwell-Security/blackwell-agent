@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: This module verifies the correct behavior of 'wazuh-authd' under different messages
+brief: This module verifies the correct behavior of 'blackwell-authd' under different messages
        in a Cluster scenario (for Master).
 
 components:
@@ -17,8 +17,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-authd
-    - wazuh-db
+    - blackwell-authd
+    - blackwell-db
 
 os_platform:
     - linux
@@ -41,9 +41,9 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.paths.sockets import WAZUH_DB_SOCKET_PATH, AUTHD_SOCKET_PATH
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from blackwell_testing.constants.paths.sockets import BLACKWELL_DB_SOCKET_PATH, AUTHD_SOCKET_PATH
+from blackwell_testing.constants.daemons import AUTHD_DAEMON, BLACKWELL_DB_DAEMON
+from blackwell_testing.utils.configuration import load_configuration_template, get_test_cases_data
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -58,25 +58,25 @@ test_configuration, test_metadata, test_cases_ids = get_test_cases_data(test_cas
 test_configuration = load_configuration_template(test_configuration_path, test_configuration, test_metadata)
 
 # Variables
-receiver_sockets_params = [(AUTHD_SOCKET_PATH, 'AF_UNIX', 'TCP'), (WAZUH_DB_SOCKET_PATH, 'AF_UNIX', 'TCP')]
+receiver_sockets_params = [(AUTHD_SOCKET_PATH, 'AF_UNIX', 'TCP'), (BLACKWELL_DB_SOCKET_PATH, 'AF_UNIX', 'TCP')]
 
 daemons_handler_configuration = {'all_daemons': True}
 
 # TODO Replace or delete
-monitored_sockets_params = [(WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(BLACKWELL_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 receiver_sockets, monitored_sockets = None, None
 
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_authd_local_messages(test_configuration, test_metadata, set_wazuh_configuration, configure_sockets_environment_module,
+def test_authd_local_messages(test_configuration, test_metadata, set_blackwell_configuration, configure_sockets_environment_module,
                               truncate_monitored_files, insert_pre_existent_agents, daemons_handler,
                               wait_for_authd_startup, set_up_groups, connect_to_sockets):
     '''
     description:
         Checks that every input message in trough local authd port generates the adequate response to worker.
 
-    wazuh_min_version:
+    blackwell_min_version:
         4.2.0
 
     tier: 0
@@ -88,9 +88,9 @@ def test_authd_local_messages(test_configuration, test_metadata, set_wazuh_confi
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic blackwell configuration.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure the socket listener to receive and send messages on the sockets at function scope.
@@ -105,7 +105,7 @@ def test_authd_local_messages(test_configuration, test_metadata, set_wazuh_confi
             brief: adds the required agents to the client.keys and global.db
         - daemons_handler:
             type: fixture
-            brief: Restarts wazuh or a specific daemon passed.
+            brief: Restarts blackwell or a specific daemon passed.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.

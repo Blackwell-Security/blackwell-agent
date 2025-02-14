@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -27,7 +27,7 @@
 #define AUTHD_H
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-authd"
+#define ARGV0 "blackwell-authd"
 #endif
 
 #include "../addagent/manage_agents.h"

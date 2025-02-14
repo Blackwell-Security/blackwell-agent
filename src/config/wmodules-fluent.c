@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -8,7 +8,7 @@
 */
 #ifndef WIN32
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 #include <stdio.h>
 #define MAX_TIMEOUT_VALUE 9000
 

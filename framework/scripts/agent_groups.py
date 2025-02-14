@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -14,11 +14,11 @@ from sys import exit, argv
 debug = False
 
 try:
-    import wazuh.agent as agent
-    from wazuh.core.exception import WazuhError
-    from wazuh.core.cluster import utils as cluster_utils
+    import blackwell.agent as agent
+    from blackwell.core.exception import BlackwellError
+    from blackwell.core.cluster import utils as cluster_utils
 except Exception as e:
-    print("Error importing 'Wazuh' package.\n\n{0}\n".format(e))
+    print("Error importing 'Blackwell' package.\n\n{0}\n".format(e))
     exit()
 
 
@@ -398,7 +398,7 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
 
-    except WazuhError as e:
+    except BlackwellError as e:
         print("Error {0}: {1}".format(e.code, e.message))
         if args.debug:
             raise

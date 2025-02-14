@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import json
@@ -8,12 +8,12 @@ from unittest.mock import patch, call, MagicMock
 
 import pytest
 
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
+with patch('blackwell.core.common.blackwell_uid'):
+    with patch('blackwell.core.common.blackwell_gid'):
         from api import alogging
         from api.api_exception import APIError
 
-REQUEST_HEADERS_TEST = {'authorization': 'Basic d2F6dWg6cGFzc3dvcmQxMjM='}  # wazuh:password123
+REQUEST_HEADERS_TEST = {'authorization': 'Basic d2F6dWg6cGFzc3dvcmQxMjM='}  # blackwell:password123
 AUTH_CONTEXT_TEST = {'auth_context': 'example'}
 HASH_AUTH_CONTEXT_TEST = '020efd3b53c1baf338cf143fad7131c3'
 
@@ -23,8 +23,8 @@ HASH_AUTH_CONTEXT_TEST = '020efd3b53c1baf338cf143fad7131c3'
     ('message_value', {'exc_info': 'traceback_value'}),
     ('message_value', {})
 ])
-def test_wazuhjsonformatter(message, dkt):
-    """Check wazuh json formatter is working as expected.
+def test_blackwelljsonformatter(message, dkt):
+    """Check blackwell json formatter is working as expected.
 
     Parameters
     ----------
@@ -35,7 +35,7 @@ def test_wazuhjsonformatter(message, dkt):
     """
     with patch('api.alogging.logging.LogRecord') as mock_record:
         mock_record.message = message
-        wjf = alogging.WazuhJsonFormatter()
+        wjf = alogging.BlackwellJsonFormatter()
         log_record = {}
         wjf.add_fields(log_record, mock_record, dkt)
         assert 'timestamp' in log_record
@@ -92,7 +92,7 @@ def test_api_logger_size_exceptions():
 ])
 def test_custom_logging(path, hash_auth_context, body, loggerlevel):
     """Test custom access logging calls."""
-    user, remote, method = ('wazuh', '1.1.1.1', 'POST')
+    user, remote, method = ('blackwell', '1.1.1.1', 'POST')
     query, elapsed_time, status, headers =  {'pretty': True}, 1.01, 200, {'content-type': 'xml'}
     json_info = {
         'user': user,

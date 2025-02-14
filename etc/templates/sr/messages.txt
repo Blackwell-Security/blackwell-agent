@@ -10,9 +10,9 @@ help="pomoć"
 
 # Global
 moreinfo="Vise informacija na: "
-starting="Zapocinje Wazuh"
+starting="Zapocinje Blackwell"
 systemis="Sistem je"
-modifiedinit="Init skript je modifikovan da započne Wazuh za vreme startovanja ."
+modifiedinit="Init skript je modifikovan da započne Blackwell za vreme startovanja ."
 noboot="Nepoznat sistem. Init skript nije dodat."
 
 # Part 1
@@ -28,7 +28,7 @@ localchose="Izabrana lokalna instalacija"
 
 # Part 2
 settingupenv="Postavljanje instalacionog okruženja"
-wheretoinstall="Izaberi gde želiš da instaliraš Wazuh"
+wheretoinstall="Izaberi gde želiš da instaliraš Blackwell"
 installat="Instalacija će biti izvršena na "
 deletedir="Instalacioni direktorij već postoji. Da li da ga obrišem?"
 
@@ -43,8 +43,8 @@ usingsmtp="Koristi SMTP server: "
 whatsmtp="Koji je tvoj SMTP server IP/host?"
 
 # Part 3.1/agent
-serverip="Koja je IP adresa Wazuh servera?"
-serveraddr="Koja je IP adresa/host Wazuh servera?"
+serverip="Koja je IP adresa Blackwell servera?"
+serveraddr="Koja je IP adresa/host Blackwell servera?"
 addingip="Dodaje serverov IP"
 addingname="Dodaje serverov hostname"
 
@@ -91,22 +91,22 @@ yesrunauthd="Pokretanje Auth usluge"
 
 # Part 4
 installing="Instalira sistem"
-startwazuh="Želite li pokrenuti Wazuh nakon instalacije?"
-nowazuhstart="Wazuh neće početi na kraju instalacije."
-yeswazuhstart="Wazuh će započeti na kraju instalacije."
+startblackwell="Želite li pokrenuti Blackwell nakon instalacije?"
+noblackwellstart="Blackwell neće početi na kraju instalacije."
+yesblackwellstart="Blackwell će započeti na kraju instalacije."
 runningmake="Vrši Makefile"
 
 # Final
 configurationdone="Konfiguracija je dobro završena"
-tostart="Da se započne Wazuh"
-tostop="Da se zaustavi Wazuh"
+tostart="Da se započne Blackwell"
+tostop="Da se zaustavi Blackwell"
 configat="Konfiguracija se može videti ili modifikovati na"
 addserveragent="Da bi se agent povezao sa serverom, treba da dodaš svakog od tvojih agenata
 serveru."
 presskey="Pritisni ENTER da nastaviš"
 
 # Update
-wanttoupdate="Već imaš instaliran Wazuh. Da li želiš da ga ažuriraš?"
+wanttoupdate="Već imaš instaliran Blackwell. Da li želiš da ga ažuriraš?"
 mustuninstall="Instalacija se ne može nastaviti bez deinstalacije starih verzija. Izlaz."
 unabletoupdate="U nemogućnosti da izvrši ažuriranje. Potrebna je potpuna nova instalacija."
 updatecompleted="Ažuriranje završeno."

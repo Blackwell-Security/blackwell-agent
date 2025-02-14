@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -7,7 +7,7 @@ from os import remove
 from pathlib import Path
 from shutil import copy
 
-from wazuh_testing.constants.paths.configurations import CUSTOM_DECODERS_PATH, CUSTOM_RULES_PATH
+from blackwell_testing.constants.paths.configurations import CUSTOM_DECODERS_PATH, CUSTOM_RULES_PATH
 from . import TEST_RULES_DECODERS_PATH, TEST_RULES_DECODERS_PATH
 
 

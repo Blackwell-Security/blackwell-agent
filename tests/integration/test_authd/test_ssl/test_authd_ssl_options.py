@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
 brief: These tests will check if the 'SSL' (Secure Socket Layer) protocol-related settings of
-       the 'wazuh-authd' daemon are working correctly. The 'wazuh-authd' daemon can
-       automatically add a Wazuh agent to a Wazuh manager and provide the key
+       the 'blackwell-authd' daemon are working correctly. The 'blackwell-authd' daemon can
+       automatically add a Blackwell agent to a Blackwell manager and provide the key
        to the agent. It is used along with the 'agent-auth' application.
 
 components:
@@ -19,9 +19,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-authd
-    - wazuh-db
-    - wazuh-modulesd
+    - blackwell-authd
+    - blackwell-db
+    - blackwell-modulesd
 
 os_platform:
     - linux
@@ -38,8 +38,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-authd.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/auth.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-authd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/auth.html
 
 tags:
     - enrollment
@@ -49,10 +49,10 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.tools.socket_controller import SocketController
+from blackwell_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from blackwell_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from blackwell_testing.constants.daemons import AUTHD_DAEMON, BLACKWELL_DB_DAEMON, MODULES_DAEMON
+from blackwell_testing.tools.socket_controller import SocketController
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -68,7 +68,7 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 
 # Variables
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (BLACKWELL_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 receiver_sockets, monitored_sockets = None, None
 
 daemons_handler_configuration = {'all_daemons': True}
@@ -76,17 +76,17 @@ daemons_handler_configuration = {'all_daemons': True}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_auth_configurations(test_configuration, test_metadata, set_wazuh_configuration,
+def test_ossec_auth_configurations(test_configuration, test_metadata, set_blackwell_configuration,
                                    truncate_monitored_files, daemons_handler,
                                    configure_sockets_environment, wait_for_authd_startup):
     '''
     description:
-        Checks if the 'SSL' settings of the 'wazuh-authd' daemon work correctly by enrolling agents
+        Checks if the 'SSL' settings of the 'blackwell-authd' daemon work correctly by enrolling agents
         that use different values for these settings. Different types of encryption and secure
         connection protocols are tested, in addition to the 'ssl_auto_negotiate' option
         that automatically chooses the protocol to be used.
 
-    wazuh_min_version:
+    blackwell_min_version:
         4.2.0
 
     tier: 0
@@ -98,12 +98,12 @@ def test_ossec_auth_configurations(test_configuration, test_metadata, set_wazuh_
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic blackwell configuration.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.

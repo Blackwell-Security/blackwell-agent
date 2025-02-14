@@ -1,16 +1,16 @@
 <!---
-Copyright (C) 2015, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 -->
 
-# Wazuh module: SCA architecture
+# Blackwell module: SCA architecture
 ## Index
 1. [Purpose](#purpose)
 2. [Sequence Diagram](#sequence-diagram)
 
 ## Purpose
-The security configuration assessment module (**SCA**) performs hardening and configuration scans following **YML** policies, which are created and maintained by Wazuh's team based on CIS benchmarks.
+The security configuration assessment module (**SCA**) performs hardening and configuration scans following **YML** policies, which are created and maintained by Blackwell's team based on CIS benchmarks.
 
 This module is composed of a main thread, from which two other secondary threads diverge. These threads are:
 
@@ -21,7 +21,7 @@ This module is composed of a main thread, from which two other secondary threads
 - `wm_sca_request_thread`: In charge of processing dump requests from the manager when synchronization fails.
 
 ## Sequence Diagram
-The provided sequence diagram shows the basic flow of Wazuh's **SCA** module. The main steps are:
+The provided sequence diagram shows the basic flow of Blackwell's **SCA** module. The main steps are:
 
 1. **SCA** begins its start-up process:
     1. **SCA**'s main thread starts working according to the configuration provided in `ossec.conf`.

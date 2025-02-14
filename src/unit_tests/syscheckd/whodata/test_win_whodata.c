@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -22,17 +22,17 @@
 #include "wrappers/common.h"
 #include "wrappers/libc/stdio_wrappers.h"
 #include "wrappers/libc/stdlib_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/file_op_wrappers.h"
-#include "wrappers/wazuh/shared/fs_op_wrappers.h"
-#include "wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "wrappers/wazuh/shared/string_op_wrappers.h"
-#include "wrappers/wazuh/shared/randombytes_wrappers.h"
-#include "wrappers/wazuh/syscheckd/config_wrappers.h"
-#include "wrappers/wazuh/syscheckd/create_db_wrappers.h"
-#include "wrappers/wazuh/wazuh_modules/wm_exec_wrappers.h"
-#include "wrappers/wazuh/shared/validate_op_wrappers.h"
+#include "wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "wrappers/blackwell/shared/file_op_wrappers.h"
+#include "wrappers/blackwell/shared/fs_op_wrappers.h"
+#include "wrappers/blackwell/shared/hash_op_wrappers.h"
+#include "wrappers/blackwell/shared/mq_op_wrappers.h"
+#include "wrappers/blackwell/shared/string_op_wrappers.h"
+#include "wrappers/blackwell/shared/randombytes_wrappers.h"
+#include "wrappers/blackwell/syscheckd/config_wrappers.h"
+#include "wrappers/blackwell/syscheckd/create_db_wrappers.h"
+#include "wrappers/blackwell/blackwell_modules/wm_exec_wrappers.h"
+#include "wrappers/blackwell/shared/validate_op_wrappers.h"
 #include "wrappers/windows/winevt_wrappers.h"
 #include "wrappers/windows/ntsecapi_wrappers.h"
 

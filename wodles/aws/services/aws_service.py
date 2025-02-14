@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import copy
@@ -8,7 +8,7 @@ from os import path
 from datetime import datetime
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
-import wazuh_integration
+import blackwell_integration
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
 import aws_tools
@@ -19,7 +19,7 @@ DEFAULT_TABLENAME = "aws_services"
 AWS_SERVICE_MSG_TEMPLATE = {'integration': 'aws', 'aws': ''}
 
 
-class AWSService(wazuh_integration.WazuhAWSDatabase):
+class AWSService(blackwell_integration.BlackwellAWSDatabase):
     """
     Represents a service which provides events.
 
@@ -69,7 +69,7 @@ class AWSService(wazuh_integration.WazuhAWSDatabase):
         # Table name
         self.db_table_name = db_table_name
 
-        wazuh_integration.WazuhAWSDatabase.__init__(self, db_name=self.db_name, service_name=service_name,
+        blackwell_integration.BlackwellAWSDatabase.__init__(self, db_name=self.db_name, service_name=service_name,
                                                     access_key=access_key, secret_key=secret_key, profile=profile,
                                                     iam_role_arn=iam_role_arn, region=region,
                                                     discard_field=discard_field, discard_regex=discard_regex,

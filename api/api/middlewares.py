@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import binascii
@@ -20,7 +20,7 @@ from connexion.security import AbstractSecurityHandler
 
 from secure import Secure, ContentSecurityPolicy, XFrameOptions, Server
 
-from wazuh.core.utils import get_utc_now
+from blackwell.core.utils import get_utc_now
 
 from api import configuration
 from api.alogging import custom_logging
@@ -42,12 +42,12 @@ LOGIN_ENDPOINT = '/security/user/authenticate'
 HASH_AUTH_CONTEXT_KEY = 'hash_auth_context'
 
 # API secure headers
-server = Server().set("Wazuh")
+server = Server().set("Blackwell")
 csp = ContentSecurityPolicy().set('none')
 xfo = XFrameOptions().deny()
 secure_headers = Secure(server=server, csp=csp, xfo=xfo)
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 start_stop_logger = logging.getLogger('start-stop-api')
 
 ip_stats = dict()
@@ -92,7 +92,7 @@ async def access_log(request: ConnexionRequest, response: Response, prev_time: t
             elif auth_type == 'bearer':
                 s = jwt.decode(user_passw, generate_keypair()[1],
                             algorithms=[JWT_ALGORITHM],
-                            audience='Wazuh API REST',
+                            audience='Blackwell API REST',
                             options={'verify_exp': False})
                 user = s['sub']
                 if HASH_AUTH_CONTEXT_KEY in s:
@@ -217,11 +217,11 @@ class CheckBlockedIP(BaseHTTPMiddleware):
         return await call_next(request)
 
 
-class WazuhAccessLoggerMiddleware(BaseHTTPMiddleware):
+class BlackwellAccessLoggerMiddleware(BaseHTTPMiddleware):
     """Middleware to log custom Access messages."""
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
-        """Log Wazuh access information.
+        """Log Blackwell access information.
 
         Parameters
         ----------

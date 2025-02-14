@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -7,7 +7,7 @@
  * Foundation
 */
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 #include <stdio.h>
 
 static const char *XML_DISABLED = "disabled";

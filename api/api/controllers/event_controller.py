@@ -1,20 +1,20 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
 
 from connexion import request
 from connexion.lifecycle import ConnexionResponse
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-from wazuh.event import send_event_to_analysisd
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+from blackwell.event import send_event_to_analysisd
 
 from api.controllers.util import json_response, JSON_CONTENT_TYPE
 from api.models.base_model_ import Body
 from api.models.event_ingest_model import EventIngestModel
 from api.util import raise_if_exc, remove_nones_to_dict
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 async def forward_event(pretty: bool = False, wait_for_complete: bool = False) -> ConnexionResponse:

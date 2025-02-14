@@ -1,6 +1,6 @@
 /*
  * Shared functions for Syscheck events decoding
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -235,7 +235,7 @@ typedef struct sk_sum_t {
 int sk_decode_sum(sk_sum_t *sum, char *c_sum, char *w_sum);
 
 /**
- * @brief Parse fields changes and date_alert only provide for wazuh_db
+ * @brief Parse fields changes and date_alert only provide for blackwell_db
  *
  * @param [out] sum
  * @param [in] c_sum

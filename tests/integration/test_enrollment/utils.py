@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-        Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+        Created by Blackwell, Inc. <info@blackwell.com>.
         This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 '''
 import subprocess
 import platform
 
-from wazuh_testing.constants.paths.binaries import AGENT_AUTH_PATH
-from wazuh_testing.constants.platforms import LINUX
+from blackwell_testing.constants.paths.binaries import AGENT_AUTH_PATH
+from blackwell_testing.constants.platforms import LINUX
 
 AGENT_AUTH_LAUNCH_TIMEOUT = 10
 MANAGER_ADDRESS = '127.0.0.1'

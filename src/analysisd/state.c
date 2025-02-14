@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -9,7 +9,7 @@
  */
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-analysisd"
+#define ARGV0 "blackwell-analysisd"
 #endif
 
 #include "shared.h"
@@ -18,7 +18,7 @@
 #include "config.h"
 #include "limits.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else
@@ -56,7 +56,7 @@ STATIC analysisd_agent_state_t * get_node(const char *agent_id);
 
 /**
  * @brief Clean non active agents from agents state
- * @param sock Wazuh DB socket
+ * @param sock Blackwell DB socket
  */
 STATIC void w_analysisd_clean_agents_state(int *sock);
 
@@ -818,17 +818,17 @@ void w_inc_received_events() {
 
 void w_inc_decoded_by_component_events(const char *component, const char *agent_id) {
     if (component != NULL) {
-        if (!strcmp(component, "wazuh-agent")) {
+        if (!strcmp(component, "blackwell-agent")) {
             w_inc_agent_decoded_events(agent_id);
-        } else if (!strcmp(component, "wazuh-agentlessd")) {
+        } else if (!strcmp(component, "blackwell-agentlessd")) {
             w_inc_agentless_decoded_events(agent_id);
-        } else if (!strcmp(component, "wazuh-monitord")) {
+        } else if (!strcmp(component, "blackwell-monitord")) {
             w_inc_monitor_decoded_events(agent_id);
-        } else if (!strcmp(component, "wazuh-remoted")) {
+        } else if (!strcmp(component, "blackwell-remoted")) {
             w_inc_remote_decoded_events(agent_id);
         } else if (!strcmp(component, "virustotal")) {
             w_inc_integrations_virustotal_decoded_events(agent_id);
-        } else if (!strcmp(component, "aws-s3") || !strcmp(component, "Wazuh-AWS")) {
+        } else if (!strcmp(component, "aws-s3") || !strcmp(component, "Blackwell-AWS")) {
             w_inc_modules_aws_decoded_events(agent_id);
         } else if (!strcmp(component, "azure-logs") || !strcmp(component, "Azure")) {
             w_inc_modules_azure_decoded_events(agent_id);
@@ -836,9 +836,9 @@ void w_inc_decoded_by_component_events(const char *component, const char *agent_
             w_inc_modules_ciscat_decoded_events(agent_id);
         } else if (!strcmp(component, "command") || !strncmp(component, "command_", 8)) {
             w_inc_modules_command_decoded_events(agent_id);
-        } else if (!strcmp(component, "docker-listener") || !strcmp(component, "Wazuh-Docker")) {
+        } else if (!strcmp(component, "docker-listener") || !strcmp(component, "Blackwell-Docker")) {
             w_inc_modules_docker_decoded_events(agent_id);
-        } else if (!strcmp(component, "gcp-pubsub") || !strcmp(component, "gcp-bucket") || !strcmp(component, "Wazuh-GCloud")) {
+        } else if (!strcmp(component, "gcp-pubsub") || !strcmp(component, "gcp-bucket") || !strcmp(component, "Blackwell-GCloud")) {
             w_inc_modules_gcp_decoded_events(agent_id);
         } else if (!strcmp(component, "github")) {
             w_inc_modules_github_decoded_events(agent_id);
@@ -1146,17 +1146,17 @@ void w_inc_modules_logcollector_others_decoded_events(const char *agent_id) {
 
 void w_inc_dropped_by_component_events(const char *component) {
     if (component != NULL) {
-        if (!strcmp(component, "wazuh-agent")) {
+        if (!strcmp(component, "blackwell-agent")) {
             w_inc_agent_dropped_events();
-        } else if (!strcmp(component, "wazuh-agentlessd")) {
+        } else if (!strcmp(component, "blackwell-agentlessd")) {
             w_inc_agentless_dropped_events();
-        } else if (!strcmp(component, "wazuh-monitord")) {
+        } else if (!strcmp(component, "blackwell-monitord")) {
             w_inc_monitor_dropped_events();
-        } else if (!strcmp(component, "wazuh-remoted")) {
+        } else if (!strcmp(component, "blackwell-remoted")) {
             w_inc_remote_dropped_events();
         } else if (!strcmp(component, "virustotal")) {
             w_inc_integrations_virustotal_dropped_events();
-        } else if (!strcmp(component, "aws-s3") || !strcmp(component, "Wazuh-AWS")) {
+        } else if (!strcmp(component, "aws-s3") || !strcmp(component, "Blackwell-AWS")) {
             w_inc_modules_aws_dropped_events();
         } else if (!strcmp(component, "azure-logs") || !strcmp(component, "Azure")) {
             w_inc_modules_azure_dropped_events();
@@ -1164,9 +1164,9 @@ void w_inc_dropped_by_component_events(const char *component) {
             w_inc_modules_ciscat_dropped_events();
         } else if (!strcmp(component, "command") || !strncmp(component, "command_", 8)) {
             w_inc_modules_command_dropped_events();
-        } else if (!strcmp(component, "docker-listener") || !strcmp(component, "Wazuh-Docker")) {
+        } else if (!strcmp(component, "docker-listener") || !strcmp(component, "Blackwell-Docker")) {
             w_inc_modules_docker_dropped_events();
-        } else if (!strcmp(component, "gcp-pubsub") || !strcmp(component, "gcp-bucket") || !strcmp(component, "Wazuh-GCloud")) {
+        } else if (!strcmp(component, "gcp-pubsub") || !strcmp(component, "gcp-bucket") || !strcmp(component, "Blackwell-GCloud")) {
             w_inc_modules_gcp_dropped_events();
         } else if (!strcmp(component, "github")) {
             w_inc_modules_github_dropped_events();

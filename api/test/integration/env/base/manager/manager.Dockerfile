@@ -1,17 +1,17 @@
-FROM public.ecr.aws/o5x5t0j3/amd64/api_development:integration_test_wazuh-generic
+FROM public.ecr.aws/o5x5t0j3/amd64/api_development:integration_test_blackwell-generic
 
 # ENV_MODE needs to be assigned to an environment variable as it is going to be used at run time (CMD)
 ARG ENV_MODE
 ENV ENV_MODE ${ENV_MODE}
 
 # INSTALL MANAGER
-ARG WAZUH_BRANCH
+ARG BLACKWELL_BRANCH
 
 ADD base/manager/supervisord.conf /etc/supervisor/conf.d/
 
 RUN mkdir wazuh && curl -sL https://github.com/wazuh/wazuh/tarball/${WAZUH_BRANCH} | tar zx --strip-components=1 -C wazuh
-COPY base/manager/preloaded-vars.conf /wazuh/etc/preloaded-vars.conf
-RUN /wazuh/install.sh
+COPY base/manager/preloaded-vars.conf /blackwell/etc/preloaded-vars.conf
+RUN /blackwell/install.sh
 COPY base/manager/entrypoint.sh /scripts/entrypoint.sh
 
 # HEALTHCHECK

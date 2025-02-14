@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -17,11 +17,11 @@
 #include "os_regex/os_regex.h"
 #include "os_execd/execd.h"
 #include "eventinfo.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
 #include "labels.h"
 #include "exec.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else
@@ -84,7 +84,7 @@ void OS_Exec(int *execq, int *arq, int *sock, const Eventinfo *lf, const active_
     /* Active Response to the forwarder */
     else if ((Config.ar & REMOTE_AR)) {
 
-        /* We need to identify the version of Wazuh installed on the agents because
+        /* We need to identify the version of Blackwell installed on the agents because
          * if the agents version is <4.2, it is necessary to send legacy
          * message in string format. Instead if the agent version is >=4.2,
          * we need to send the new message in JSON format.*/
@@ -112,12 +112,12 @@ void OS_Exec(int *execq, int *arq, int *sock, const Eventinfo *lf, const active_
                 snprintf(c_agent_id, OS_SIZE_16, "%.3d", id_array[i]);
 
                 agt_labels = labels_find(c_agent_id, sock);
-                agt_version = labels_get(agt_labels, "_wazuh_version");
+                agt_version = labels_get(agt_labels, "_blackwell_version");
 
                 if (!agt_version) {
                     json_agt_info = wdb_get_agent_info(id_array[i], sock);
                     if (!json_agt_info) {
-                        merror("Failed to get agent '%d' information from Wazuh DB.", id_array[i]);
+                        merror("Failed to get agent '%d' information from Blackwell DB.", id_array[i]);
 
                         if (agt_labels != Config.labels) {
                             labels_free(agt_labels);
@@ -202,12 +202,12 @@ void OS_Exec(int *execq, int *arq, int *sock, const Eventinfo *lf, const active_
             snprintf(c_agent_id, OS_SIZE_16, "%.3d", agt_id);
 
             agt_labels = labels_find(c_agent_id, sock);
-            agt_version = labels_get(agt_labels, "_wazuh_version");
+            agt_version = labels_get(agt_labels, "_blackwell_version");
 
             if (!agt_version) {
                 json_agt_info = wdb_get_agent_info(agt_id, sock);
                 if (!json_agt_info) {
-                    merror("Failed to get agent '%d' information from Wazuh DB.", agt_id);
+                    merror("Failed to get agent '%d' information from Blackwell DB.", agt_id);
 
                     if (agt_labels != Config.labels) {
                         labels_free(agt_labels);

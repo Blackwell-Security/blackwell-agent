@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,14 +15,14 @@
 #include <string.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/client-agent/start_agent.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/monitord/monitord_wrappers.h"
+#include "../wrappers/blackwell/client-agent/start_agent.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/validate_op_wrappers.h"
+#include "../wrappers/blackwell/monitord/monitord_wrappers.h"
 
 #ifdef TEST_WINAGENT
-#include "../wrappers/wazuh/shared/randombytes_wrappers.h"
+#include "../wrappers/blackwell/shared/randombytes_wrappers.h"
 #endif
 
 #include "../client-agent/agentd.h"
@@ -310,7 +310,7 @@ static void test_agent_handshake_to_server(void **state) {
     will_return(__wrap_OS_RecvSecureTCP, SERVER_ENC_ACK);
     will_return(__wrap_OS_RecvSecureTCP, strlen(SERVER_ENC_ACK));
     expect_string(__wrap_send_msg, msg, "#!-agent startup {\"version\":\"v4.5.0\"}");
-    expect_string(__wrap_send_msg, msg, "1:wazuh-agent:ossec: Agent started: 'agent0->any'.");
+    expect_string(__wrap_send_msg, msg, "1:blackwell-agent:ossec: Agent started: 'agent0->any'.");
     expect_string(__wrap_ReadSecMSG, buffer, SERVER_ENC_ACK);
     will_return(__wrap_ReadSecMSG, "#!-agent ack ");
     will_return(__wrap_ReadSecMSG, KS_VALID);
@@ -458,7 +458,7 @@ static void test_agent_handshake_to_server_error_getting_msg2(void **state) {
 
 /* agent_start_up_to_server */
 static void test_send_msg_on_startup(void **state) {
-    expect_string(__wrap_send_msg, msg, "1:wazuh-agent:ossec: Agent started: 'agent0->any'.");
+    expect_string(__wrap_send_msg, msg, "1:blackwell-agent:ossec: Agent started: 'agent0->any'.");
     send_msg_on_startup();
     return;
 }

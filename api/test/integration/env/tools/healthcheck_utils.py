@@ -10,7 +10,7 @@ PROTOCOL = 'https'
 HOST = 'localhost'
 PORT = '55000'
 USER = 'testing'
-PASSWORD = 'wazuh'
+PASSWORD = 'blackwell'
 
 # Variables
 LOGIN_METHOD = "POST"
@@ -21,7 +21,7 @@ HEALTHCHECK_TOKEN_FILE = '/tmp_volume/healthcheck/healthcheck.token'
 OSSEC_LOG_PATH = '/var/ossec/logs/ossec.log'
 
 # Variable used to compare default daemons_check.txt with an output with cluster disabled
-CHECK_CLUSTERD_DAEMON = '1c1\n< wazuh-clusterd not running...\n---\n> wazuh-clusterd is running...\n'
+CHECK_CLUSTERD_DAEMON = '1c1\n< blackwell-clusterd not running...\n---\n> blackwell-clusterd is running...\n'
 
 
 def get_login_header(user, password):
@@ -31,7 +31,7 @@ def get_login_header(user, password):
 
 
 def get_response(request_method, url, headers):
-    """Make a Wazuh API request and get its response.
+    """Make a Blackwell API request and get its response.
 
     Parameters
     ----------
@@ -62,7 +62,7 @@ def get_response(request_method, url, headers):
 def get_agent_health_base():
     # Get agent health. The agent will be healthy if it has been connected to the manager after been
     # restarted due to shared configuration changes.
-    # Using agentd when using grep as the module name can vary between ossec-agentd and wazuh-agentd,
+    # Using agentd when using grep as the module name can vary between ossec-agentd and blackwell-agentd,
     # depending on the agent version.
 
     shared_conf_restart = os.system(
@@ -99,7 +99,7 @@ def check(result):
 
 def get_master_health(env_mode):
     os.system("/var/ossec/bin/agent_control -ls > /tmp_volume/output.txt")
-    os.system("/var/ossec/bin/wazuh-control status > /tmp_volume/daemons.txt")
+    os.system("/var/ossec/bin/blackwell-control status > /tmp_volume/daemons.txt")
 
     check0 = check(os.system("diff -q /tmp_volume/output.txt /tmp_volume/healthcheck/agent_control_check.txt"))
 
@@ -118,13 +118,13 @@ def get_master_health(env_mode):
 
 
 def get_worker_health():
-    os.system("/var/ossec/bin/wazuh-control status > /tmp_volume/daemons.txt")
+    os.system("/var/ossec/bin/blackwell-control status > /tmp_volume/daemons.txt")
     return check(os.system("diff -q /tmp_volume/daemons.txt /tmp_volume/healthcheck/daemons_check.txt"))
 
 
 def get_manager_health_base(env_mode):
     return get_master_health(
-        env_mode=env_mode) if socket.gethostname() == 'wazuh-master' else get_worker_health()
+        env_mode=env_mode) if socket.gethostname() == 'blackwell-master' else get_worker_health()
 
 
 def get_api_health():

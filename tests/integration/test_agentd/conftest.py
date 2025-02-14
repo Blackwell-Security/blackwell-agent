@@ -1,14 +1,14 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
 import pytest
 import time
 
-from wazuh_testing.constants.paths.variables import AGENTD_STATE
-from wazuh_testing.constants.paths.configurations import WAZUH_CLIENT_KEYS_PATH
-from wazuh_testing.utils.client_keys import add_client_keys_entry
+from blackwell_testing.constants.paths.variables import AGENTD_STATE
+from blackwell_testing.constants.paths.configurations import BLACKWELL_CLIENT_KEYS_PATH
+from blackwell_testing.utils.client_keys import add_client_keys_entry
 
 
 @pytest.fixture()
@@ -20,7 +20,7 @@ def remove_state_file() -> None:
 @pytest.fixture()
 def clean_keys() -> None:
     # Cleans content of client.keys file
-    with open(WAZUH_CLIENT_KEYS_PATH, 'w'):
+    with open(BLACKWELL_CLIENT_KEYS_PATH, 'w'):
         pass
     time.sleep(1)
 
@@ -35,7 +35,7 @@ def add_keys() -> None:
 def remove_keys_file(test_metadata) -> None:
     # Remove keys file if needed
     if(test_metadata['DELETE_KEYS_FILE']):
-        os.remove(WAZUH_CLIENT_KEYS_PATH) if os.path.exists(WAZUH_CLIENT_KEYS_PATH) else None
+        os.remove(BLACKWELL_CLIENT_KEYS_PATH) if os.path.exists(BLACKWELL_CLIENT_KEYS_PATH) else None
 
 
 @pytest.fixture(autouse=True)

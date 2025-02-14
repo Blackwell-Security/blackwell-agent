@@ -11,7 +11,7 @@ INSTALL_PATH = 'C:\\Program Files (x86)\\ossec-agent\\'
 def populate_dict(dict, files_list):
     for file in files_list:
         # We skip this executable because the 'eventchannel' will be used instead
-        if file.name.count('WAZUH_AGENT.EXE') > 0:
+        if file.name.count('BLACKWELL_AGENT.EXE') > 0:
             continue
 
         with open(file, "rb") as f:
@@ -19,7 +19,7 @@ def populate_dict(dict, files_list):
 
         # It's required to normalize the name because the installation process changes it
         dict[file.name.lower().replace('-', '_').replace('c++', 'cpp').replace(
-            '_dll', '.dll').replace('wazuh_agent_eventchannel.exe', 'wazuh_agent.exe').replace('libfimdb.dll', 'fimdb.dll')] = file_hash
+            '_dll', '.dll').replace('blackwell_agent_eventchannel.exe', 'blackwell_agent.exe').replace('libfimdb.dll', 'fimdb.dll')] = file_hash
 
 
 def test_win_upgrade():
@@ -37,7 +37,7 @@ def test_win_upgrade():
     os.system(
         f"start /wait msiexec /i {str(released_msi.resolve())} /qn /l*v {RELEASED_PATH}win-agent-released.log")
 
-    # Upgrade Wazuh agent
+    # Upgrade Blackwell agent
     os.system(
         f"start /wait msiexec /i {str(base_msi.resolve())} /qn /l*v {BASE_PATH}win-agent-base.log")
 

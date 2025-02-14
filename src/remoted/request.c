@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * May 31, 2017.
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #include <request_op.h>
 #include "remoted.h"
 #include "state.h"
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 #define COUNTER_LENGTH 64
 

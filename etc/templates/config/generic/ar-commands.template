@@ -5,8 +5,8 @@
   </command>
 
   <command>
-    <name>restart-wazuh</name>
-    <executable>restart-wazuh</executable>
+    <name>restart-blackwell</name>
+    <executable>restart-blackwell</executable>
   </command>
 
   <command>

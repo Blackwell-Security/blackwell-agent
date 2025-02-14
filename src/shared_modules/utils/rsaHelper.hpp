@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell shared modules utils
+ * Copyright (C) 2015, Blackwell Inc.
  * January 24, 2024.
  *
  * This program is free software; you can redistribute it

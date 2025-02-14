@@ -4,84 +4,84 @@
         "batch_test": [
             {
                 "description": "Literal match. Match all.",
-                "pattern": "hi Wazuh",
-                "log": "hi Wazuh",
+                "pattern": "hi Blackwell",
+                "log": "hi Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
             {
                 "description": "Literal match. Match all, with capture groups.",
-                "pattern": "(hi) (Wazuh)",
-                "log": "hi Wazuh",
+                "pattern": "(hi) (Blackwell)",
+                "log": "hi Blackwell",
                 "end_match": "h",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Literal match, with the end flag. It does not match.",
-                "pattern": "hi Wazuh$",
-                "log": "hi Wazuh 123",
+                "pattern": "hi Blackwell$",
+                "log": "hi Blackwell 123",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Literal match, with groups and the end flag. It does not match.",
-                "pattern": "(hi) (Wazuh)$",
-                "log": "hi Wazuh 123",
+                "pattern": "(hi) (Blackwell)$",
+                "log": "hi Blackwell 123",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Dont match at all.",
-                "pattern": "hi Wazuh",
-                "log": "bye Wazuh",
+                "pattern": "hi Blackwell",
+                "log": "bye Blackwell",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Match with prefix and group.",
-                "pattern": "(hi) (Wazuh)",
-                "log": "prefixhi Wazuh",
+                "pattern": "(hi) (Blackwell)",
+                "log": "prefixhi Blackwell",
                 "end_match": "h",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Match with sufix and group.",
-                "pattern": "(hi) (Wazuh)",
-                "log": "fixhi Wazuhsub",
+                "pattern": "(hi) (Blackwell)",
+                "log": "fixhi Blackwellsub",
                 "end_match": "hsub",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Match with adjacent capture groups.",
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
-                "pattern": "(hi)(Wazuh)",
-                "log": "hiWazuh",
+                "pattern": "(hi)(Blackwell)",
+                "log": "hiBlackwell",
                 "end_match": "h",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Match with adjacent capture groups and context.",
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
-                "pattern": "(hi)(Wazuh)",
-                "log": "prefixhiWazuhsub",
+                "pattern": "(hi)(Blackwell)",
+                "log": "prefixhiBlackwellsub",
                 "end_match": "hsub",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             }
         ]
@@ -91,15 +91,15 @@
         "batch_test": [
             {
                 "description": "Regex match all and the END_SET is set.",
-                "pattern": "hi Wazuh$",
-                "log": "hi Wazuh",
+                "pattern": "hi Blackwell$",
+                "log": "hi Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
             {
                 "description": "Empty pattern END_SET and BEGIN_SET are set.",
                 "pattern": "^$",
-                "log": "hi Wazuh",
+                "log": "hi Blackwell",
                 "end_match": null,
                 "captured_groups": []
             },
@@ -135,25 +135,25 @@
             },
             {
                 "description": "Pattern ends and the END_SET is not set.",
-                "pattern": "hi Wazuh",
-                "log": "hi Wazuh!",
+                "pattern": "hi Blackwell",
+                "log": "hi Blackwell!",
                 "end_match": "h!",
                 "captured_groups": []
             },
             {
                 "description": "Partial match and then re-match ('st_error' test).",
-                "pattern": "(hi) (Wazuh)",
-                "log": "XX hi Wa hi WazuhXX",
+                "pattern": "(hi) (Blackwell)",
+                "log": "XX hi Wa hi BlackwellXX",
                 "end_match": "hXX",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Partial match and then re-match ('st_error' + BEGIN_SET test).",
-                "pattern": "^(hi) (Wazuh)",
-                "log": "hi Wa hi WazuhXX",
+                "pattern": "^(hi) (Blackwell)",
+                "log": "hi Wa hi BlackwellXX",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -165,7 +165,7 @@
             {
                 "description": "Match all.",
                 "pattern": "\\w\\w\\s\\S\\S\\S\\S\\S",
-                "log": "hi Wazuh",
+                "log": "hi Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
@@ -186,7 +186,7 @@
             {
                 "description": "Match all with capture groups.",
                 "pattern": "\\w(\\w\\s\\S)\\S(\\S\\S\\S)",
-                "log": "hi Wazuh",
+                "log": "hi Blackwell",
                 "end_match": "h",
                 "captured_groups": [
                     "i W",
@@ -203,11 +203,11 @@
             {
                 "description": "Parcial match and fail but then re-match with capture group.",
                 "pattern": "(\\w\\w)\\s(\\S\\S\\S\\S\\S)",
-                "log": "hi Waz hi Wazuh.",
+                "log": "hi Waz hi Blackwell.",
                 "end_match": "h.",
                 "captured_groups": [
                     "hi",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -215,20 +215,20 @@
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w\\w\\s)(\\S\\S\\S\\S\\S)",
-                "log": "hi Waz hi Wazuh.",
+                "log": "hi Waz hi Blackwell.",
                 "end_match": "h.",
                 "captured_groups": [
                     "hi ",
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Parcial match and fail but then re-match with one capture group.",
                 "pattern": "(\\w\\w\\s\\S\\S\\S\\S\\S)\\p$",
-                "log": "hi Waz hi Wazuh.",
+                "log": "hi Waz hi Blackwell.",
                 "end_match": ".",
                 "captured_groups": [
-                    "hi Wazuh"
+                    "hi Blackwell"
                 ]
             }
         ]
@@ -241,7 +241,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "\\w+",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
@@ -250,10 +250,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w+)",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -262,7 +262,7 @@
                 "ignore_result": true,
                 "debug": false,
                 "pattern": "^\\w+$",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
@@ -271,23 +271,23 @@
                 "ignore_result": true,
                 "debug": false,
                 "pattern": "^(\\w+)$",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Parcial match and fail, with flags.",
                 "pattern": "^\\w+$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Parcial match and fail with capture group and flags.",
                 "pattern": "^(\\w+)$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
@@ -338,7 +338,7 @@
             {
                 "description": "Match all, with backslashed token.",
                 "pattern": "\\w+\\s",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -363,10 +363,10 @@
             {
                 "description": "Match all, capture the first token, with backslashed token.",
                 "pattern": "(\\w+)\\s",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -379,7 +379,7 @@
             {
                 "description": "Match all.",
                 "pattern": "\\w+ ",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -404,16 +404,16 @@
             {
                 "description": "Match all and capture the first word.",
                 "pattern": "(\\w+) ",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Match all, with a literal at the end.",
                 "pattern": "\\w+\\s1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -438,10 +438,10 @@
             {
                 "description": "Match all, with a literal at the end, capture the first word.",
                 "pattern": "(\\w+)\\s1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -454,7 +454,7 @@
             {
                 "description": "Match, with a postfix and a literal space",
                 "pattern": "\\w+ 1",
-                "log": "Wazuh 123",
+                "log": "Blackwell 123",
                 "end_match": "123",
                 "captured_groups": []
             },
@@ -479,10 +479,10 @@
             {
                 "description": "Match, with a postfix and a literal space, capture the first token.",
                 "pattern": "(\\w+) 1",
-                "log": "Wazuh 123",
+                "log": "Blackwell 123",
                 "end_match": "123",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -495,7 +495,7 @@
             {
                 "description": "Match all with flags.",
                 "pattern": "^\\w+\\s$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -520,10 +520,10 @@
             {
                 "description": "Match all with backslashed token and flags.",
                 "pattern": "^(\\w+)\\s$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -536,7 +536,7 @@
             {
                 "description": "Match all with flags.",
                 "pattern": "^\\w+ $",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -561,23 +561,23 @@
             {
                 "description": "Match minimum log with flags and capture the first token.",
                 "pattern": "^(\\w+) $",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Fail match becouse of flags.",
                 "pattern": "^\\w+ $",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Fail match becouse of flags.",
                 "pattern": "^(\\w+ )$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -749,17 +749,17 @@
             {
                 "description": "Match all.",
                 "pattern": "\\w+\\s+",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
             {
                 "description": "Match all with group.",
                 "pattern": "(\\w+)\\s+",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -767,47 +767,47 @@
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w+)(\\s+)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "Match all with no consecutive group and opcional.",
                 "pattern": "(\\w+)\\d*(\\s+)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "Match all with no consecutive group and opcional",
                 "pattern": "(\\w+)\\d*(\\s+)",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "Match all with no consecutive group.",
                 "pattern": "(\\w+)\\d+(\\s+)",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "Match all with literal at the end.",
                 "pattern": "\\w+\\s+1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -832,10 +832,10 @@
             {
                 "description": "Match all with literal at the end and capture the first token.",
                 "pattern": " (\\w+)\\s+1",
-                "log": " Wazuh 1",
+                "log": " Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -850,7 +850,7 @@
                 "ignore_result": true,
                 "__know_issue": "Err retval.",
                 "pattern": "^\\w+\\s+$",
-                "log": "Wazuh  ",
+                "log": "Blackwell  ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -884,14 +884,14 @@
             {
                 "description": "Dont match.",
                 "pattern": "^\\w+\\s+$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Dont match.",
                 "pattern": "^(\\w+\\s+)$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -933,10 +933,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "debug": false,
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -975,7 +975,7 @@
                 "pattern": "\\w+\\s*",
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -984,10 +984,10 @@
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "pattern": "(\\w+\\s*)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh "
+                    "Blackwell "
                 ]
             },
             {
@@ -995,10 +995,10 @@
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w+)(\\s*)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -1007,7 +1007,7 @@
                 "pattern": "(\\w+)\\d+(\\s*)",
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
@@ -1016,10 +1016,10 @@
                 "pattern": "(\\w+)\\d+(\\s*)",
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -1029,17 +1029,17 @@
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "debug": false,
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "Match all with literal at the end.",
                 "pattern": "\\w+\\s*1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -1064,10 +1064,10 @@
             {
                 "description": "Match all with literal at the end and capture the first token.",
                 "pattern": " (\\w+)\\s*1",
-                "log": " Wazuh 1",
+                "log": " Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1084,7 +1084,7 @@
                 "ignore_result": true,
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "pattern": "^\\w+\\s*$",
-                "log": "Wazuh  ",
+                "log": "Blackwell  ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1124,14 +1124,14 @@
             {
                 "description": "Dont match.",
                 "pattern": "^\\w+\\s*$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Dont match.",
                 "pattern": "^(\\w+\\s*)$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -1238,7 +1238,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "\\w*",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
@@ -1247,18 +1247,18 @@
                 "__known_issue": "When the regex consists only of tokens with '*' quantifiers, then it always matches. When it matches having 0 matching characters, then it returns the pointer poiting to one byte before the beginning of the string. BUG 4 Issue: https://github.com/Wazuh/Wazuh/issues/14249",
                 "skip_test": true,
                 "pattern": "\\d*",
-                "log": "Wazuh",
-                "end_match": "Wazuh",
+                "log": "Blackwell",
+                "end_match": "Blackwell",
                 "captured_groups": []
             },
             {
                 "description": "Mach all with capture group.",
                 "ignore_result": true,
                 "pattern": "(\\w*)",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1266,8 +1266,8 @@
                 "__known_issue": "When the regex consists only of tokens with '*' quantifiers, then it always matches. When it matches having 0 matching characters, then it returns the pointer poiting to one byte before the beginning of the string. BUG Issue: https://github.com/Wazuh/Wazuh/issues/14249",
                 "skip_test": true,
                 "pattern": "(\\d*)",
-                "log": "Wazuh",
-                "end_match": "Wazuh",
+                "log": "Blackwell",
+                "end_match": "Blackwell",
                 "captured_groups": [
                     ""
                 ]
@@ -1278,7 +1278,7 @@
                 "ignore_result": true,
                 "debug": false,
                 "pattern": "^\\w*$",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": []
             },
@@ -1287,23 +1287,23 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "^(\\w*)$",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Parcial match and fail, with flags.",
                 "pattern": "^\\w*$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Parcial match and fail, with flags and capture group.",
                 "pattern": "^(\\w*)$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
@@ -1384,7 +1384,7 @@
             {
                 "description": "Match all.",
                 "pattern": "\\w*\\s",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1427,10 +1427,10 @@
             {
                 "description": "Mtch all, with backslashed token and capture the first token.",
                 "pattern": "(\\w*)\\s",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1450,7 +1450,7 @@
             {
                 "description": "Match all with literal.",
                 "pattern": "\\w* ",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1475,16 +1475,16 @@
             {
                 "description": "Match all, with literal token and capture the first token.",
                 "pattern": "(\\w*) ",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "description": "Match all, with literal token.",
                 "pattern": "\\w*\\s1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -1509,10 +1509,10 @@
             {
                 "description": "Match all, with backlashed token and capture the first token.",
                 "pattern": "(\\w*)\\s1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1525,7 +1525,7 @@
             {
                 "description": "Match, with liteals token.",
                 "pattern": "\\w* 1",
-                "log": "Wazuh 123",
+                "log": "Blackwell 123",
                 "end_match": "123",
                 "captured_groups": []
             },
@@ -1550,10 +1550,10 @@
             {
                 "description": "Match, with liteals token and capture the first token.",
                 "pattern": "(\\w*) 1",
-                "log": "Wazuh 123",
+                "log": "Blackwell 123",
                 "end_match": "123",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1566,7 +1566,7 @@
             {
                 "description": "Match all with backlashed token and flags.",
                 "pattern": "^\\w*\\s$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1591,10 +1591,10 @@
             {
                 "description": "Match all with backlashed token and flags.",
                 "pattern": "^(\\w*)\\s$",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1607,7 +1607,7 @@
             {
                 "description": "Match all with literal token and flags.",
                 "pattern": "^\\w* $",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1631,21 +1631,21 @@
             },
             {
                 "pattern": "^(\\w*) $",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "pattern": "^\\w* $",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "pattern": "^(\\w* )$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -1814,56 +1814,56 @@
             },
             {
                 "pattern": "\\w*\\s+",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
             {
                 "pattern": "(\\w*)\\s+",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w*)(\\s+)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "2 no consecutive groups, and opcional.",
                 "pattern": "(\\w*)\\d*(\\s+)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "2 no consecutive groups, and opcional.",
                 "pattern": "(\\w*)\\d*(\\s+)",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "description": "2 groups no consecutive",
                 "pattern": "(\\w*)\\d+(\\s+)",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -1872,10 +1872,10 @@
                 "pattern": "(\\w*)\\d*(\\s*)",
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -1884,10 +1884,10 @@
                 "pattern": "(\\w*)\\d*(\\s*)",
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -1896,16 +1896,16 @@
                 "pattern": "(\\w*)\\d+(\\s*)",
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "pattern": "\\w*\\s+1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -1927,10 +1927,10 @@
             },
             {
                 "pattern": " (\\w*)\\s+1",
-                "log": " Wazuh 1",
+                "log": " Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -1943,7 +1943,7 @@
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "pattern": "^\\w*\\s+$",
-                "log": "Wazuh  ",
+                "log": "Blackwell  ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -1974,14 +1974,14 @@
             {
                 "description": "Dont match.",
                 "pattern": "^\\w*\\s+$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Dont match.",
                 "pattern": "^(\\w*\\s+)$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -2025,10 +2025,10 @@
             },
             {
                 "pattern": "(\\w*\\s*)",
-                "log": "Wazuh",
+                "log": "Blackwell",
                 "end_match": "h",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -2066,7 +2066,7 @@
                 "ignore_result": true,
                 "debug": false,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -2076,20 +2076,20 @@
                 "debug": false,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "pattern": "(\\w*\\s*)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh "
+                    "Blackwell "
                 ]
             },
             {
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "(\\w*)(\\s*)",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -2132,7 +2132,7 @@
                 "pattern": "(\\w*)\\d+(\\s*)",
                 "ignore_result": true,
                 "__known_issue": "It should match but does not, adjacent capture groups are not supported. BUG 1 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh ",
+                "log": "Blackwell ",
                 "end_match": null,
                 "captured_groups": []
             },
@@ -2141,10 +2141,10 @@
                 "pattern": "(\\w*)\\d+(\\s*)",
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
@@ -2153,16 +2153,16 @@
                 "pattern": "(\\w*)\\d*(\\s*)",
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
-                "log": "Wazuh123 ",
+                "log": "Blackwell123 ",
                 "end_match": " ",
                 "captured_groups": [
-                    "Wazuh",
+                    "Blackwell",
                     " "
                 ]
             },
             {
                 "pattern": "\\w*\\s*1",
-                "log": "Wazuh 1",
+                "log": "Blackwell 1",
                 "end_match": "1",
                 "captured_groups": []
             },
@@ -2184,10 +2184,10 @@
             },
             {
                 "pattern": " (\\w*)\\s*1",
-                "log": " Wazuh 1",
+                "log": " Blackwell 1",
                 "end_match": "1",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -2202,7 +2202,7 @@
                 "ignore_result": true,
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "pattern": "^\\w*\\s*$",
-                "log": "Wazuh  ",
+                "log": "Blackwell  ",
                 "end_match": " ",
                 "captured_groups": []
             },
@@ -2239,14 +2239,14 @@
             {
                 "description": "Dont match.",
                 "pattern": "^\\w*\\s*$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             },
             {
                 "description": "Dont match.",
                 "pattern": "^(\\w*\\s*)$",
-                "log": "Wazuh -",
+                "log": "Blackwell -",
                 "end_match": null,
                 "captured_groups": []
             }
@@ -2448,10 +2448,10 @@
                 "__prts_items_array_1": "(1 group x2 + 1 null)  x 8 size = 24 bytes",
                 "__prts_array_2": "0x0",
                 "pattern": "hi (\\w+).",
-                "log": "Hi Wazuh.",
+                "log": "Hi Blackwell.",
                 "end_match": ".",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -2530,10 +2530,10 @@
                 "__prts_items_array_1": "(1 group x2 + 1 null)  x 8 size = 24 bytes",
                 "__prts_array_2": "0x0",
                 "pattern": "hi (\\w+).",
-                "log": "Hi Wazuh.",
+                "log": "Hi Blackwell.",
                 "end_match": ".",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             }
         ]
@@ -2549,10 +2549,10 @@
                 "__prts_items_array_1": "(1 group x2 + 1 null)  x 8 size = 24 bytes",
                 "__prts_array_2": "0x0",
                 "pattern": "hi (\\w+).",
-                "log": "Hi Wazuh.",
+                "log": "Hi Blackwell.",
                 "end_match": ".",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -2619,10 +2619,10 @@
                 "__prts_items_array_1": "(1 group x2 + 1 null)  x 8 size = 24 bytes",
                 "__prts_array_2": "0x0",
                 "pattern": "hi (\\w+).",
-                "log": "Hi Wazuh.",
+                "log": "Hi Blackwell.",
                 "end_match": ".",
                 "captured_groups": [
-                    "Wazuh"
+                    "Blackwell"
                 ]
             },
             {
@@ -3496,7 +3496,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern \\w+ \\d+",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3505,10 +3505,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern (\\w+ \\d+)",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {
@@ -3516,7 +3516,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "^Pattern \\w+ \\d+",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3525,10 +3525,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "^Pattern (\\w+ \\d+)",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {
@@ -3536,7 +3536,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern \\w+ \\d+$",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3545,10 +3545,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern (\\w+ \\d+)$",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {
@@ -3556,7 +3556,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern \\w* \\d*",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3565,10 +3565,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern (\\w* \\d*)",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {
@@ -3576,7 +3576,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "^Pattern \\w* \\d*",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3585,10 +3585,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "^Pattern (\\w* \\d*)",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {
@@ -3596,7 +3596,7 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern \\w* \\d*$",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": []
             },
@@ -3605,10 +3605,10 @@
                 "__known_issue": "Matches but if the regex ends with a token with the quantifier '+' or '*', then it does not return the pointer to the last character matched, as it should be. BUG 3 of issue: https://github.com/wazuh/wazuh/issues/14420",
                 "ignore_result": true,
                 "pattern": "Pattern (\\w* \\d*)$",
-                "log": "Pattern Wazuh 123",
+                "log": "Pattern Blackwell 123",
                 "end_match": "3",
                 "captured_groups": [
-                    "Wazuh 123"
+                    "Blackwell 123"
                 ]
             },
             {

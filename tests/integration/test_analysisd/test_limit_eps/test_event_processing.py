@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-analysisd' daemon uses a series of decoders and rules to analyze and interpret logs and events and
+brief: The 'blackwell-analysisd' daemon uses a series of decoders and rules to analyze and interpret logs and events and
        generate alerts when the decoded information matches the established rules. There is a feature to limit the
        number of events that the manager can process, in order to allow the correct functioning of the daemon. These
        tests validate that this feature works as expected.
@@ -21,7 +21,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -38,7 +38,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html#if-sid
+    - https://documentation.blackwell.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html#if-sid
 '''
 import pytest
 import time
@@ -48,13 +48,13 @@ from copy import deepcopy
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import ARCHIVES_LOG_PATH
-from wazuh_testing.modules.analysisd import utils, configuration as analysisd_config
-from wazuh_testing.modules.remoted import configuration as remoted_config
-from wazuh_testing.scripts.syslog_simulator import DEFAULT_MESSAGE_SIZE
-from wazuh_testing.tools import thread_executor
-from wazuh_testing.tools.simulators import run_syslog_simulator
-from wazuh_testing.utils import configuration, file
+from blackwell_testing.constants.paths.logs import ARCHIVES_LOG_PATH
+from blackwell_testing.modules.analysisd import utils, configuration as analysisd_config
+from blackwell_testing.modules.remoted import configuration as remoted_config
+from blackwell_testing.scripts.syslog_simulator import DEFAULT_MESSAGE_SIZE
+from blackwell_testing.tools import thread_executor
+from blackwell_testing.tools.simulators import run_syslog_simulator
+from blackwell_testing.utils import configuration, file
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -113,18 +113,18 @@ QUEUE_EVENTS_SIZE = 16384
 
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_limitation(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                     configure_local_internal_options, truncate_monitored_files, daemons_handler):
     """
     description: Check if after passing the event processing limit, the processing is stopped until the next timeframe.
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Start the event simulator and check that the events are being received and analyzed.
             - Wait until the event limit is reached and check that the events are still being received but not
@@ -132,10 +132,10 @@ def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configur
             - Wait until the next analysis period (next timeframe) and check that events are still being
               processed, in this case the queued ones.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -144,21 +144,21 @@ def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configur
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check that events are received when expected.
@@ -189,7 +189,7 @@ def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configur
     events_received = int(analysisd_state['events_received'])
     events_processed = int(analysisd_state['events_processed'])
 
-    # Check that wazuh-manager is processing syslog events
+    # Check that blackwell-manager is processing syslog events
     assert events_received > 0, '(0): No events are being received when it is expected'
     assert events_processed > 0, 'No events are being processed when it is expected'
 
@@ -204,7 +204,7 @@ def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configur
     events_processed = int(analysisd_state['events_processed'])
     expected_processed_events = test_metadata['maximum'] * test_metadata['timeframe']
 
-    # Check that the wazuh-manager is receiving events but it is not processing them due to the limitation
+    # Check that the blackwell-manager is receiving events but it is not processing them due to the limitation
     assert events_received > 0, '(1): No events are being received when it is expected'
     assert events_processed == expected_processed_events, f"Events are being processed when the limit has been " \
                                                           f"reached. {events_processed} != {expected_processed_events}"
@@ -224,7 +224,7 @@ def test_limitation(test_configuration, test_metadata, load_wazuh_basic_configur
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test2_configuration, test2_metadata), ids=test2_cases_ids)
-def test_queueing_events_after_limitation(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_queueing_events_after_limitation(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                                           configure_local_internal_options, truncate_monitored_files, daemons_handler):
     """
     description: Check if after stopping processing events (due to limit reached), the received events are stored in
@@ -232,11 +232,11 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Check that the initial events queue usage rate is 0%.
             - Calculate when the limit of processed events is reached, waits a few seconds for events to be stored in
@@ -244,10 +244,10 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
             - Wait a few seconds and takes a second sample again, to check that the events queue usage is higher than
               the first sample.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -256,21 +256,21 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check that the queue usage at startup is 0%.
@@ -325,27 +325,27 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test3_configuration, test3_metadata), ids=test3_cases_ids)
-def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                                             configure_local_internal_options, truncate_monitored_files, daemons_handler):
     """
     description: Check that after the event analysis block, if the events queue is full, the events are dropped.
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Check that the initial queue usage rate is 0%.
             - Calculate when the event analysis blocking phase is expected and the queue is full, then it measures the
               use of the event queue to check that it is 100%, and that the received events are being dropped.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate blackwell logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -354,21 +354,21 @@ def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, l
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check that the initial queue is at 0%.
@@ -426,7 +426,7 @@ def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, l
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test4_configuration, test4_metadata), ids=test4_cases_ids)
 @pytest.mark.parametrize('configure_local_internal_options', [t4_local_internal_options], indirect=True)
-def test_event_processing_in_order_single_thread(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_event_processing_in_order_single_thread(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                                                  configure_local_internal_options, truncate_monitored_files, daemons_handler):
     """
     description: Check that events are processed in order according to the position within the queue, and
@@ -435,21 +435,21 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh event logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell event logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Send a batch of identified events.
             - Wait a few seconds, then send another batch of identified events.
             - Wait until all events are processed.
             - Read the event log (archives.log) and check that the events have been processed in the expected order.
         - teardown:
-            - Truncate wazuh event logs.
+            - Truncate blackwell event logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -458,21 +458,21 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check that all expected events have been stored in the archives.log.
@@ -534,7 +534,7 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test5_configuration, test5_metadata), ids=test5_cases_ids)
-def test_event_processing_in_order_multi_thread(test_configuration, test_metadata, load_wazuh_basic_configuration, set_wazuh_configuration,
+def test_event_processing_in_order_multi_thread(test_configuration, test_metadata, load_blackwell_basic_configuration, set_blackwell_configuration,
                                                 configure_local_internal_options, truncate_monitored_files, daemons_handler):
     """
     description: Check that events are processed in order according to the position within the queue, and
@@ -543,21 +543,21 @@ def test_event_processing_in_order_multi_thread(test_configuration, test_metadat
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Blackwell light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh event logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate blackwell event logs.
+            - Restart blackwell-manager service to apply configuration changes.
         - test:
             - Send a batch of identified events.
             - Wait a few seconds, then send another batch of identified events. This is repeated n times.
             - Wait until all events are processed.
             - Read the event log (archives.log) and check that the events have been processed in the expected order.
         - teardown:
-            - Truncate wazuh event logs.
+            - Truncate blackwell event logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -566,21 +566,21 @@ def test_event_processing_in_order_multi_thread(test_configuration, test_metadat
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Blackwell local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Check that all expected events have been stored in the archives.log.

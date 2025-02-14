@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will check if FIM manages properly
        the 'diff' folder created in the 'queue/diff/local' directory when removing a monitored
        folder or the 'report_changes' option is disabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'blackwell-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - linux
@@ -47,9 +47,9 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#directories
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html#directories
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
 
 pytest_args:
     - fim_mode:
@@ -70,16 +70,16 @@ from pathlib import Path
 import pytest
 import time
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED, EVENT_TYPE_DELETED
-from wazuh_testing.modules.fim.utils import make_diff_file_path
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import write_file, delete_files_in_folder
-from wazuh_testing.utils.string import generate_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from blackwell_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED, EVENT_TYPE_DELETED
+from blackwell_testing.modules.fim.utils import make_diff_file_path
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.file import write_file, delete_files_in_folder
+from blackwell_testing.utils.string import generate_string
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -102,16 +102,16 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_report_when_deleted_directories(test_configuration, test_metadata, configure_local_internal_options,
-                        truncate_monitored_files, set_wazuh_configuration, create_paths_files, daemons_handler, detect_end_scan):
+                        truncate_monitored_files, set_blackwell_configuration, create_paths_files, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon deletes the 'diff' folder created in the 'queue/diff/local'
+    description: Check if the 'blackwell-syscheckd' daemon deletes the 'diff' folder created in the 'queue/diff/local'
                  directory when removing a monitored folder and the 'report_changes' option is enabled.
                  For this purpose, the test will monitor a directory and add a testing file inside it. Then,
                  it will check if a 'diff' file is created for the modified testing file. Finally, the test
                  will remove the monitored folder, wait for the FIM 'deleted' event, and verify that
                  the corresponding 'diff' folder is deleted.
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 1
 
@@ -128,7 +128,7 @@ def test_report_when_deleted_directories(test_configuration, test_metadata, conf
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - create_paths_files:
@@ -136,7 +136,7 @@ def test_report_when_deleted_directories(test_configuration, test_metadata, conf
             brief: Create the required directory or file to edit.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - detect_end_scan
             type: fixture
             brief: Check first scan end.
@@ -149,7 +149,7 @@ def test_report_when_deleted_directories(test_configuration, test_metadata, conf
           when removing the corresponding monitored folder.
 
     input_description: Different test cases are contained in external YAML file (configuration_report_deleted_diff.yaml) which
-                       includes configuration settings for the 'wazuh-syscheckd' daemon and, these
+                       includes configuration settings for the 'blackwell-syscheckd' daemon and, these
                        are combined with the testing directory to be monitored defined in the module.
 
     expected_output:
@@ -165,21 +165,21 @@ def test_report_when_deleted_directories(test_configuration, test_metadata, conf
     folder = test_metadata.get('folder')
     test_file_path = os.path.join(folder, test_metadata.get('filename'))
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     # Create the file and and capture the event.
     original_string = generate_string(1, '0')
     write_file(test_file_path, data=original_string)
 
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
+    blackwell_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED), timeout=30)
+    assert blackwell_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
 
     # Validate content_changes attribute exists in the event
     diff_file = make_diff_file_path(folder=test_metadata.get('folder'), filename=test_metadata.get('filename'))
     assert os.path.exists(diff_file), f'{diff_file} does not exist'
 
     delete_files_in_folder(folder)
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
+    blackwell_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
 
     # Wait a second so diff path is deleted
     if 'scheduled' not in fim_mode:

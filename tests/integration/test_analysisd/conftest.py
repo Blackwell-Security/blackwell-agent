@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 import json
 import os
@@ -10,18 +10,18 @@ from collections import defaultdict
 
 import pytest
 
-from wazuh_testing.constants.paths.configurations import CUSTOM_RULES_PATH, CUSTOM_RULES_FILE, WAZUH_CONF_PATH
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH, WAZUH_LOG_PATH
-from wazuh_testing.constants.users import WAZUH_UNIX_GROUP, WAZUH_UNIX_USER
-from wazuh_testing.modules.analysisd import patterns
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks, file
+from blackwell_testing.constants.paths.configurations import CUSTOM_RULES_PATH, CUSTOM_RULES_FILE, BLACKWELL_CONF_PATH
+from blackwell_testing.constants.paths.logs import ALERTS_JSON_PATH, BLACKWELL_LOG_PATH
+from blackwell_testing.constants.users import BLACKWELL_UNIX_GROUP, BLACKWELL_UNIX_USER
+from blackwell_testing.modules.analysisd import patterns
+from blackwell_testing.tools.monitors import file_monitor
+from blackwell_testing.utils import callbacks, file
 
 
 @pytest.fixture()
 def prepare_custom_rules_file(request, test_metadata):
     """Configure a syscollector custom rules for testing.
-    Restarting wazuh-analysisd is required to apply this changes.
+    Restarting blackwell-analysisd is required to apply this changes.
     """
     data_dir = getattr(request.module, 'RULES_SAMPLE_PATH')
     source_rule = os.path.join(data_dir, test_metadata['rules_file'])
@@ -29,7 +29,7 @@ def prepare_custom_rules_file(request, test_metadata):
 
     # copy custom rule with specific privileges
     shutil.copy(source_rule, target_rule)
-    shutil.chown(target_rule, WAZUH_UNIX_USER, WAZUH_UNIX_GROUP)
+    shutil.chown(target_rule, BLACKWELL_UNIX_USER, BLACKWELL_UNIX_GROUP)
 
     yield
 
@@ -39,7 +39,7 @@ def prepare_custom_rules_file(request, test_metadata):
 
 @pytest.fixture()
 def configure_local_rules(request, test_configuration):
-    """Configure a custom rule for testing. Restart Wazuh is needed for applying the configuration. """
+    """Configure a custom rule for testing. Restart Blackwell is needed for applying the configuration. """
 
     # save current configuration
     shutil.copy(CUSTOM_RULES_FILE, CUSTOM_RULES_FILE + '.cpy')
@@ -56,15 +56,15 @@ def configure_local_rules(request, test_configuration):
 
 @pytest.fixture()
 def configure_remove_tags(request, test_metadata):
-    """Configure a custom settting for testing. Restart Wazuh is needed for applying the configuration. """
+    """Configure a custom settting for testing. Restart Blackwell is needed for applying the configuration. """
     # Remove test case tags from ossec.conf
-    file.replace_regex_in_file(test_metadata['remove_tags'], [''] * len(test_metadata['remove_tags']), WAZUH_CONF_PATH)
+    file.replace_regex_in_file(test_metadata['remove_tags'], [''] * len(test_metadata['remove_tags']), BLACKWELL_CONF_PATH)
 
 
 @pytest.fixture(scope='module')
 def wait_for_analysisd_startup(request):
     """Wait until analysisd has begun and alerts.json is created."""
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(BLACKWELL_LOG_PATH)
     log_monitor.start(callback=callbacks.generate_callback(patterns.ANALYSISD_STARTED))
 
 

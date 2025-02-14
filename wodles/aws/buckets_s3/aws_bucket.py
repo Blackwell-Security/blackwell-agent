@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import copy
@@ -15,7 +15,7 @@ from typing import Iterator
 from datetime import datetime
 
 sys.path.insert(0, path.dirname(path.dirname(path.abspath(__file__))))
-import wazuh_integration
+import blackwell_integration
 import aws_tools
 
 MAX_RECORD_RETENTION = 500
@@ -23,7 +23,7 @@ PATH_DATE_FORMAT = "%Y/%m/%d"
 DB_DATE_FORMAT = "%Y%m%d"
 DEFAULT_DATABASE_NAME = "s3_cloudtrail"
 
-RETRY_CONFIGURATION_URL = 'https://documentation.wazuh.com/current/amazon/services/prerequisites/' \
+RETRY_CONFIGURATION_URL = 'https://documentation.blackwell.com/current/amazon/services/prerequisites/' \
                           'considerations.html#Connection-configuration-for-retries'
 
 INVALID_CREDENTIALS_ERROR_CODE = "SignatureDoesNotMatch"
@@ -41,7 +41,7 @@ AWS_BUCKET_MSG_TEMPLATE = {'integration': 'aws',
                            'aws': {'log_info': {'aws_account_alias': '', 'log_file': '', 's3bucket': ''}}}
 
 
-class AWSBucket(wazuh_integration.WazuhAWSDatabase):
+class AWSBucket(blackwell_integration.BlackwellAWSDatabase):
     """
     Represents a bucket with events on the inside.
 
@@ -187,7 +187,7 @@ class AWSBucket(wazuh_integration.WazuhAWSDatabase):
         # Table name
         self.db_table_name = db_table_name
 
-        wazuh_integration.WazuhAWSDatabase.__init__(self,
+        blackwell_integration.BlackwellAWSDatabase.__init__(self,
                                                     db_name=self.db_name,
                                                     service_name='s3',
                                                     access_key=access_key,
@@ -485,7 +485,7 @@ class AWSBucket(wazuh_integration.WazuhAWSDatabase):
                                                    error_txt)
                     self.send_msg(error_msg)
                 except:
-                    aws_tools.debug("++ Failed to send message to Wazuh", 1)
+                    aws_tools.debug("++ Failed to send message to Blackwell", 1)
             else:
                 aws_tools.error(error_txt)
                 sys.exit(error_code)

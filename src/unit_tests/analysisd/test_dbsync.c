@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -12,14 +12,14 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/read-agents_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/read-agents_wrappers.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_wrappers.h"
 
 #include "../analysisd/eventinfo.h"
 #include "../analysisd/decoders/decoder.h"
-#include "../headers/wazuhdb_op.h"
+#include "../headers/blackwelldb_op.h"
 
 /* setup/teardown redefinitions */
 #define setup_dispatch_check setup_dispatch_answer

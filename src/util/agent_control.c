@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
             return 0;
         case 1:
             master = get_master_node();
-            merror("Wazuh is running in cluster mode: %s is not available in worker nodes. Please, try again in the master node: %s.", ARGV0, master);
+            merror("Blackwell is running in cluster mode: %s is not available in worker nodes. Please, try again in the master node: %s.", ARGV0, master);
             free(master);
             return 0;
     }
@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(BLACKWELL_HOMEDIR, home_path);
 
     /* Prepare JSON Structure */
     if(json_output)
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
                 if (strcmp(r_name, "restart-ossec0") == 0) {
                     continue;
                 }
-                if (strcmp(r_name, "restart-wazuh0") == 0) {
+                if (strcmp(r_name, "restart-blackwell0") == 0) {
                     continue;
                 }
                 printf("\n   Response name: %s, command: %s", r_name, r_cmd);
@@ -569,7 +569,7 @@ int main(int argc, char **argv)
         }
         mdebug1("Connected...");
 
-        if (send_msg_to_agent(arq, "restart-wazuh0", restart_all_agents ? NULL : agent_id, "null") == 0) {
+        if (send_msg_to_agent(arq, "restart-blackwell0", restart_all_agents ? NULL : agent_id, "null") == 0) {
             if(json_output){
                 cJSON_AddNumberToObject(root, "error", 0);
                 cJSON_AddStringToObject(root, "data", restart_all_agents ? "Restarting all agents" : "Restarting agent");

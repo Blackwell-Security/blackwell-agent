@@ -8,4 +8,4 @@
         - bucket:
             elements:
               - name:
-                  value: wazuh-cloudtrail-integration-tests
+                  value: blackwell-cloudtrail-integration-tests

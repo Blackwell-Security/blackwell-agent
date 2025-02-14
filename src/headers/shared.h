@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -232,7 +232,7 @@ extern const char *__local_name;
 #define isAgent 0
 #endif
 
-#ifndef WAZUH_UNIT_TESTING
+#ifndef BLACKWELL_UNIT_TESTING
 #define FOREVER() 1
 #else
 #include "../unit_tests/wrappers/common.h"

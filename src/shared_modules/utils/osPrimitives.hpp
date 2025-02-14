@@ -1,6 +1,6 @@
 /*
- * Wazuh - OS primitives
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell - OS primitives
+ * Copyright (C) 2015, Blackwell Inc.
  * May 1, 2023.
  *
  * This program is free software; you can redistribute it

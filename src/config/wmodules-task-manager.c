@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
 #ifndef CLIENT
 #ifndef WIN32
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 static const char *XML_CLEANUP_TIME = "cleanup_time";
 static const char *XML_TASK_TIMEOUT = "task_timeout";

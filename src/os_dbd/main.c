@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
 #include "dbd.h"
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-dbd"
+#define ARGV0 "blackwell-dbd"
 #endif
 
 /* Prototypes */

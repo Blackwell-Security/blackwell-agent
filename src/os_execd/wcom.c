@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * Jun 07, 2017.
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #include "execd.h"
 #include "os_crypto/sha1/sha1_op.h"
 #include "os_crypto/signature/signature.h"
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 #include "external/zlib/zlib.h"
 #include "client-agent/agentd.h"
 #include "logcollector/logcollector.h"
@@ -62,7 +62,7 @@ size_t wcom_dispatch(char *command, char ** output) {
             return strlen(*output);
         }
 
-    } else if (strcmp(rcv_comm, "restart") == 0 || strcmp(rcv_comm, "restart-wazuh") == 0) {
+    } else if (strcmp(rcv_comm, "restart") == 0 || strcmp(rcv_comm, "restart-blackwell") == 0) {
         return wcom_restart(output);
     } else if (strcmp(rcv_comm, "lock_restart") == 0) {
         max_restart_lock = 0;
@@ -199,7 +199,7 @@ size_t wcom_restart(char ** output) {
             exec_cmd[1] = "manager";
 #endif
         } else {
-            exec_cmd[0] = "bin/wazuh-control";
+            exec_cmd[0] = "bin/blackwell-control";
             exec_cmd[1] = "restart";
         }
 
@@ -220,9 +220,9 @@ size_t wcom_restart(char ** output) {
         }
 #else
         static char command[OS_FLSIZE];
-        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-wazuh.exe");
+        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-blackwell.exe");
         char *cmd[2] = { command, NULL };
-        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"wazuh-execd\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-wazuh.exe\"}}";
+        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"blackwell-execd\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-blackwell.exe\"}}";
         wfd_t *wfd = wpopenv(cmd[0], cmd, W_BIND_STDIN);
         if (wfd) {
             /* Send alert to AR script */
@@ -318,11 +318,11 @@ error:
 }
 
 size_t wcom_check_manager_config(char **output) {
-    static const char *daemons[] = {"bin/wazuh-authd", "bin/wazuh-remoted",
-                                    "bin/wazuh-execd", "bin/wazuh-analysisd", "bin/wazuh-logcollector",
-                                    "bin/wazuh-integratord", "bin/wazuh-syscheckd", "bin/wazuh-maild",
-                                    "bin/wazuh-modulesd", "bin/wazuh-clusterd", "bin/wazuh-agentlessd",
-                                    "bin/wazuh-integratord", "bin/wazuh-dbd", "bin/wazuh-csyslogd", NULL
+    static const char *daemons[] = {"bin/blackwell-authd", "bin/blackwell-remoted",
+                                    "bin/blackwell-execd", "bin/blackwell-analysisd", "bin/blackwell-logcollector",
+                                    "bin/blackwell-integratord", "bin/blackwell-syscheckd", "bin/blackwell-maild",
+                                    "bin/blackwell-modulesd", "bin/blackwell-clusterd", "bin/blackwell-agentlessd",
+                                    "bin/blackwell-integratord", "bin/blackwell-dbd", "bin/blackwell-csyslogd", NULL
                                     };
 
     int response_retval = 0;

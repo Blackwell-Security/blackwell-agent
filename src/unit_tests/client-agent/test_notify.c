@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -13,7 +13,7 @@
 #include <cmocka.h>
 
 #include "../client-agent/agentd.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 #define DUMMY_VALID_SOCKET_FD 1
 

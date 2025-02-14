@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -29,8 +29,8 @@ int main(int argc, char **argv)
         return (0);
     }
 
-    /* Configure Wazuh for automatic startup */
-    system("sc config WazuhSvc start= auto");
+    /* Configure Blackwell for automatic startup */
+    system("sc config BlackwellSvc start= auto");
 
     /* Change permissions */
     if (checkVista()) {

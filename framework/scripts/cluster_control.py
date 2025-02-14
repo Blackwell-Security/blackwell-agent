@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -13,11 +13,11 @@ import sys
 from os import path
 from typing import Union
 
-import wazuh.core.cluster.cluster
-import wazuh.core.cluster.utils
-from wazuh.core.cluster import control, local_client
-from wazuh.core.common import DECIMALS_DATE_FORMAT
-from wazuh.core.utils import get_utc_strptime
+import blackwell.core.cluster.cluster
+import blackwell.core.cluster.utils
+from blackwell.core.cluster import control, local_client
+from blackwell.core.common import DECIMALS_DATE_FORMAT
+from blackwell.core.utils import get_utc_strptime
 
 
 def __print_table(data: map, headers: dict, show_header: bool = False):
@@ -265,13 +265,13 @@ def main():
 
     logging.basicConfig(level=logging.DEBUG if args.debug else logging.ERROR, format='%(levelname)s: %(message)s')
 
-    cluster_status = wazuh.core.cluster.utils.get_cluster_status()
+    cluster_status = blackwell.core.cluster.utils.get_cluster_status()
     if cluster_status['enabled'] == 'no' or cluster_status['running'] == 'no':
         logging.error("Cluster is not running.")
         sys.exit(1)
 
-    cluster_config = wazuh.core.cluster.utils.read_config()
-    wazuh.core.cluster.cluster.check_cluster_config(config=cluster_config)
+    cluster_config = blackwell.core.cluster.utils.read_config()
+    blackwell.core.cluster.cluster.check_cluster_config(config=cluster_config)
     try:
         if args.filter_status and not args.list_agents:
             logging.error("Wrong arguments.")

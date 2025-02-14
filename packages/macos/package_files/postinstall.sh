@@ -1,6 +1,6 @@
 #! /bin/bash
 # By Spransy, Derek" <DSPRANS () emory ! edu> and Charlie Scott
-# Modified by Santiago Bassett (http://www.wazuh.com) - Feb 2016
+# Modified by Santiago Bassett (http://www.blackwell.com) - Feb 2016
 # alterations by bil hays 2013
 # -Switched to bash
 # -Added some sanity checks
@@ -8,17 +8,17 @@
 #  starting at 600 puts this in user space
 # -Added lines to append the ossec users to the group ossec
 #  so the the list GroupMembership works properly
-GROUP="wazuh"
-USER="wazuh"
+GROUP="blackwell"
+USER="blackwell"
 DIR="/Library/Ossec"
 INSTALLATION_SCRIPTS_DIR="${DIR}/packages_files/agent_installation_scripts"
 SCA_BASE_DIR="${INSTALLATION_SCRIPTS_DIR}/sca"
-UPGRADE_FILE_FLAG="${DIR}/WAZUH_PKG_UPGRADE"
+UPGRADE_FILE_FLAG="${DIR}/BLACKWELL_PKG_UPGRADE"
 
 
-if [ -f "${DIR}/WAZUH_RESTART" ]; then
+if [ -f "${DIR}/BLACKWELL_RESTART" ]; then
     restart="true"
-    rm -f ${DIR}/WAZUH_RESTART
+    rm -f ${DIR}/BLACKWELL_RESTART
 fi
 
 if [ -f "${UPGRADE_FILE_FLAG}" ]; then
@@ -85,11 +85,11 @@ else
 fi
 
 if [ -z "${upgrade}" ]; then
-    echo "Generating Wazuh configuration for a fresh installation."
+    echo "Generating Blackwell configuration for a fresh installation."
 
     if [ -f "${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh" ]; then
         ${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh conf agent ${DIST_NAME} ${DIST_VER}.${DIST_SUBVER} ${DIR} > ${DIR}/etc/ossec.conf
-        chown root:wazuh ${DIR}/etc/ossec.conf
+        chown root:blackwell ${DIR}/etc/ossec.conf
         chmod 0640 ${DIR}/etc/ossec.conf
     else
         echo "Error: ${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh script not found."
@@ -124,7 +124,7 @@ if [ -r ${SCA_TMP_FILE} ]; then
     done
 fi
 
-# Register and configure agent if Wazuh environment variables are defined
+# Register and configure agent if Blackwell environment variables are defined
 if [ -z "${upgrade}" ]; then
     echo "Running the register_configure_agent.sh script..."
     if [ -f "${INSTALLATION_SCRIPTS_DIR}/src/init/register_configure_agent.sh" ]; then
@@ -153,11 +153,11 @@ rm -rf ${DIR}/packages_files
 
 # Remove old ossec user and group if exists and change ownwership of files
 if [[ $(dscl . -read /Groups/ossec) ]]; then
-    echo "Changing group from Ossec to Wazuh"
-    find ${DIR}/ -group ossec -user root -exec chown root:wazuh {} \ > /dev/null 2>&1 || true
+    echo "Changing group from Ossec to Blackwell"
+    find ${DIR}/ -group ossec -user root -exec chown root:blackwell {} \ > /dev/null 2>&1 || true
     if [[ $(dscl . -read /Users/ossec) ]]; then
-        echo "Changing user from Ossec to Wazuh"
-        find ${DIR}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \ > /dev/null 2>&1 || true
+        echo "Changing user from Ossec to Blackwell"
+        find ${DIR}/ -group ossec -user ossec -exec chown blackwell:blackwell {} \ > /dev/null 2>&1 || true
         echo "Removing Ossec user"
         sudo /usr/bin/dscl . -delete "/Users/ossec"
     fi
@@ -172,6 +172,6 @@ if [ -f ${DIR}/queue/alerts/sockets ]; then
 fi
 
 if [ -n "${upgrade}" ] && [ -n "${restart}" ]; then
-    echo "Restarting Wazuh..."
-    ${DIR}/bin/wazuh-control restart
+    echo "Restarting Blackwell..."
+    ${DIR}/bin/blackwell-control restart
 fi

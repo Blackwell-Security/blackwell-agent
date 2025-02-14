@@ -1,0 +1,26 @@
+Source: blackwell-agent
+Section: admin
+Priority: extra
+Maintainer: Blackwell, Inc <info@blackwell.com>
+Build-Depends: debhelper (>= 7.0.50~), make, gcc, linux-libc-dev, gawk, libaudit-dev, selinux-basics
+Standards-Version: 3.8.4
+Homepage: https://www.blackwell.com
+
+Package: blackwell-agent
+Architecture: any
+Depends: ${shlibs:Depends}, libc6 (>= 2.7), lsb-release, debconf, adduser
+Conflicts: ossec-hids-agent, blackwell-manager, ossec-hids, blackwell-api
+Breaks: ossec-hids-agent, blackwell-manager, ossec-hids
+Description: Blackwell agent
+ Blackwell helps you to gain security visibility into your infrastructure by
+ monitoring hosts at an operating system and application level. It provides
+ the following capabilities: log analysis, file integrity monitoring,
+ intrusions detection and policy and compliance monitoring.
+
+Package: blackwell-agent-dbg
+Section: debug
+Priority: optional
+Architecture: any
+Depends: blackwell-agent
+Description: Debug symbols for blackwell-agent.
+  This package contains debug symbols for debugging blackwell-agent.

@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscheck
- * Copyright (C) 2022, Wazuh Inc.
+ * Blackwell Syscheck
+ * Copyright (C) 2022, Blackwell Inc.
  * March 6, 2022.
  *
  * This program is free software; you can redistribute it

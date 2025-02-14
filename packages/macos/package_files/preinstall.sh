@@ -1,6 +1,6 @@
 #! /bin/bash
 # By Spransy, Derek" <DSPRANS () emory ! edu> and Charlie Scott
-# Modified by Wazuh, Inc. <info@wazuh.com>.
+# Modified by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 #####
@@ -39,21 +39,21 @@ function check_arch
 check_arch
 
 if [ -d "${DIR}" ]; then
-    echo "A Wazuh agent installation was found in ${DIR}. Will perform an upgrade."
+    echo "A Blackwell agent installation was found in ${DIR}. Will perform an upgrade."
     upgrade="true"
-    touch "${DIR}/WAZUH_PKG_UPGRADE"
+    touch "${DIR}/BLACKWELL_PKG_UPGRADE"
 
-    if [ -f "${DIR}/WAZUH_RESTART" ]; then
-        rm -f "${DIR}/WAZUH_RESTART"
+    if [ -f "${DIR}/BLACKWELL_RESTART" ]; then
+        rm -f "${DIR}/BLACKWELL_RESTART"
     fi
 
     # Stops the agent before upgrading it
-    if ${DIR}/bin/wazuh-control status | grep "is running" > /dev/null 2>&1; then
-        touch "${DIR}/WAZUH_RESTART"
-        ${DIR}/bin/wazuh-control stop
+    if ${DIR}/bin/blackwell-control status | grep "is running" > /dev/null 2>&1; then
+        touch "${DIR}/BLACKWELL_RESTART"
+        ${DIR}/bin/blackwell-control stop
         restart="true"
     elif ${DIR}/bin/ossec-control status | grep "is running" > /dev/null 2>&1; then
-        touch "${DIR}/WAZUH_RESTART"
+        touch "${DIR}/BLACKWELL_RESTART"
         ${DIR}/bin/ossec-control stop
         restart="true"
     fi
@@ -63,8 +63,8 @@ if [ -d "${DIR}" ]; then
     cp -r ${DIR}/etc/{ossec.conf,client.keys,local_internal_options.conf,shared} ${DIR}/config_files/
 
     if [ -d ${DIR}/logs/ossec ]; then
-        echo "Renaming ${DIR}/logs/ossec to ${DIR}/logs/wazuh"
-        mv ${DIR}/logs/ossec ${DIR}/logs/wazuh
+        echo "Renaming ${DIR}/logs/ossec to ${DIR}/logs/blackwell"
+        mv ${DIR}/logs/ossec ${DIR}/logs/blackwell
     fi
 
     if [ -d ${DIR}/queue/ossec ]; then
@@ -72,9 +72,9 @@ if [ -d "${DIR}" ]; then
         mv ${DIR}/queue/ossec ${DIR}/queue/sockets
     fi
 
-    if pkgutil --pkgs | grep -i wazuh-agent-etc > /dev/null 2>&1 ; then
-        echo "Removing previous package receipt for wazuh-agent-etc"
-        pkgutil --forget com.wazuh.pkg.wazuh-agent-etc
+    if pkgutil --pkgs | grep -i blackwell-agent-etc > /dev/null 2>&1 ; then
+        echo "Removing previous package receipt for blackwell-agent-etc"
+        pkgutil --forget com.blackwell.pkg.blackwell-agent-etc
     fi
 fi
 
@@ -101,7 +101,7 @@ while [[ $idvar -eq 0 ]]; do
    fi
 done
 
-echo "UID available for wazuh user is:";
+echo "UID available for blackwell user is:";
 echo ${new_uid}
 
 # Verify that the uid and gid exist and match
@@ -118,37 +118,37 @@ fi
 
 # Creating the group
 echo "Checking group..."
-if [[ $(dscl . -read /Groups/wazuh) ]]
+if [[ $(dscl . -read /Groups/blackwell) ]]
     then
-    echo "wazuh group already exists.";
+    echo "blackwell group already exists.";
 else
-    sudo ${DSCL} localhost -create /Local/Default/Groups/wazuh
-    check_errm "Error creating group wazuh" "67"
-    sudo ${DSCL} localhost -createprop /Local/Default/Groups/wazuh PrimaryGroupID ${new_gid}
-    sudo ${DSCL} localhost -createprop /Local/Default/Groups/wazuh RealName wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Groups/wazuh RecordName wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Groups/wazuh RecordType: dsRecTypeStandard:Groups
-    sudo ${DSCL} localhost -createprop /Local/Default/Groups/wazuh Password "*"
+    sudo ${DSCL} localhost -create /Local/Default/Groups/blackwell
+    check_errm "Error creating group blackwell" "67"
+    sudo ${DSCL} localhost -createprop /Local/Default/Groups/blackwell PrimaryGroupID ${new_gid}
+    sudo ${DSCL} localhost -createprop /Local/Default/Groups/blackwell RealName blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Groups/blackwell RecordName blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Groups/blackwell RecordType: dsRecTypeStandard:Groups
+    sudo ${DSCL} localhost -createprop /Local/Default/Groups/blackwell Password "*"
 fi
 
 # Creating the user
 echo "Checking user..."
-if [[ $(dscl . -read /Users/wazuh) ]]
+if [[ $(dscl . -read /Users/blackwell) ]]
     then
-    echo "wazuh user already exists.";
+    echo "blackwell user already exists.";
 else
-    sudo ${DSCL} localhost -create /Local/Default/Users/wazuh
-    check_errm "Error creating user wazuh" "77"
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh RecordName wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh RealName wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh UserShell /usr/bin/false
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh NFSHomeDirectory /var/wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh UniqueID ${new_uid}
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh PrimaryGroupID ${new_gid}
-    sudo ${DSCL} localhost -append /Local/Default/Groups/wazuh GroupMembership wazuh
-    sudo ${DSCL} localhost -createprop /Local/Default/Users/wazuh Password "*"
+    sudo ${DSCL} localhost -create /Local/Default/Users/blackwell
+    check_errm "Error creating user blackwell" "77"
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell RecordName blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell RealName blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell UserShell /usr/bin/false
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell NFSHomeDirectory /var/blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell UniqueID ${new_uid}
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell PrimaryGroupID ${new_gid}
+    sudo ${DSCL} localhost -append /Local/Default/Groups/blackwell GroupMembership blackwell
+    sudo ${DSCL} localhost -createprop /Local/Default/Users/blackwell Password "*"
 fi
 
 #Hide the fixed users
-echo "Hiding the fixed wazuh user"
-dscl . create /Users/wazuh IsHidden 1
+echo "Hiding the fixed blackwell user"
+dscl . create /Users/blackwell IsHidden 1

@@ -1,11 +1,11 @@
 #!/bin/sh
-# postremove script for wazuh-agent
-# Wazuh, Inc 2015
+# postremove script for blackwell-agent
+# Blackwell, Inc 2015
 
-if getent passwd wazuh > /dev/null 2>&1; then
-  userdel wazuh
+if getent passwd blackwell > /dev/null 2>&1; then
+  userdel blackwell
 fi
 
-if getent group wazuh > /dev/null 2>&1; then
-  groupdel wazuh
+if getent group blackwell > /dev/null 2>&1; then
+  groupdel blackwell
 fi

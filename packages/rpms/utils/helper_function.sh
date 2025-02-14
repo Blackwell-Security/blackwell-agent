@@ -2,8 +2,8 @@
 
 # RPM helper functions
 
-# Wazuh package builder
-# Copyright (C) 2015, Wazuh Inc.
+# Blackwell package builder
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -23,7 +23,7 @@ setup_build(){
 
     mkdir -p ${rpm_build_dir}/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 
-    cp ${specs_path}/wazuh-${BUILD_TARGET}.spec ${rpm_build_dir}/SPECS/${package_name}.spec
+    cp ${specs_path}/blackwell-${BUILD_TARGET}.spec ${rpm_build_dir}/SPECS/${package_name}.spec
 
     # Generating source tar.gz
     cd ${build_dir}/${BUILD_TARGET} && tar czf "${rpm_build_dir}/SOURCES/${package_name}.tar.gz" "${package_name}"
@@ -53,7 +53,7 @@ build_package(){
     package_name="$1"
     debug="$2"
     short_commit_hash="$3"
-    wazuh_version="$4"
+    blackwell_version="$4"
 
     if [ "${ARCHITECTURE_TARGET}" = "i386" ] || [ "${ARCHITECTURE_TARGET}" = "armhf" ]; then
         linux="linux32"
@@ -75,7 +75,7 @@ build_package(){
     $linux $rpmbuild --define "_sysconfdir /etc" --define "_topdir ${rpm_build_dir}" \
         --define "_threads ${JOBS}" --define "_release ${REVISION}" --define "_isstage ${IS_STAGE}" \
         --define "_localstatedir ${INSTALLATION_PATH}" --define "_debugenabled ${debug}" \
-        --define "_version ${wazuh_version}" --define "_hashcommit ${short_commit_hash}" \
+        --define "_version ${blackwell_version}" --define "_hashcommit ${short_commit_hash}" \
         --target $ARCH -ba ${rpm_build_dir}/SPECS/${package_name}.spec
     return $?
 }
@@ -83,32 +83,32 @@ build_package(){
 get_package_and_checksum(){
     src="$3"
 
-    RPM_NAME=$(ls -R ${rpm_build_dir}/RPMS | grep "wazuh-${BUILD_TARGET}" | grep -v "debuginfo")
+    RPM_NAME=$(ls -R ${rpm_build_dir}/RPMS | grep "blackwell-${BUILD_TARGET}" | grep -v "debuginfo")
     SYMBOLS_NAME=$(ls -R ${rpm_build_dir}/RPMS)
-    SYMBOLS_NAME=$(echo "${SYMBOLS_NAME}" | grep "wazuh-${BUILD_TARGET}-debuginfo" || true)
+    SYMBOLS_NAME=$(echo "${SYMBOLS_NAME}" | grep "blackwell-${BUILD_TARGET}-debuginfo" || true)
     SRC_NAME=$(ls -R ${rpm_build_dir}/SRPMS | grep "\.src\.rpm$")
 
     echo "RPM_NAME: ${RPM_NAME}"
     echo "SYMBOLS_NAME:${SYMBOLS_NAME}"
 
     if [[ "${checksum}" == "yes" ]]; then
-        cd "${rpm_build_dir}/RPMS" && sha512sum $RPM_NAME > /var/local/wazuh/$RPM_NAME.sha512
+        cd "${rpm_build_dir}/RPMS" && sha512sum $RPM_NAME > /var/local/blackwell/$RPM_NAME.sha512
         # Legacy RPMs do not have symbols
         if [ -n "${SYMBOLS_NAME}" ]; then
-            sha512sum $SYMBOLS_NAME > /var/local/wazuh/$SYMBOLS_NAME.sha512
+            sha512sum $SYMBOLS_NAME > /var/local/blackwell/$SYMBOLS_NAME.sha512
         fi
 
         if [[ "${src}" == "yes" ]]; then
-            cd "${rpm_build_dir}/SRPMS" && sha512sum $SRC_NAME > /var/local/wazuh/$SRC_NAME.sha512
+            cd "${rpm_build_dir}/SRPMS" && sha512sum $SRC_NAME > /var/local/blackwell/$SRC_NAME.sha512
         fi
     fi
 
     if [[ "${src}" == "yes" ]]; then
-        mv ${rpm_build_dir}/SRPMS/$SRC_NAME /var/local/wazuh
+        mv ${rpm_build_dir}/SRPMS/$SRC_NAME /var/local/blackwell
     else
-        mv ${rpm_build_dir}/RPMS/$RPM_NAME /var/local/wazuh
+        mv ${rpm_build_dir}/RPMS/$RPM_NAME /var/local/blackwell
         if [ -n "${SYMBOLS_NAME}" ]; then
-            mv ${rpm_build_dir}/RPMS/$SYMBOLS_NAME /var/local/wazuh
+            mv ${rpm_build_dir}/RPMS/$SYMBOLS_NAME /var/local/blackwell
         fi
     fi
 }

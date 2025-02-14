@@ -1,12 +1,12 @@
 #!/sbin/runscript
 # Gentoo init script
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 # by gentuxx <gentuxx@gmail.com>
 
 opts="${opts} status configtest"
 
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+BLACKWELL_HOME=BLACKWELL_HOME_TMP
+BLACKWELL_CONTROL="$BLACKWELL_HOME/bin/blackwell-control"
 
 depend() {
     need net
@@ -14,13 +14,13 @@ depend() {
 }
 
 configtest() {
-    ebegin "Checking Wazuh Configuration"
+    ebegin "Checking Blackwell Configuration"
     checkconfig
     eend $?
 }
 
 checkconfig() {
-    CONFIGFILE="${CONFIGFILE:-$WAZUH_HOME/etc/ossec.conf}"
+    CONFIGFILE="${CONFIGFILE:-$BLACKWELL_HOME/etc/ossec.conf}"
     if [ ! -r "${CONFIGFILE}" ]; then
         eerror "Unable to read configuration file: ${CONFIGFILE}"
         return 1
@@ -33,31 +33,31 @@ checkconfig() {
 
 start() {
     checkconfig || return 1
-    ebegin "Starting Wazuh"
-    ${WAZUH_CONTROL} start > /dev/null 2>&1
+    ebegin "Starting Blackwell"
+    ${BLACKWELL_CONTROL} start > /dev/null 2>&1
     eend $?
 }
 
 stop() {
     checkconfig || return 1
-    ebegin "Stopping Wazuh"
-    ${WAZUH_CONTROL} stop > /dev/null 2>&1
+    ebegin "Stopping Blackwell"
+    ${BLACKWELL_CONTROL} stop > /dev/null 2>&1
     eend $?
 }
 
 restart() {
     if ! service_started "${myservice}" ; then
-        eerror "Wazuh is not running! Please start it before trying to reload it."
+        eerror "Blackwell is not running! Please start it before trying to reload it."
     else
         checkconfig || return 1
-        ebegin "Reloading Wazuh"
-        svc_stop ${WAZUH_CONTROL}
-        svc_start ${WAZUH_CONTROL}
+        ebegin "Reloading Blackwell"
+        svc_stop ${BLACKWELL_CONTROL}
+        svc_start ${BLACKWELL_CONTROL}
         eend $?
     fi
 }
 
 status() {
     checkconfig || return 1
-    ${WAZUH_CONTROL} status
+    ${BLACKWELL_CONTROL} status
 }

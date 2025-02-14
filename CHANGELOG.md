@@ -2766,7 +2766,7 @@ All notable changes to this project will be documented in this file.
   - Added new endpoints for Wazuh API security management. ([#3410](https://github.com/wazuh/wazuh/issues/3410))
   - Added SQLAlchemy ORM based database for RBAC. ([#3375](https://github.com/wazuh/wazuh/issues/3375))
   - Added new JWT authentication method. ([7080ac3](https://github.com/wazuh/wazuh/commit/7080ac352774bb0feaf07cab76df58ea5503ff4b))
-  - Wazuh API up and running by default in all nodes for a clustered environment.
+  - Blackwell API up and running by default in all nodes for a clustered environment.
   - Added new and improved error handling. ([#2843](https://github.com/wazuh/wazuh/issues/2843) ([#5345](https://github.com/wazuh/wazuh/issues/5345))
   - Added tavern and docker based Wazuh API integration tests. ([#3612](https://github.com/wazuh/wazuh/issues/3612))
   - Added new and unified Wazuh API responses structure. ([3421015](https://github.com/wazuh/wazuh/commit/34210154016f0a63211a81707744dce0ec0a54f9))
@@ -3525,7 +3525,7 @@ All notable changes to this project will be documented in this file.
   - The regex parser did not accept a group terminated with an escaped byte or a class. ([#2224](https://github.com/wazuh/wazuh/pull/2224))
 - Fixed buffer overflow hazard in FIM when performing change report on long paths on macOS platform. ([#2285](https://github.com/wazuh/wazuh/pull/2285))
 - Fix sending of the owner attribute when a file is created in Windows. ([#2292](https://github.com/wazuh/wazuh/pull/2292))
-- Fix audit reconnection to the Whodata socket ([#2305](https://github.com/wazu2305h/wazuh/pull/2305))
+- Fix audit reconnection to the Whodata socket ([#2305](https://github.com/wazu2305h/blackwell/pull/2305))
 - Fixed agent connection in TCP mode on Windows XP. ([#2329](https://github.com/wazuh/wazuh/pull/2329))
 - Fix log shown when a command reaches its timeout and `ignore_output` is enabled. ([#2316](https://github.com/wazuh/wazuh/pull/2316))
 - Analysisd and Syscollector did not detect the number of cores on Raspberry Pi. ([#2304](https://github.com/wazuh/wazuh/pull/2304))
@@ -3988,7 +3988,7 @@ All notable changes to this project will be documented in this file.
     - Inverted communication flow: clients start communications with the master.
     - Just the master address is required in the `<nodes>` list configuration.
     - Improved synchronization algorithm.
-    - Reduced the number of processes to one: `wazuh-clusterd`.
+    - Reduced the number of processes to one: `blackwell-clusterd`.
 - Cluster control tool improvements: outputs are the same regardless of node type.
 - The default input queue for remote events has been increased to 131072 events. ([#660](https://github.com/wazuh/wazuh/pull/660))
 - Disconnected agents will no longer report vulnerabilities. ([#666](https://github.com/wazuh/wazuh/pull/666))
@@ -4040,7 +4040,7 @@ All notable changes to this project will be documented in this file.
 - Fix Authd client in old versions of Windows ([#479](https://github.com/wazuh/wazuh/pull/479))
 - Cluster's socket management improved to use persistent connections ([#481](https://github.com/wazuh/wazuh/pull/481))
 - Fix memory corruption in Syscollector decoder and memory leaks in Vulnerability Detector. ([#482](https://github.com/wazuh/wazuh/pull/482))
-- Fixed memory corruption in Wazuh DB autoclosing procedure.
+- Fixed memory corruption in Blackwell DB autoclosing procedure.
 - Fixed dangling db files at DB Sync module folder. ([#489](https://github.com/wazuh/wazuh/pull/489))
 - Fixed agent group file deletion when using Authd.
 - Fix memory leak in Maild with JSON input. ([#498](https://github.com/wazuh/wazuh/pull/498))
@@ -4064,7 +4064,7 @@ All notable changes to this project will be documented in this file.
 - Improved cluster control to give more information. ([#421](https://github.com/wazuh/wazuh/pull/421))
 - Updated rules for CIS-CAT.
 - Removed unnecessary compilation of vulnerability-detector in agents.
-- Increased wazuh-modulesd's subprocess pool.
+- Increased blackwell-modulesd's subprocess pool.
 - Improved the agent software recollection by Syscollector.
 
 ### Fixed
@@ -4078,10 +4078,10 @@ All notable changes to this project will be documented in this file.
 - Fixed OS name detection in macOS and old Linux distros. ([#409](https://github.com/wazuh/wazuh/pull/409))
 - Fixed linked in HP-UX.
 - Fixed Red Hat detection in vulnerability-detector.
-- Fixed segmentation fault in wazuh-cluster when files path is too long.
+- Fixed segmentation fault in blackwell-cluster when files path is too long.
 - Fixed a bug getting groups and searching by them in `GET/agents` API call. ([#390](https://github.com/wazuh/wazuh/pull/390))
 - Several fixes and improvements in cluster.
-- Fixed bug in wazuh-db when closing exceeded databases in transaction.
+- Fixed bug in blackwell-db when closing exceeded databases in transaction.
 - Fixed bug in vulnerability-detector that discarded valid agents.
 - Fixed segmentation fault in Windows agents when getting OS info.
 - Fixed memory leaks in vulnerability-detector and CIS-CAT wodle.
@@ -4094,7 +4094,7 @@ All notable changes to this project will be documented in this file.
 - Add field `status` to `GET/agents/groups/:group_id` API call.([#338](https://github.com/wazuh/wazuh/pull/338))
 - Added support for Windows to CIS-CAT integration module ([#369](https://github.com/wazuh/wazuh/pull/369))
 - New Wazuh Module "aws-cloudtrail" fetching logs from S3 bucket. ([#351](https://github.com/wazuh/wazuh/pull/351))
-- New Wazuh Module "vulnerability-detector" to detect vulnerabilities in agents and managers.
+- New Blackwell Module "vulnerability-detector" to detect vulnerabilities in agents and managers.
 
 ### Fixed
 - Fixed oscap.py to support new versions of OpenSCAP scanner.([#331](https://github.com/wazuh/wazuh/pull/331))
@@ -4109,7 +4109,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- New Wazuh Module "command" for asynchronous command execution.
+- New Blackwell Module "command" for asynchronous command execution.
 - New field "predecoder.timestamp" for JSON alerts including timestamp from logs.
 - Added reload action to ossec-control in local mode.
 - Add duration control of a cluster database synchronization.
@@ -4118,7 +4118,7 @@ All notable changes to this project will be documented in this file.
 - Added alert and archive output files rotation capabilities.
 - Added rule option to discard field "firedtimes".
 - Added VULS integration for running vulnerability assessments.
-- CIS-CAT Wazuh Module to scan CIS policies.
+- CIS-CAT Blackwell Module to scan CIS policies.
 
 ### Changed
 
@@ -4148,7 +4148,7 @@ All notable changes to this project will be documented in this file.
 - Added group property for agents to customize shared files set.
 - Send shared files to multiple agents in parallel.
 - New decoder plugin for logs in JSON format with dynamic fields definition.
-- Brought framework from API to Wazuh project.
+- Brought framework from API to Blackwell project.
 - Show merged files MD5 checksum by agent_control and framework.
 - New reliable request protocol for manager-agent communication.
 - Remote agent upgrades with signed WPK packages.
@@ -4182,7 +4182,7 @@ All notable changes to this project will be documented in this file.
 - Added integration with Virustotal.
 - Added timeout option for TCP sockets in Remoted and Agentd.
 - Added option to start the manager after installing.
-- Added a cluster of managers (`wazuh-clusterd`) and a script to control it (`cluster_control`).
+- Added a cluster of managers (`blackwell-clusterd`) and a script to control it (`cluster_control`).
 
 ### Changed
 
@@ -4197,7 +4197,7 @@ All notable changes to this project will be documented in this file.
 - Increased dynamic field limit to 1024, and default to 256.
 - Changed agent buffer 'length' parameter to 'queue_size'.
 - Changed some Rootcheck error messages to verbose logs.
-- Removed unnecessary message by manage_agents advising to restart Wazuh manager.
+- Removed unnecessary message by manage_agents advising to restart Blackwell manager.
 - Update PF tables Active response (by d31m0).
 - Create the users and groups as system users and groups in specs (by Dan Parriott).
 - Show descriptive errors when an agent loses the connection using TCP.
@@ -4219,7 +4219,7 @@ All notable changes to this project will be documented in this file.
 - Extend Monitord 'day_wait' internal option range.
 - Prevent Windows agent from log error when the manager disconnected.
 - Improve Active Response filtering options.
-- Use init system (Systemd/SysVinit) to restart Wazuh when upgrading.
+- Use init system (Systemd/SysVinit) to restart Blackwell when upgrading.
 - Added possibility of filtering agents by manager hostname in the Framework.
 - Prevent installer from overwriting agent.conf file.
 - Cancel file sending operation when agent socket is closed.
@@ -4238,7 +4238,7 @@ All notable changes to this project will be documented in this file.
 - Fixed Windows version detection for Windows 8 and newer.
 - Fixed incorrect CIDR writing on client.keys by Authd.
 - Fixed missing buffer flush by Analysisd when updating Rootcheck database.
-- Stop Wazuh service before removing folder to reinstall.
+- Stop Blackwell service before removing folder to reinstall.
 - Fixed Remoted service for Systemd (by Phil Porada).
 - Fixed Administrator account mapping in Windows agent installation (by andrewm0374@gmail.com).
 - Fixed MySQL support in dbd (by andrewm0374@gmail.com).
@@ -4394,8 +4394,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Wazuh modules manager.
-- Wazuh module for OpenSCAP.
+- Blackwell modules manager.
+- Blackwell module for OpenSCAP.
 - Ruleset for OpenSCAP alerts.
 - Kibana dashboards for OpenSCAP.
 - Option at agent_control to restart all agents.
@@ -4453,7 +4453,7 @@ All notable changes to this project will be documented in this file.
 - Use general-purpose version-flexible SSL/TLS methods for Authd registration.
 - Enforce minimum 3-digit agent ID format.
 - Exclude BTRFS from Rootcheck searching for hidden files inside directories (by Stephan Joerrens).
-- Moved OSSEC and Wazuh decoders to one directory.
+- Moved OSSEC and Blackwell decoders to one directory.
 - Prevent manage_agents from doing invalid actions (such methods for manager at agent).
 - Disabled capturing of security events 5145 and 5156 on Windows agent.
 - Utilities to rename an agent or change the IP address (by Antonio Querubin).
@@ -4478,7 +4478,7 @@ All notable changes to this project will be documented in this file.
 - Updated default syscheck configuration for Windows agents.
 - Limited agent' maximum connection time for notification time.
 - Improved client.keys changing detection method by remoted: use date and inode.
-- Changed boot service name to Wazuh.
+- Changed boot service name to Blackwell.
 - Active response enabled on Windows agents by default.
 - New folder structure for rules and decoders.
 - More descriptive logs about syscheck real-time monitoring.
@@ -4573,7 +4573,7 @@ All notable changes to this project will be documented in this file.
 
 - agent_control: maximum number of agents can now be extracted using option "-m".
 - maild: timeout limitation, preventing it from hang in some cases.
-- Updated decoders, ruleset and rootchecks from Wazuh Ruleset v1.0.8.
+- Updated decoders, ruleset and rootchecks from Blackwell Ruleset v1.0.8.
 - Updated changes from ossec-hids repository.
 
 ### Changed
@@ -4618,7 +4618,7 @@ All notable changes to this project will be documented in this file.
 - Changed defaults to analysisd event counter.
 - Authd won't use password by default.
 - Changed name of fields at JSON output from binaries.
-- Upgraded rules to Wazuh Ruleset v1.07
+- Upgraded rules to Blackwell Ruleset v1.07
 
 ### Fixed
 
@@ -4665,7 +4665,7 @@ All notable changes to this project will be documented in this file.
 - Preparing integration with RESTful API
 - Upgrade version scripts
 - Merge commits from ossec-hids
-- Upgraded rules to Wazuh Ruleset v1.06
+- Upgraded rules to Blackwell Ruleset v1.06
 
 ### Fixed
 
@@ -4677,12 +4677,12 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added Wazuh Ruleset updater
+- Added Blackwell Ruleset updater
 - Added extensions files to support ELK Stack latest versions (ES 2.x, LS 2.1, Kibana 4.3)
 
 ### Changed
 
-- Upgraded rules to Wazuh Ruleset v1.05
+- Upgraded rules to Blackwell Ruleset v1.05
 - Fixed crash in reportd
 - Fixed Windows EventChannel syntaxis issue
 - Fixed manage_agents bulk option bug. No more "randombytes" errors.
@@ -4692,20 +4692,20 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Wazuh version info file
-- ossec-init.conf now includes wazuh version
-- Integrated with wazuh OSSEC ruleset updater
+- Blackwell version info file
+- ossec-init.conf now includes blackwell version
+- Integrated with blackwell OSSEC ruleset updater
 - Several new fields at JSON output (archives and alerts)
-- Wazuh decoders folder
+- Blackwell decoders folder
 
 ### Changed
 
 - Decoders are now splitted in differents files.
 - jsonout_out enable by default
 - JSON groups improvements
-- Wazuh ruleset updated to 1.0.2
+- Blackwell ruleset updated to 1.0.2
 - Extensions: Improved Kibana dashboards
 - Extensions: Improved Windows deployment script
 
 ## [v1.0.0] - 2015-11-23
-- Initial Wazuh version v1.0
+- Initial Blackwell version v1.0

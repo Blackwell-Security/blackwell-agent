@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 ###
-#  Copyright (C) 2015, Wazuh Inc.All rights reserved.
-#  Wazuh.com
+#  Copyright (C) 2015, Blackwell Inc.All rights reserved.
+#  Blackwell.com
 #
 #  This program is free software; you can redistribute it
 #  and/or modify it under the terms of the GNU General Public
@@ -11,12 +11,12 @@
 ###
 
 # Instructions:
-#  - Use the embedded interpreter to run the script: {wazuh_path}/framework/python/bin/python3 rules_to_csv.py
+#  - Use the embedded interpreter to run the script: {blackwell_path}/framework/python/bin/python3 rules_to_csv.py
 
 import csv
 import sys
 
-import wazuh.rule
+import blackwell.rule
 
 if __name__ == '__main__':
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         n_rules = int(sys.argv[1])
 
     for step in range(0, n_rules, 500):
-        result = wazuh.rule.get_rules(limit=500, offset=step).render()
+        result = blackwell.rule.get_rules(limit=500, offset=step).render()
         if not result:
             break
 

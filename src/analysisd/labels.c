@@ -1,6 +1,6 @@
 /*
  * Label data cache
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * February 27, 2017.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
  */
 
 #include "headers/shared.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
 #include "eventinfo.h"
 #include "config.h"
 #include "labels.h"
@@ -47,7 +47,7 @@ wlabel_data_t * labels_cache_update(char *agent_id, int *sock) {
     wlabel_t *labels = NULL;
     wlabel_data_t *data = NULL;
 
-    // Requesting labels to Wazuh DB
+    // Requesting labels to Blackwell DB
     cJSON *labels_json = wdb_get_agent_labels(atoi(agent_id), sock);
 
     if (labels_json == NULL) {

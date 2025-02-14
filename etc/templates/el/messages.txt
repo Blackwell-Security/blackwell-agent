@@ -10,9 +10,9 @@ help="help"
 
 # Global
 moreinfo="Περισσότερες πληροφορίες στο: "
-starting="Εκκινώντας το Wazuh"
+starting="Εκκινώντας το Blackwell"
 systemis="Το σύστημα είναι"
-modifiedinit="To init script τροποποιήθηκε προκειμένου να ξεκινάει Wazuh κατά την εκκίνηση του συστήματος."
+modifiedinit="To init script τροποποιήθηκε προκειμένου να ξεκινάει Blackwell κατά την εκκίνηση του συστήματος."
 noboot="Άγνωστο σύστημα. Το init script δεν προστέθηκε."
 
 # Part 1
@@ -28,7 +28,7 @@ localchose="Επιλέχθηκε η τοπική (local) εγκατάσταση"
 
 # Part 2
 settingupenv="Ρυθμίζεται το περιβάλλον εγκατάστασης"
-wheretoinstall="Επιλέξτε την τοποθεσία εγκατάστασης του Wazuh"
+wheretoinstall="Επιλέξτε την τοποθεσία εγκατάστασης του Blackwell"
 installat="Η εγκατάσταση θα γίνει στο "
 deletedir="Ο κατάλογος εγκατάστασης υπάρχει ήδη. Θέλετε να διαγραφεί;"
 
@@ -43,8 +43,8 @@ usingsmtp="Διακομιστής εξερχόμενης αλληλογραφί�
 whatsmtp="Ποιά είναι η διεύθυνση του διακομιστή της εξερχόμενης αλληλογραφίας σας ip/host?"
 
 # Part 3.1/agent
-serverip="Ποιά είναι η διεύθυνση IP του διακομιστή Wazuh;"
-serveraddr="Ποιά είναι η διεύθυνση IP/Host του διακομιστή Wazuh;"
+serverip="Ποιά είναι η διεύθυνση IP του διακομιστή Blackwell;"
+serveraddr="Ποιά είναι η διεύθυνση IP/Host του διακομιστή Blackwell;"
 addingip="Προστέθηκε η διεύθυνση διακομιστή"
 addingname="Προστέθηκε η διεύθυνση διακομιστή"
 
@@ -91,21 +91,21 @@ yesrunauthd="τρέχουσα υπηρεσία Auth"
 
 # Part 4
 installing="Το σύστημα εγκαθίσταται"
-startwazuh="Θέλετε να ξεκινήσετε το Wazuh μετά την εγκατάσταση;"
-nowazuhstart="Το Wazuh δεν θα ξεκινήσει στο τέλος της εγκατάστασης."
-yeswazuhstart="Το Wazuh θα ξεκινήσει στο τέλος της εγκατάστασης."
+startblackwell="Θέλετε να ξεκινήσετε το Blackwell μετά την εγκατάσταση;"
+noblackwellstart="Το Blackwell δεν θα ξεκινήσει στο τέλος της εγκατάστασης."
+yesblackwellstart="Το Blackwell θα ξεκινήσει στο τέλος της εγκατάστασης."
 runningmake="Το Makefile εκτελείται"
 
 # Final
 configurationdone="Οι ρυθμίσεις πραγματοποιήθηκαν με επιτυχία"
-tostart="Για να ξεκινήσετε το Wazuh"
-tostop="Για να σταματήσετε το Wazuh"
+tostart="Για να ξεκινήσετε το Blackwell"
+tostop="Για να σταματήσετε το Blackwell"
 configat="Το αρχείο ρυθμίσεων μπορεί να αναγνωστεί ή να τροποποιηθεί στην τοποθεσία"
 addserveragent="Προκειμένου να διασυνδέσετε τον agent με τον server, πρέπει να προσθέσετε κάθε agent στο server."
 presskey="Πατήστε ENTER για να συνεχίσετε"
 
 # Update
-wanttoupdate="Βρέθηκε εγκατεστημένο Wazuh. Θέλετε να το ενημερώσετε;"
+wanttoupdate="Βρέθηκε εγκατεστημένο Blackwell. Θέλετε να το ενημερώσετε;"
 mustuninstall="Η εγκατάσταση δεν μπορεί να προχωρήσει χωρίς απεγκατάσταση παλαιών εκδόσεων. Έξοδος."
 unabletoupdate="Η ενημέρωση απέτυχε. Απαιτείται νέα πλήρης εγκατάσταση."
 updatecompleted="Η ενημέρωση ολοκληρώθηκε."

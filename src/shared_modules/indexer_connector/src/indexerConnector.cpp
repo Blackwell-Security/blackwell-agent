@@ -1,6 +1,6 @@
 /*
- * Wazuh - Indexer connector.
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell - Indexer connector.
+ * Copyright (C) 2015, Blackwell Inc.
  * June 2, 2023.
  *
  * This program is free software; you can redistribute it
@@ -21,7 +21,7 @@
 #include <pwd.h>
 #include <unistd.h>
 
-constexpr auto USER_GROUP {"wazuh"};
+constexpr auto USER_GROUP {"blackwell"};
 constexpr auto DEFAULT_PATH {"tmp/root-ca-merged.pem"};
 constexpr auto NOT_USED {-1};
 constexpr auto INDEXER_COLUMN {"indexer"};
@@ -220,7 +220,7 @@ nlohmann::json IndexerConnector::getAgentDocumentsIds(const std::string& url,
 {
     nlohmann::json postData;
     nlohmann::json responseJson;
-    constexpr auto ELEMENTS_PER_QUERY {10000}; // The max value for queries is 10000 in the wazuh-indexer.
+    constexpr auto ELEMENTS_PER_QUERY {10000}; // The max value for queries is 10000 in the blackwell-indexer.
 
     postData["query"]["match"]["agent.id"] = agentId;
     postData["size"] = ELEMENTS_PER_QUERY;
@@ -666,20 +666,20 @@ IndexerConnector::IndexerConnector(
                         {
                             // If the bulk size is too small, log an error and throw an exception.
                             // This error will be fixed by the user by increasing the http.max_content_length value in
-                            // the wazuh-indexer settings.
+                            // the blackwell-indexer settings.
                             if (m_error413FirstTime == false)
                             {
                                 m_error413FirstTime = true;
                                 logError(IC_NAME,
                                          "The amount of elements to process is too small, review the "
                                          "'http.max_content_length' value in "
-                                         "the wazuh-indexer settings. Current data size: %llu.",
+                                         "the blackwell-indexer settings. Current data size: %llu.",
                                          data.size());
                             }
 
                             throw std::runtime_error("The amount of elements to process is too small, review the "
                                                      "'http.max_content_length' value in "
-                                                     "the wazuh-indexer settings.");
+                                                     "the blackwell-indexer settings.");
                         }
                         else
                         {

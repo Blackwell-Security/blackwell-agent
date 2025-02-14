@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -10,10 +10,10 @@ from connexion.lifecycle import ConnexionResponse
 
 from api.controllers.util import json_response
 from api.util import remove_nones_to_dict, parse_api_param, raise_if_exc
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
-import wazuh.ciscat as ciscat
+from blackwell.core.cluster.dapi.dapi import DistributedAPI
+import blackwell.ciscat as ciscat
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 async def get_agents_ciscat_results(agent_id: str, pretty: bool = False, wait_for_complete: bool = False,

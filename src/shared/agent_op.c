@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -15,9 +15,9 @@
 #include "../addagent/manage_agents.h"
 #include "config/authd-config.h"
 #include "os_auth/auth.h"
-#include "wazuh_db/helpers/wdb_global_helpers.h"
+#include "blackwell_db/helpers/wdb_global_helpers.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 #define static
 #endif
 
@@ -620,7 +620,7 @@ int w_send_clustered_message(const char* command, const char* payload, char* res
     for (send_attempts = 0; send_attempts < CLUSTER_SEND_MESSAGE_ATTEMPTS; ++send_attempts) {
         result = 0;
         send_error = FALSE;
-        if (sock = external_socket_connect(sockname, WAZUH_IPC_TIMEOUT), sock >= 0) {
+        if (sock = external_socket_connect(sockname, BLACKWELL_IPC_TIMEOUT), sock >= 0) {
             if (OS_SendSecureTCPCluster(sock, command, payload, strlen(payload)) >= 0) {
                 if (response_length = OS_RecvSecureClusterTCP(sock, response, OS_MAXSTR), response_length <= 0) {
                     switch (response_length) {

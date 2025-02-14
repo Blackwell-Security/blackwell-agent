@@ -1,6 +1,6 @@
 <!---
-Copyright (C) 2015, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 -->
 
@@ -15,13 +15,13 @@ This program is free software; you can redistribute it and/or modify it under th
 
 ## Purpose
 
-Wazuh includes some metrics to understand the behavior of its components, which allow to investigate errors and detect problems with some configurations. This feature has multiple actors: `wazuh-remoted` for agent interaction messages, `wazuh-analysisd` for processed events.
+Blackwell includes some metrics to understand the behavior of its components, which allow to investigate errors and detect problems with some configurations. This feature has multiple actors: `blackwell-remoted` for agent interaction messages, `blackwell-analysisd` for processed events.
 
 ## Sequence diagram
 
 The sequence diagram shows the basic flow of metric counters. These are the main flows:
 
-1. Messages received by `wazuh-remoted` from agents.
-2. Messages that `wazuh-remoted` sends to agents.
-3. Events received by `wazuh-analysisd`.
-4. Events processed by `wazuh-analysisd`.
+1. Messages received by `blackwell-remoted` from agents.
+2. Messages that `blackwell-remoted` sends to agents.
+3. Events received by `blackwell-analysisd`.
+4. Events processed by `blackwell-analysisd`.

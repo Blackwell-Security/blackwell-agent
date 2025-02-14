@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Blackwell Inc.
+ Created by Blackwell, Inc. <info@blackwell.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
@@ -8,14 +8,14 @@ import pytest
 import time
 
 from pathlib import Path
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.constants.paths.logs import ARCHIVES_LOG_PATH
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
-from wazuh_testing.modules.remoted import patterns
-from wazuh_testing.tools import thread_executor
-from wazuh_testing.tools.simulators import run_syslog_simulator
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import ARCHIVES_LOG_PATH
+from blackwell_testing.modules.remoted.configuration import REMOTED_DEBUG
+from blackwell_testing.modules.remoted import patterns
+from blackwell_testing.tools import thread_executor
+from blackwell_testing.tools.simulators import run_syslog_simulator
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -40,10 +40,10 @@ SYSLOG_SIMULATOR_START_TIME = 2
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_syslog_message_parser(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, restart_wazuh_expect_error):
+                            set_blackwell_configuration, restart_blackwell_expect_error):
 
     '''
-    description: Check if 'wazuh-remoted' can receive syslog messages through the socket.
+    description: Check if 'blackwell-remoted' can receive syslog messages through the socket.
 
     parameters:
         - test_configuration
@@ -57,11 +57,11 @@ def test_syslog_message_parser(test_configuration, test_metadata, configure_loca
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
-        - restart_wazuh_expect_error
+            brief: Configure the Blackwell local internal options using the values from `local_internal_options`.
+        - restart_blackwell_expect_error
             type: fixture
             brief: Restart service when expected error is None, once the test finishes stops the daemons.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
     '''

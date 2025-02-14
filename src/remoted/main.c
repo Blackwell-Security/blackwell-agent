@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
         }
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(BLACKWELL_HOMEDIR, home_path);
 
     /* Return 0 if not configured */
     if (RemotedConfig(cfg, &logr) < 0) {

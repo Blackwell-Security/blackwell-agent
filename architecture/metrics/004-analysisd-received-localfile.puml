@@ -1,5 +1,5 @@
-' Copyright (C) 2015, Wazuh Inc.
-' Created by Wazuh, Inc. <info@wazuh.com>.
+' Copyright (C) 2015, Blackwell Inc.
+' Created by Blackwell, Inc. <info@blackwell.com>.
 ' This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 @startuml analysisd-localfile
@@ -22,17 +22,17 @@
     alt Is localfile event
         analysisd -> analysisd: Enqueue event in event queue
         alt Queue full
-            alt Is wazuh-agent module
+            alt Is blackwell-agent module
                 analysisd -> state: dropped->agent++
-            else Is wazuh-agentlessd module
+            else Is blackwell-agentlessd module
                 analysisd -> state: dropped->agentless++
-            else Is wazuh-monitord module
+            else Is blackwell-monitord module
                 analysisd -> state: dropped->monitor++
-            else Is wazuh-remoted module
+            else Is blackwell-remoted module
                 analysisd -> state: dropped->remote++
             else Is virustotal module
                 analysisd -> state: dropped->integrations->virustotal++
-            else Is aws-s3 OR Wazuh-AWS module
+            else Is aws-s3 OR Blackwell-AWS module
                 analysisd -> state: dropped->modules->aws++
             else Is azure-logs OR Azure module
                 analysisd -> state: dropped->modules->azure++
@@ -40,7 +40,7 @@
                 analysisd -> state: dropped->modules->ciscat++
             else Is command module
                 analysisd -> state: dropped->modules->command++
-            else Is docker-listener OR Wazuh-docker module
+            else Is docker-listener OR Blackwell-docker module
                 analysisd -> state: dropped->modules->docker++
             else Is gcp-pubsub OR gcp-bucket module
                 analysisd -> state: dropped->modules->gcp++
@@ -75,17 +75,17 @@
             end
         else
             alt Is decoded
-                alt Is wazuh-agent module
+                alt Is blackwell-agent module
                     analysisd -> state: decoded->agent++
-                else Is wazuh-agentlessd module
+                else Is blackwell-agentlessd module
                     analysisd -> state: decoded->agentless++
-                else Is wazuh-monitord module
+                else Is blackwell-monitord module
                     analysisd -> state: decoded->monitor++
-                else Is wazuh-remoted module
+                else Is blackwell-remoted module
                     analysisd -> state: decoded->remote++
                 else Is virustotal module
                     analysisd -> state: decoded->integrations->virustotal++
-                else Is aws-s3 OR Wazuh-AWS module
+                else Is aws-s3 OR Blackwell-AWS module
                     analysisd -> state: decoded->modules->aws++
                 else Is azure-logs OR Azure module
                     analysisd -> state: decoded->modules->azure++
@@ -93,7 +93,7 @@
                     analysisd -> state: decoded->modules->ciscat++
                 else Is command module
                     analysisd -> state: decoded->modules->command++
-                else Is docker-listener OR Wazuh-docker module
+                else Is docker-listener OR Blackwell-docker module
                     analysisd -> state: decoded->modules->docker++
                 else Is gcp-pubsub OR gcp-bucket module
                     analysisd -> state: decoded->modules->gcp++

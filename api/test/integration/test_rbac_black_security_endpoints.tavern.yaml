@@ -17,12 +17,12 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
               roles:
                 - 1
             - id: 2
-              username: wazuh-wui
+              username: blackwell-wui
               allow_run_as: true
               roles:
                 - 1
@@ -103,7 +103,7 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
               roles:
                 - 1
@@ -152,7 +152,7 @@ stages:
         data:
           affected_items:
             - id: 1
-              username: wazuh
+              username: blackwell
               allow_run_as: true
               roles:
                 - 1
@@ -471,7 +471,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
       method: PUT
       json:
-        name: wazuh-wuiModified
+        name: blackwell-wuiModified
     response:
       <<: *permission_denied
 
@@ -483,7 +483,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
       method: PUT
       json:
-        name: wazuhModified
+        name: blackwellModified
     response:
       status_code: 200
       json:

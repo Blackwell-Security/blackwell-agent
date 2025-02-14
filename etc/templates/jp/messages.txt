@@ -11,10 +11,10 @@ help="help"
 
 # Global
 moreinfo="詳細な情報は以下にあります: "
-starting="Wazuh を起動します"
+starting="Blackwell を起動します"
 systemis="システムは"
-modifiedinit="Init script modified to start Wazuh during boot."
-modifiedinit="初期スクリプトはブート中に Wazuh を起動するよう修正しました．"
+modifiedinit="Init script modified to start Blackwell during boot."
+modifiedinit="初期スクリプトはブート中に Blackwell を起動するよう修正しました．"
 noboot="不明なシステムです．初期スクリプトは追加されません．"
 
 # Part 1
@@ -30,8 +30,8 @@ localchose="Local インストールを選択しました"
 
 # Part 2
 settingupenv="インストール環境を設定しています"
-wheretoinstall="Choose where to install Wazuh"
-wheretoinstall="Wazuh のインストール先を選択してください"
+wheretoinstall="Choose where to install Blackwell"
+wheretoinstall="Blackwell のインストール先を選択してください"
 installat="インストール先を以下に作成します "
 deletedir="インストール先のディレクトリが既に存在します．削除してよろしいですか?"
 
@@ -46,8 +46,8 @@ usingsmtp="この SMTP サーバを使用します: "
 whatsmtp="使用する SMTP サーバの ip/host は何ですか?"
 
 # Part 3.1/agent
-serverip="Wazuh サーバの IP アドレスは何ですか?"
-serveraddr="Wazuh サーバの IP/hostname アドレスは何ですか?"
+serverip="Blackwell サーバの IP アドレスは何ですか?"
+serveraddr="Blackwell サーバの IP/hostname アドレスは何ですか?"
 addingip="サーバの IP を加えています"
 addingname="サーバの hostname を加えています"
 
@@ -96,22 +96,22 @@ yesrunauthd="実行中の認証サービス"
 
 # Part 4
 installing="システムをインストールします"
-startwazuh="インストール後にWazuhを開始しますか？"
-nowazuhstart="Wazuhはインストールの最後に開始されません。"
-yeswazuhstart="Wazuhはインストールの最後に始まります。"
+startblackwell="インストール後にBlackwellを開始しますか？"
+noblackwellstart="Blackwellはインストールの最後に開始されません。"
+yesblackwellstart="Blackwellはインストールの最後に始まります。"
 runningmake="Makefile を実行します"
 
 
 # Final
 configurationdone="設定が完全に終了しました"
-tostart="Wazuh を開始させます"
-tostop="Wazuh を停止させます"
+tostart="Blackwell を開始させます"
+tostop="Blackwell を停止させます"
 configat="以下のファイルで設定についての確認と変更ができます"
 addserveragent="エージェントを追加する前にアクセスするための認証が必要になります．"
 presskey="続けるには ENTER を押してください"
 
 # Update
-wanttoupdate="既に Wazuh がインストールされています．アップデートしますか?"
+wanttoupdate="既に Blackwell がインストールされています．アップデートしますか?"
 mustuninstall="古いバージョンをアンインストールしないと、インストールを続行できません。 終了します。"
 unabletoupdate="アップデート作業を行えません．新しくインストールする必要があります．"
 updatecompleted="アップデートは完了しました．"

@@ -1,6 +1,6 @@
 /*
  * Anti-flooding mechanism
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * July 4, 2017
  *
  * This program is free software; you can redistribute it
@@ -18,7 +18,7 @@
 #include <windows.h>
 #endif
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else
@@ -201,7 +201,7 @@ void *dispatch_buffer(__attribute__((unused)) void * arg){
             buff.warn = 0;
             mwarn(WARN_BUFFER, warn_level);
             snprintf(warn_str, OS_SIZE_2048, OS_WARN_BUFFER, warn_level);
-            snprintf(warn_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "wazuh-agent", warn_str);
+            snprintf(warn_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "blackwell-agent", warn_str);
             send_msg(warn_msg, -1);
         }
 
@@ -209,7 +209,7 @@ void *dispatch_buffer(__attribute__((unused)) void * arg){
 
             buff.full = 0;
             mwarn(FULL_BUFFER);
-            snprintf(full_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "wazuh-agent", OS_FULL_BUFFER);
+            snprintf(full_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "blackwell-agent", OS_FULL_BUFFER);
             send_msg(full_msg, -1);
         }
 
@@ -217,7 +217,7 @@ void *dispatch_buffer(__attribute__((unused)) void * arg){
 
             buff.flood = 0;
             mwarn(FLOODED_BUFFER);
-            snprintf(flood_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "wazuh-agent", OS_FLOOD_BUFFER);
+            snprintf(flood_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "blackwell-agent", OS_FLOOD_BUFFER);
             send_msg(flood_msg, -1);
         }
 
@@ -225,7 +225,7 @@ void *dispatch_buffer(__attribute__((unused)) void * arg){
 
             buff.normal = 0;
             minfo(NORMAL_BUFFER, normal_level);
-            snprintf(normal_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "wazuh-agent", OS_NORMAL_BUFFER);
+            snprintf(normal_msg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "blackwell-agent", OS_NORMAL_BUFFER);
             send_msg(normal_msg, -1);
         }
 

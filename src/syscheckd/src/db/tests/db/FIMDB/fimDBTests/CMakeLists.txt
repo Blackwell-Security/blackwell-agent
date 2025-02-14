@@ -30,7 +30,7 @@ file(GLOB DBSYNC_IMP_SRC
     "${SRC_FOLDER}/shared_modules/dbsync/src/*.cpp"
     "${SRC_FOLDER}/shared_modules/dbsync/src/sqlite/*.cpp")
 
-add_definitions(-DWAZUH_UNIT_TESTING)
+add_definitions(-DBLACKWELL_UNIT_TESTING)
 
 add_executable(fimdb_unit_test
     ${FIMDB_UNIT_TEST_SRC}

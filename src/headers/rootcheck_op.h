@@ -1,6 +1,6 @@
 /*
  * Shared functions for Rootcheck events decoding
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -29,7 +29,7 @@ char* rk_get_title(const char *log);
 char* rk_get_file(const char *log);
 
 /**
- * Sends a rootcheck log through wazuh database
+ * Sends a rootcheck log through blackwell database
  * @param agent_id [In] string containing the agent id
  * @param date [In] timestamp of when the log has been updated
  * @param log [In] log entry string

@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -16,8 +16,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-authd
-    - wazuh-clusterd
+    - blackwell-authd
+    - blackwell-clusterd
 
 os_platform:
     - linux
@@ -40,12 +40,12 @@ import time
 from pathlib import Path
 
 import pytest
-from wazuh_testing.constants.paths.sockets import MODULESD_C_INTERNAL_SOCKET_PATH
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, CLUSTER_DAEMON
-from wazuh_testing.tools.mitm import WorkerMID
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
-from wazuh_testing.utils.cluster import CLUSTER_DATA_HEADER_SIZE
+from blackwell_testing.constants.paths.sockets import MODULESD_C_INTERNAL_SOCKET_PATH
+from blackwell_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from blackwell_testing.constants.daemons import AUTHD_DAEMON, CLUSTER_DAEMON
+from blackwell_testing.tools.mitm import WorkerMID
+from blackwell_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from blackwell_testing.utils.cluster import CLUSTER_DATA_HEADER_SIZE
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -71,7 +71,7 @@ daemons_handler_configuration = {'all_daemons': True, 'ignore_errors': True}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_configuration,
+def test_ossec_auth_messages(test_configuration, test_metadata, set_blackwell_configuration,
                              truncate_monitored_files, daemons_handler, configure_sockets_environment,
                              wait_for_authd_startup, connect_to_sockets):
     '''
@@ -79,7 +79,7 @@ def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_config
         Checks that every message from the agent is correctly formatted for master,
         and every master response is correctly parsed for agent.
 
-    wazuh_min_version:
+    blackwell_min_version:
         4.2.0
 
     tier: 0
@@ -91,15 +91,15 @@ def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_config
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - configure_sockets_environment:
             type: fixture
             brief: Configure the socket listener to receive and send messages on the sockets.

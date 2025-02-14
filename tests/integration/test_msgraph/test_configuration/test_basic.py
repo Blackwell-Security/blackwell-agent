@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The Wazuh 'ms-graph' module is capable of communicating with Microsoft Graph & parsing its various
+brief: The Blackwell 'ms-graph' module is capable of communicating with Microsoft Graph & parsing its various
        logging sources, with an emphasis on the security resource. This includes a full set of rules for
        categorizing these logs, alongside a standardized suite of configuration options that mirror other
        modules, such as Azure, GCP, and Office365.
@@ -21,9 +21,9 @@ targets:
     - agent
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-monitord
-    - wazuh-modulesd
+    - blackwell-analysisd
+    - blackwell-monitord
+    - blackwell-modulesd
 
 os_platform:
     - linux
@@ -45,13 +45,13 @@ tags:
 import pytest
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd import patterns
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data
-from wazuh_testing.utils.configuration import load_configuration_template
-from wazuh_testing.utils import callbacks
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from blackwell_testing.modules.modulesd import patterns
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.configuration import get_test_cases_data
+from blackwell_testing.utils.configuration import load_configuration_template
+from blackwell_testing.utils import callbacks
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
 # Marks
@@ -80,11 +80,11 @@ local_internal_options = {MODULESD_DEBUG: '2'}
 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t1_configurations, t1_configuration_metadata), ids=t1_case_ids)
-def test_enabled(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_enabled(test_configuration, test_metadata, set_blackwell_configuration, configure_local_internal_options,
                  truncate_monitored_files, daemons_handler, wait_for_msgraph_start):
     '''
     description: Check 'ms-graph' behavior when enabled tag is set to yes and if run_on_start is enabled or not.
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 0
 
@@ -95,7 +95,7 @@ def test_enabled(test_configuration, test_metadata, set_wazuh_configuration, con
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -106,7 +106,7 @@ def test_enabled(test_configuration, test_metadata, set_wazuh_configuration, con
             brief: Reset the 'ossec.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
-            brief: Manages daemons to reset Wazuh.
+            brief: Manages daemons to reset Blackwell.
         - wait_for_msgraph_start:
             type: fixture
             brief: Checks integration start message does not appear.
@@ -121,25 +121,25 @@ def test_enabled(test_configuration, test_metadata, set_wazuh_configuration, con
                        the module. Those include configuration settings for the 'ms-graph' module.
 
     expected_output:
-        - r'.*wazuh-modulesd:ms-graph.*INFO: Started module'
+        - r'.*blackwell-modulesd:ms-graph.*INFO: Started module'
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(r".*wazuh-modulesd:ms-graph.*INFO: Started module"))
-    assert (wazuh_log_monitor.callback_result != None), f'Error module enabled event not detected'
+    blackwell_log_monitor.start(callback=callbacks.generate_callback(r".*blackwell-modulesd:ms-graph.*INFO: Started module"))
+    assert (blackwell_log_monitor.callback_result != None), f'Error module enabled event not detected'
 
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(r".*wazuh-modulesd:ms-graph.*{msg}", {
+    blackwell_log_monitor.start(callback=callbacks.generate_callback(r".*blackwell-modulesd:ms-graph.*{msg}", {
                               'msg': str(test_metadata['msg'])}))
-    assert (wazuh_log_monitor.callback_result != None), f'Error module started or delayed event not detected'
+    assert (blackwell_log_monitor.callback_result != None), f'Error module started or delayed event not detected'
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t2_configurations, t2_configuration_metadata), ids=t2_case_ids)
-def test_disabled(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_disabled(test_configuration, test_metadata, set_blackwell_configuration, configure_local_internal_options,
                  truncate_monitored_files, daemons_handler, wait_for_msgraph_start):
     '''
     description: Check 'ms-graph' behavior when enabled tag is set to no.
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 0
 
@@ -150,7 +150,7 @@ def test_disabled(test_configuration, test_metadata, set_wazuh_configuration, co
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -161,7 +161,7 @@ def test_disabled(test_configuration, test_metadata, set_wazuh_configuration, co
             brief: Reset the 'ossec.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
-            brief: Manages daemons to reset Wazuh.
+            brief: Manages daemons to reset Blackwell.
         - wait_for_msgraph_start:
             type: fixture
             brief: Checks integration start message does not appear.
@@ -174,10 +174,10 @@ def test_disabled(test_configuration, test_metadata, set_wazuh_configuration, co
                        the module. This include configuration settings for the 'ms-graph' module.
 
     expected_output:
-        - r'.*wazuh-modulesd:ms-graph.*INFO: (Module disabled). Exiting.'
+        - r'.*blackwell-modulesd:ms-graph.*INFO: (Module disabled). Exiting.'
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(r".*wazuh-modulesd:ms-graph.*INFO: (Module disabled). Exiting."))
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(callback=callbacks.generate_callback(r".*blackwell-modulesd:ms-graph.*INFO: (Module disabled). Exiting."))
 
-    assert (wazuh_log_monitor.callback_result != None), f'Error module disabled event not detected'
+    assert (blackwell_log_monitor.callback_result != None), f'Error module disabled event not detected'

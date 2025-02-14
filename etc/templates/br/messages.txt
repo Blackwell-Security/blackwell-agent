@@ -11,9 +11,9 @@ help="ajuda"
 
 # Global
 moreinfo="Maiores informações em: "
-starting="Iniciando Wazuh"
+starting="Iniciando Blackwell"
 systemis="O Sistema é"
-modifiedinit="O script de inicialização foi modificado para executar Wazuh durante o boot."
+modifiedinit="O script de inicialização foi modificado para executar Blackwell durante o boot."
 noboot="Sistema desconhecido. Nenhum script de incialização foi adicionado."
 
 # Parte 1
@@ -29,7 +29,7 @@ localchose="Escolhida instalação local"
 
 # Parte 2
 settingupenv="Configurando o ambiente de instalação"
-wheretoinstall="Escolha onde instalar Wazuh"
+wheretoinstall="Escolha onde instalar Blackwell"
 installat="A instalação será feita no diretório"
 deletedir="O diretório de instalação já existe. Deseja removê-lo?"
 
@@ -44,8 +44,8 @@ usingsmtp="Usando servidor SMTP: "
 whatsmtp="Qual é o ip/host de seu servidor SMTP?"
 
 # Parte 3.1/agente
-serverip="Qual é o endereço de IP do servidor Wazuh?"
-serveraddr="Qual é o endereço de IP/hostname do servidor Wazuh?"
+serverip="Qual é o endereço de IP do servidor Blackwell?"
+serveraddr="Qual é o endereço de IP/hostname do servidor Blackwell?"
 addingip="Adicionando IP do servidor"
 addingname="Adicionando hostname do servidor"
 
@@ -93,21 +93,21 @@ yesrunauthd="Auth habilitado"
 
 # Parte 4
 installing="Instalando o sistema"
-startwazuh="Deseja iniciar o Wazuh após a instalação?"
-nowazuhstart="Wazuh não iniciará no final da instalação."
-yeswazuhstart="Wazuh começará no final da instalação."
+startblackwell="Deseja iniciar o Blackwell após a instalação?"
+noblackwellstart="Blackwell não iniciará no final da instalação."
+yesblackwellstart="Blackwell começará no final da instalação."
 runningmake="Executando o Makefile"
 
 # Final
 configurationdone="Configuração finalizada corretamente"
-tostart="Para iniciar Wazuh"
-tostop="Para parar Wazuh"
+tostart="Para iniciar Blackwell"
+tostop="Para parar Blackwell"
 configat="A configuração pode ser vista ou modificada em"
 addserveragent="Você precisa adicionar cada um dos clientes antes que estejam autorizados a acessar o servidor."
 presskey="Pressione ENTER para continuar."
 
 # Update
-wanttoupdate="Wazuh ja esta instalado. Deseja atualiza-lo?"
+wanttoupdate="Blackwell ja esta instalado. Deseja atualiza-lo?"
 mustuninstall="A instalação não pode prosseguir sem desinstalar as versões antigas. Saindo."
 unabletoupdate="Error na atualizacao. Sera necessario reinstala-lo."
 updatecompleted="Atualizacao completada."

@@ -1,5 +1,5 @@
 """
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, Blackwell Inc.
 March 28, 2022.
 
 This program is free software; you can redistribute it
@@ -15,7 +15,7 @@ from ci import utils
 
 # Constant values
 DELETE_FOLDER_DIC = {
-    'wazuh_modules/syscollector':   ['build', 'smokeTests/output'],
+    'blackwell_modules/syscollector':   ['build', 'smokeTests/output'],
     'shared_modules/dbsync':        ['build', 'smokeTests/output'],
     'shared_modules/rsync':         ['build', 'smokeTests/output'],
     'data_provider':                ['build', 'smokeTests/output'],
@@ -303,7 +303,7 @@ def makeDeps(targetName, srcOnly):
         - ValueError: Raises an exception.
 
     Example:
-        makeDeps("wazuh_modules/syscollector", srcOnly=True)
+        makeDeps("blackwell_modules/syscollector", srcOnly=True)
     """
     utils.printSubHeader(moduleName=targetName,
                          headerKey="makeDeps")

@@ -1,6 +1,6 @@
 /*
- * Wazuh RSYNC
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell RSYNC
+ * Copyright (C) 2015, Blackwell Inc.
  * August 26, 2020.
  *
  * This program is free software; you can redistribute it

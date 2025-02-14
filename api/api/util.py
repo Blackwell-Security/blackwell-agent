@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -12,10 +12,10 @@ from typing import Union
 import six
 from connexion import ProblemException
 
-from wazuh.core import common, exception
-from wazuh.core.cluster.utils import running_in_master_node
+from blackwell.core import common, exception
+from blackwell.core.cluster.utils import running_in_master_node
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('blackwell-api')
 
 
 def serialize(item: object) -> object:
@@ -319,7 +319,7 @@ def _parse_q_param(query: str) -> str:
 
 
 def to_relative_path(full_path: str) -> str:
-    """Return a relative path from Wazuh base directory.
+    """Return a relative path from Blackwell base directory.
 
     Parameters
     ----------
@@ -329,9 +329,9 @@ def to_relative_path(full_path: str) -> str:
     Returns
     -------
     str
-        Relative path from Wazuh base directory.
+        Relative path from Blackwell base directory.
     """
-    return os.path.relpath(full_path, common.WAZUH_PATH)
+    return os.path.relpath(full_path, common.BLACKWELL_PATH)
 
 
 def _create_problem(exc: Exception, code: int = None):
@@ -340,7 +340,7 @@ def _create_problem(exc: Exception, code: int = None):
     Parameters
     ----------
     exc : Exception
-        If `exc` is an instance of `WazuhException` it will be casted into a ProblemException,
+        If `exc` is an instance of `BlackwellException` it will be casted into a ProblemException,
         otherwise it will be raised.
     code : int
         HTTP status code for this response.
@@ -351,24 +351,24 @@ def _create_problem(exc: Exception, code: int = None):
         ProblemException or `exc` exception type.
     """
     ext = None
-    if isinstance(exc, exception.WazuhException):
+    if isinstance(exc, exception.BlackwellException):
         ext = remove_nones_to_dict({'remediation': exc.remediation,
                                     'code': exc.code,
                                     'dapi_errors': exc.dapi_errors if exc.dapi_errors != {} else None
                                     })
 
-    if isinstance(exc, exception.WazuhInternalError):
+    if isinstance(exc, exception.BlackwellInternalError):
         raise ProblemException(status=500 if not code else code,
                                type=exc.type, title=exc.title, detail=exc.message, ext=ext)
-    elif isinstance(exc, exception.WazuhPermissionError):
+    elif isinstance(exc, exception.BlackwellPermissionError):
         raise ProblemException(status=403, type=exc.type, title=exc.title, detail=exc.message, ext=ext)
-    elif isinstance(exc, exception.WazuhResourceNotFound):
+    elif isinstance(exc, exception.BlackwellResourceNotFound):
         raise ProblemException(status=404, type=exc.type, title=exc.title, detail=exc.message, ext=ext)
-    elif isinstance(exc, exception.WazuhTooManyRequests):
+    elif isinstance(exc, exception.BlackwellTooManyRequests):
         raise ProblemException(status=429, type=exc.type, title=exc.title, detail=exc.message, ext=ext)
-    elif isinstance(exc, exception.WazuhNotAcceptable):
+    elif isinstance(exc, exception.BlackwellNotAcceptable):
         raise ProblemException(status=406, type=exc.type, title=exc.title, detail=exc.message, ext=ext)
-    elif isinstance(exc, exception.WazuhError):
+    elif isinstance(exc, exception.BlackwellError):
         raise ProblemException(status=400 if not code else code,
                                type=exc.type, title=exc.title, detail=exc.message, ext=ext)
 
@@ -455,7 +455,7 @@ def only_master_endpoint(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
         if not running_in_master_node():
-            raise_if_exc(exception.WazuhResourceNotFound(902))
+            raise_if_exc(exception.BlackwellResourceNotFound(902))
         else:
             return (await func(*args, **kwargs))
 

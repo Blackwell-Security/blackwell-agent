@@ -20,77 +20,77 @@ if (Test-Path "$env:windir\sysnative") {
 
 function remove_upgrade_files {
     Remove-Item -Path ".\upgrade\*"  -Exclude "*.log", "upgrade_result" -ErrorAction SilentlyContinue
-    Remove-Item -Path ".\wazuh-agent*.msi" -ErrorAction SilentlyContinue
+    Remove-Item -Path ".\blackwell-agent*.msi" -ErrorAction SilentlyContinue
     Remove-Item -Path ".\do_upgrade.ps1" -ErrorAction SilentlyContinue
 }
 
 
-function get_wazuh_installation_directory {
+function get_blackwell_installation_directory {
     Start-NativePowerShell {
-        $path1 = "HKLM:\SOFTWARE\WOW6432Node\Wazuh, Inc.\Wazuh Agent"
-        $key1 = "WazuhInstallDir"
+        $path1 = "HKLM:\SOFTWARE\WOW6432Node\Blackwell, Inc.\Blackwell Agent"
+        $key1 = "BlackwellInstallDir"
 
         $path2 = "HKLM:\SOFTWARE\WOW6432Node\ossec"
         $key2 = "Install_Dir"
 
-        $WazuhInstallDir = $null
+        $BlackwellInstallDir = $null
 
         try {
-            $WazuhInstallDir = (Get-ItemProperty -Path $path1 -ErrorAction SilentlyContinue).$key1
+            $BlackwellInstallDir = (Get-ItemProperty -Path $path1 -ErrorAction SilentlyContinue).$key1
         }
         catch {
-            $WazuhInstallDir = $null
+            $BlackwellInstallDir = $null
         }
 
-        if ($null -eq $WazuhInstallDir) {
+        if ($null -eq $BlackwellInstallDir) {
             try {
-                $WazuhInstallDir = (Get-ItemProperty -Path $path2 -ErrorAction SilentlyContinue).$key2
+                $BlackwellInstallDir = (Get-ItemProperty -Path $path2 -ErrorAction SilentlyContinue).$key2
             }
             catch {
-                $WazuhInstallDir = $null
+                $BlackwellInstallDir = $null
             }
         }
 
-        if ($null -eq $WazuhInstallDir) {
-            Write-output "$(Get-Date -format u) - Couldn't find Wazuh in the registry. Upgrade will assume current path is correct" >> .\upgrade\upgrade.log
-            $WazuhInstallDir = (Get-Location).Path.TrimEnd('\')
+        if ($null -eq $BlackwellInstallDir) {
+            Write-output "$(Get-Date -format u) - Couldn't find Blackwell in the registry. Upgrade will assume current path is correct" >> .\upgrade\upgrade.log
+            $BlackwellInstallDir = (Get-Location).Path.TrimEnd('\')
         }
 
-        return $WazuhInstallDir
+        return $BlackwellInstallDir
     }
 }
 
 # Check process status
 function check-process {
-    $process_id = (Get-Process wazuh-agent).id
+    $process_id = (Get-Process blackwell-agent).id
     $counter = 10
     while($process_id -eq $null -And $counter -gt 0) {
         $counter--
-        Start-Service -Name "Wazuh"
+        Start-Service -Name "Blackwell"
         Start-Sleep 2
-        $process_id = (Get-Process wazuh-agent).id
+        $process_id = (Get-Process blackwell-agent).id
     }
     write-output "$(Get-Date -format u) - Process ID: $($process_id)." >> .\upgrade\upgrade.log
 }
 
-# Check new version and restart the Wazuh service
+# Check new version and restart the Blackwell service
 function check-installation {
 
     $actual_version = (Get-Content VERSION)
     $counter = 5
     while($actual_version -eq $current_version -And $counter -gt 0) {
-        write-output "$(Get-Date -format u) - Waiting for the Wazuh-Agent installation to end." >> .\upgrade\upgrade.log
+        write-output "$(Get-Date -format u) - Waiting for the Blackwell-Agent installation to end." >> .\upgrade\upgrade.log
         $counter--
         Start-Sleep 2
         $actual_version = (Get-Content VERSION)
     }
-    write-output "$(Get-Date -format u) - Starting Wazuh-Agent service." >> .\upgrade\upgrade.log
-    Start-Service -Name "Wazuh"
+    write-output "$(Get-Date -format u) - Starting Blackwell-Agent service." >> .\upgrade\upgrade.log
+    Start-Service -Name "Blackwell"
 }
 
 # Function to extract the version from the MSI using msiexec
 function get_msi_version {
-    $msiPath = (Get-Item ".\wazuh-agent*.msi").FullName
+    $msiPath = (Get-Item ".\blackwell-agent*.msi").FullName
     write-output "$(Get-Date -format u) - Extracting the version from MSI file." >> .\upgrade\upgrade.log
     try {
         # Extracting the version using msiexec and waiting for it to complete
@@ -143,12 +143,12 @@ function Get-MSIProductVersion {
 # Stop UI and launch the MSI installer
 function install {
     kill -processname win32ui -ErrorAction SilentlyContinue -Force
-    Stop-Service -Name "Wazuh"
+    Stop-Service -Name "Blackwell"
     Remove-Item .\upgrade\upgrade_result -ErrorAction SilentlyContinue
     write-output "$(Get-Date -format u) - Starting upgrade process." >> .\upgrade\upgrade.log
 
     try {
-        $msiPath = (Get-Item ".\wazuh-agent*.msi").Name
+        $msiPath = (Get-Item ".\blackwell-agent*.msi").Name
 
         if ($msi_new_version -ne $null -and $msi_new_version -eq $current_version) {
             write-output "$(Get-Date -format u) - Reinstalling the same version." >> .\upgrade\upgrade.log
@@ -164,13 +164,13 @@ function install {
     return $true
 }
 
-# Check that the Wazuh installation runs on the expected path
-$wazuhDir = get_wazuh_installation_directory
-$normalizedWazuhDir = $wazuhDir.TrimEnd('\')
+# Check that the Blackwell installation runs on the expected path
+$blackwellDir = get_blackwell_installation_directory
+$normalizedBlackwellDir = $blackwellDir.TrimEnd('\')
 $currentDir = (Get-Location).Path.TrimEnd('\')
 
-if ($normalizedWazuhDir -ne $currentDir) {
-    Write-Output "$(Get-Date -format u) - Current working directory is not the Wazuh installation directory. Aborting." >> .\upgrade\upgrade.log
+if ($normalizedBlackwellDir -ne $currentDir) {
+    Write-Output "$(Get-Date -format u) - Current working directory is not the Blackwell installation directory. Aborting." >> .\upgrade\upgrade.log
     Write-output "2" | out-file ".\upgrade\upgrade_result" -encoding ascii
     remove_upgrade_files
     exit 1
@@ -205,7 +205,7 @@ Start-Sleep 10
 
 # Check status file
 function Get-AgentStatus {
-    Select-String -Path '.\wazuh-agent.state' -Pattern "^status='(.+)'" | %{$_.Matches[0].Groups[1].value}
+    Select-String -Path '.\blackwell-agent.state' -Pattern "^status='(.+)'" | %{$_.Matches[0].Groups[1].value}
 }
 
 $status = Get-AgentStatus

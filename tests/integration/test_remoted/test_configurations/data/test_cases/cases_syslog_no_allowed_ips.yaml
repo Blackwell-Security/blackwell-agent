@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for no allowed ips
-  description: Command config wazuh manager no allowed ips
+- name: Command config blackwell manager for no allowed ips
+  description: Command config blackwell manager no allowed ips
   configuration_parameters:
     CONNECTION: 'syslog'
     IPV6: 'no'
@@ -8,8 +8,8 @@
     ipv6: 'no'
 
 
-- name: Command config wazuh manager for no allowed ips
-  description: Command config wazuh manager no allowed ips
+- name: Command config blackwell manager for no allowed ips
+  description: Command config blackwell manager no allowed ips
   configuration_parameters:
     CONNECTION: 'syslog'
     IPV6: 'yes'

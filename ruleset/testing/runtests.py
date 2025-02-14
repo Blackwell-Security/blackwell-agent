@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -31,23 +31,23 @@ class MultiOrderedDict(OrderedDict):
             super(MultiOrderedDict, self).__setitem__(key, value)
 
 
-def getWazuhInfo(wazuh_home):
-    wazuh_control = os.path.join(wazuh_home, "bin", "wazuh-control")
-    wazuh_env_vars = {}
+def getBlackwellInfo(blackwell_home):
+    blackwell_control = os.path.join(blackwell_home, "bin", "blackwell-control")
+    blackwell_env_vars = {}
     try:
-        proc = subprocess.Popen([wazuh_control, "info"], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([blackwell_control, "info"], stdout=subprocess.PIPE)
         (stdout, stderr) = proc.communicate()
     except Exception as e:
-        print("Seems like there is no Wazuh installation.")
+        print("Seems like there is no Blackwell installation.")
         return None
 
     env_variables = stdout.rsplit("\n")
     env_variables.remove("")
     for env_variable in env_variables:
         key, value = env_variable.split("=")
-        wazuh_env_vars[key] = value.replace("\"", "")
+        blackwell_env_vars[key] = value.replace("\"", "")
 
-    return wazuh_env_vars
+    return blackwell_env_vars
 
 
 def provisionDR():
@@ -58,18 +58,18 @@ def provisionDR():
     for file in os.listdir(rules_dir):
         file_fullpath = os.path.join(rules_dir, file)
         if os.path.isfile(file_fullpath) and re.match(r'^test_(.*_)?rules.xml$', file):
-            shutil.copy2(file_fullpath, args.wazuh_home + "/etc/rules")
+            shutil.copy2(file_fullpath, args.blackwell_home + "/etc/rules")
 
     for file in os.listdir(decoders_dir):
         file_fullpath = os.path.join(decoders_dir, file)
         if os.path.isfile(file_fullpath) and re.match(r'^test_(.*_)?decoders.xml$', file):
-            shutil.copy2(file_fullpath, args.wazuh_home + "/etc/decoders")
+            shutil.copy2(file_fullpath, args.blackwell_home + "/etc/decoders")
 
 
 
 def cleanDR():
-    rules_dir = args.wazuh_home + "/etc/rules"
-    decoders_dir = args.wazuh_home + "/etc/decoders"
+    rules_dir = args.blackwell_home + "/etc/rules"
+    decoders_dir = args.blackwell_home + "/etc/decoders"
 
     for file in os.listdir(rules_dir):
         file_fullpath = os.path.join(rules_dir, file)
@@ -155,7 +155,7 @@ class OssecTester(object):
         self.tested_decoders = set()
 
     def buildCmd(self, rule, alert, decoder):
-        cmd = ['%s/wazuh-logtest' % (self._ossec_path), ]
+        cmd = ['%s/blackwell-logtest' % (self._ossec_path), ]
         cmd += ['-U', "%s:%s:%s" % (rule, alert, decoder)]
         return cmd
 
@@ -264,9 +264,9 @@ def cleanup(*args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='This script tests Wazuh rules.')
-    parser.add_argument('--path', '-p', default='/var/ossec', dest='wazuh_home',
-                        help='Use -p or --path to specify Wazuh installation path')
+    parser = argparse.ArgumentParser(description='This script tests Blackwell rules.')
+    parser.add_argument('--path', '-p', default='/var/ossec', dest='blackwell_home',
+                        help='Use -p or --path to specify Blackwell installation path')
     parser.add_argument('--geoip', '-g', action='store_true', dest='geoip',
                         help='Use -g or --geoip to enable geoip tests (default: False)')
     parser.add_argument('--testfile', '-t', action='store', type=str, dest='testfile',
@@ -280,8 +280,8 @@ if __name__ == "__main__":
         if not selective_test.endswith('.ini'):
             selective_test += '.ini'
 
-    wazuh_info = getWazuhInfo(args.wazuh_home)
-    if wazuh_info is None:
+    blackwell_info = getBlackwellInfo(args.blackwell_home)
+    if blackwell_info is None:
         sys.exit(1)
 
     for sig in (signal.SIGABRT, signal.SIGINT, signal.SIGTERM):
@@ -291,7 +291,7 @@ if __name__ == "__main__":
         enable_win_eventlog_tests()
 
     provisionDR()
-    OT = OssecTester(args.wazuh_home)
+    OT = OssecTester(args.blackwell_home)
     error = OT.run(selective_test, args.geoip)
 
     cleanDR()

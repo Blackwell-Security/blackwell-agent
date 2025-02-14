@@ -1,6 +1,6 @@
 /*
  * Queue (abstract data type)
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * June 22, 2018
  *
  * This program is free software; you can redistribute it
@@ -15,7 +15,7 @@
 #define ASYS_MAX_NUM_AGENTS_STATS 75
 
 #include <stdint.h>
-#include "../wazuh_db/helpers/wdb_global_helpers.h"
+#include "../blackwell_db/helpers/wdb_global_helpers.h"
 
 /* Status structures */
 

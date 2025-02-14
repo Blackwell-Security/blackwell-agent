@@ -10,9 +10,9 @@ help="aide"
 
 # Global
 moreinfo="Plus d'information sur: "
-modifiedinit="Script d'initialisation modifié pour démarrer Wazuh pendant le boot."
+modifiedinit="Script d'initialisation modifié pour démarrer Blackwell pendant le boot."
 systemis="Le Système est"
-modifiedinit="Script d'initialisation modifié pour démarrer OSSEC Wazuh pendant le boot."
+modifiedinit="Script d'initialisation modifié pour démarrer OSSEC Blackwell pendant le boot."
 noboot="Système inconnu. Aucun script d'initialisation ajouté."
 
 # Part 1
@@ -28,7 +28,7 @@ localchose="Installation en local choisie"
 
 # Part 2
 settingupenv="Définition de l'environnement d'installation"
-wheretoinstall="Choisissez votre répertoire d'installation de Wazuh"
+wheretoinstall="Choisissez votre répertoire d'installation de Blackwell"
 installat="L'installation sera faite sur "
 deletedir="Le répertoire d'installation existe déjà. Doit-on le supprimer ?"
 
@@ -43,8 +43,8 @@ usingsmtp="Serveur SMTP utilisé : "
 whatsmtp="Quel est l'adresse IP ou le nom d'hôte de votre serveur SMTP ?"
 
 # Part 3.1/agent
-serverip="Quelle est l'adresse IP de votre serveur Wazuh ?"
-serveraddr="Quelle est l'adresse IP ou le nom d'hôte de votre serveur Wazuh ?"
+serverip="Quelle est l'adresse IP de votre serveur Blackwell ?"
+serveraddr="Quelle est l'adresse IP ou le nom d'hôte de votre serveur Blackwell ?"
 addingip="Ajout de l'IP du Serveur"
 addingname="Ajout de le nom d'hôte du Serveur"
 
@@ -91,21 +91,21 @@ yesrunauthd="Exécution du service Auth"
 
 # Part 4
 installing="Installation du système"
-startwazuh="Voulez-vous démarrer Wazuh après l'installation?"
-nowazuhstart="Wazuh ne démarrera pas à la fin de l'installation."
-yeswazuhstart="Wazuh démarrera pas à la fin de l'installation."
+startblackwell="Voulez-vous démarrer Blackwell après l'installation?"
+noblackwellstart="Blackwell ne démarrera pas à la fin de l'installation."
+yesblackwellstart="Blackwell démarrera pas à la fin de l'installation."
 runningmake="Exécution du Makefile"
 
 # Final
 configurationdone="Configuration correctement terminée"
-tostart="Pour démarrer Wazuh"
-tostop="Pour arrêter Wazuh"
+tostart="Pour démarrer Blackwell"
+tostop="Pour arrêter Blackwell"
 configat="La configuration peut être visualisée ou modifiée dans"
 addserveragent="Vous devez ajouter le(s) agent(s) avant qu'ils aient un accés autorisé."
 presskey="Appuyez sur Entrée pour continuer"
 
 # Update
-wanttoupdate="Vous avez déjà installé Wazuh. Voulez-vous le mettre à jour ?"
+wanttoupdate="Vous avez déjà installé Blackwell. Voulez-vous le mettre à jour ?"
 mustuninstall="L'installation ne peut pas continuer sans désinstaller les anciennes versions. Sortie."
 unabletoupdate="Impossible de mettre à jour. Une nouvelle installation est nécessaire."
 updatecompleted="Mise à jour complète."

@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 
@@ -224,7 +224,7 @@ def get_script_arguments():
                              '"both".', action='store')
     parser.add_argument('-m', '--mode', dest='mode', default='both', choices=mode_choices,
                         help='Specify where to pass API integration tests. Run tests in both environments, standalone '
-                             'environment or Wazuh cluster environment. Default "both".', action='store')
+                             'environment or Blackwell cluster environment. Default "both".', action='store')
     parser.add_argument('-i', '--iterations', dest='iterations', default=1, type=int,
                         help='Specify how many times will every test be run. Default 1.', action='store')
 

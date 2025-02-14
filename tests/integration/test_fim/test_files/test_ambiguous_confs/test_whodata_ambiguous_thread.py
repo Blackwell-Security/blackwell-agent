@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: These tests will check if the 'who-data' feature of the File Integrity Monitoring (FIM)
        system works properly. 'who-data' information contains the user who made the changes
        on the monitored files and also the program name or process used to carry them out.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks
+       The FIM capability is managed by the 'blackwell-syscheckd' daemon, which checks
        configured files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - linux
@@ -43,9 +43,9 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -64,15 +64,15 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import REALTIME_WHODATA_ENGINE_STARTED
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import REALTIME_WHODATA_ENGINE_STARTED
+from blackwell_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from blackwell_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -94,26 +94,26 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_blackwell_configuration, configure_local_internal_options,
                                   truncate_monitored_files, daemons_handler):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon starts the 'whodata' thread when the configuration
+    description: Check if the 'blackwell-syscheckd' daemon starts the 'whodata' thread when the configuration
                  is ambiguous. For example, when using 'whodata' on the same directory using conflicting
                  values ('yes' and 'no'). For this purpose, the configuration is applied and it checks
                  that the last value detected for 'whodata' in the 'ossec.conf' file is the one used.
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Set blackwell configuration and local_internal_options.
+            - Clean logs files and restart blackwell to apply the configuration.
         - test:
             - Detect if real-time whodata thread has been started
         - teardown:
             - Restore configuration
-            - Stop wazuh
+            - Stop blackwell
             - Clean logs
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 2
 
@@ -124,7 +124,7 @@ def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_wazuh_c
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -135,14 +135,14 @@ def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_wazuh_c
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Verify that 'whodata' thread is started when the last 'whodata' value detected is set to 'yes'.
         - Verify that 'whodata' thread is not started when the last 'whodata' value detected is set to 'no'.
 
     input_description: Two test cases are contained in external YAML file (cases_whodata_ambiguous_thread.yaml)
-                       which includes configuration settings for the 'wazuh-syscheckd' daemon and testing
+                       which includes configuration settings for the 'blackwell-syscheckd' daemon and testing
                        directories to monitor.
 
     expected_output:
@@ -151,7 +151,7 @@ def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_wazuh_c
     tags:
         - who_data
     '''
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(BLACKWELL_LOG_PATH)
     monitor.start(callback=generate_callback(REALTIME_WHODATA_ENGINE_STARTED))
 
     assert bool(monitor.callback_result) == test_metadata['whodata']

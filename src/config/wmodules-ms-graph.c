@@ -1,5 +1,5 @@
 /*
- * Wazuh Microsoft Graph Module Configuration
+ * Blackwell Microsoft Graph Module Configuration
  * Copyright (C) 2023, InfoDefense Inc.
  * March, 2023.
  *
@@ -11,7 +11,7 @@
 
 #if defined WIN32 || defined __linux__ || defined __MACH__
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 static const char* XML_ENABLED = "enabled";
 static const char* XML_ONLY_FUTURE_EVENTS = "only_future_events";

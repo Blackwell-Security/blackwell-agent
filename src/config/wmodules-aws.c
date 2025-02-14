@@ -1,6 +1,6 @@
 /*
- * Wazuh Module Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Module Configuration
+ * Copyright (C) 2015, Blackwell Inc.
  * October 26, 2017.
  *
  * This program is free software; you can redistribute it
@@ -9,7 +9,7 @@
  * Foundation.
  */
 
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 static const char *XML_DISABLED = "disabled";
 static const char *XML_BUCKET = "bucket";
@@ -62,7 +62,7 @@ static const char *SECURITY_LAKE_SUBSCRIBER_TYPE = "security_lake";
 static const char *BUCKETS_SUBSCRIBER_TYPE = "buckets";
 static const char *SECURITY_HUB_SUBSCRIBER_TYPE = "security_hub";
 
-static const char *AUTHENTICATION_OPTIONS_URL = "https://documentation.wazuh.com/current/amazon/services/prerequisites/credentials.html";
+static const char *AUTHENTICATION_OPTIONS_URL = "https://documentation.blackwell.com/current/amazon/services/prerequisites/credentials.html";
 static const char *DEPRECATED_MESSAGE = "Deprecated tag <%s> found at module '%s'. This tag was deprecated in %s; please use a different authentication method. Check %s for more information.";
 
 // Parse XML

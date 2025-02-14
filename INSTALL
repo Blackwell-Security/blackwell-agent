@@ -1,5 +1,5 @@
-WAZUH
-Copyright (C) 2015, Wazuh Inc.
+BLACKWELL
+Copyright (C) 2015, Blackwell Inc.
 
 Based on OSSEC
 Copyright (C) 2014 Trend Micro Inc.
@@ -7,7 +7,7 @@ Copyright (C) 2014 Trend Micro Inc.
 
 = Information about OSSEC =
 
-Visit https://www.wazuh.com
+Visit https://www.blackwell.com
 
 
 = Recommended Installation =
@@ -29,7 +29,7 @@ Fast way steps:
    or /etc/rc.d/init.d/ossec). If the init script is not created,
    make sure to follow the instructions from the install.sh to make
    OSSEC HIDS start during the boot. To start it by hand, just run
-   /var/ossec/bin/wazuh-control start
+   /var/ossec/bin/blackwell-control start
 
 3- If you are running it on multiple clients, make sure to install
    the server first. Use the manage_agents tool
@@ -79,7 +79,7 @@ The following step is common to all OSes:
 
 Note: `gcc/g++ 5.5` and `CMake 3.12.4` are the minimun required versions to be installed.
 
-Under wazuh/src folder:
+Under blackwell/src folder:
 1- make deps
 2- make TARGET=<agent|server> (Optional: DEBUG=1 TEST=1)
 

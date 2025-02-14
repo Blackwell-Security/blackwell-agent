@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '127.0.0.0'
     DENIED-IPS: '192.168.1.1.1'
@@ -7,8 +7,8 @@
     allowed-ips: '127.0.0.0'
     denied-ips: '192.168.1.1.1'
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '127.0.0.0'
     DENIED-IPS: 'Testing'
@@ -16,8 +16,8 @@
     allowed-ips: '127.0.0.0'
     denied-ips: 'Testing'
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '127.0.0.0'
     DENIED-IPS: '192.168.1.1/7890'
@@ -26,8 +26,8 @@
     denied-ips: '192.168.1.1/7890'
 
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: 'ec97:6bcc:8675:20e8:1c27:da5a:fdbf:fd3f:1c27'
@@ -36,8 +36,8 @@
     denied-ips: 'ec97:6bcc:8675:20e8:1c27:da5a:fdbf:fd3f:1c27'
 
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: 'ec97:6bcc:8675:20e8'
@@ -46,8 +46,8 @@
     denied-ips: 'ec97:6bcc:8675:20e8'
 
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: 'ec97::8675::20e8'
@@ -56,8 +56,8 @@
     denied-ips: 'ec97::8675::20e8'
 
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: 'Testing'
@@ -66,8 +66,8 @@
     denied-ips: 'Testing'
 
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: 'ec97:6bcc:8675:20e8:1c27:da5a:fdbf:fd3f/512'
@@ -75,8 +75,8 @@
     allowed-ips: '::1'
     denied-ips: 'ec97:6bcc:8675:20e8:1c27:da5a:fdbf:fd3f/512'
 
-- name: Command config wazuh manager for invalid denied ips
-  description: Command config wazuh manager for invalid denied ips
+- name: Command config blackwell manager for invalid denied ips
+  description: Command config blackwell manager for invalid denied ips
   configuration_parameters:
     ALLOWED-IPS: '::1'
     DENIED-IPS: '::fd3f/512'

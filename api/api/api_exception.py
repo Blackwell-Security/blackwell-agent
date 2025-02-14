@@ -1,15 +1,15 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 from connexion.exceptions import ProblemException
 from api.constants import RELATIVE_CONFIG_FILE_PATH, RELATIVE_SECURITY_PATH
-from wazuh.core.exception import DOCU_VERSION, WazuhTooManyRequests
+from blackwell.core.exception import DOCU_VERSION, BlackwellTooManyRequests
 
 
 class APIException(Exception):
     """
-    Wazuh API exception class.
+    Blackwell API exception class.
     """
 
     def __init__(self, code: int, details: str = None):
@@ -27,12 +27,12 @@ class APIException(Exception):
         # show relative paths in exceptions
         self.exceptions = {
             2000: 'Some parameters are not expected in the configuration file '
-                  f"(WAZUH_PATH/{RELATIVE_CONFIG_FILE_PATH}). Please check the documentation for further details: "
-                  f"https://documentation.wazuh.com/{DOCU_VERSION}/user-manual/api/configuration.html"
+                  f"(BLACKWELL_PATH/{RELATIVE_CONFIG_FILE_PATH}). Please check the documentation for further details: "
+                  f"https://documentation.blackwell.com/{DOCU_VERSION}/user-manual/api/configuration.html"
                   '#api-configuration-options',
             2001: 'Error creating or reading secrets file. Please, ensure '
                   'there is enough disk space and permission to write in '
-                  f'WAZUH_PATH/{RELATIVE_SECURITY_PATH}',
+                  f'BLACKWELL_PATH/{RELATIVE_SECURITY_PATH}',
             2002: 'Error migrating configuration from old API version. '
                   'Default configuration will be applied',
             2003: 'Error loading SSL/TLS certificates',
@@ -75,7 +75,7 @@ class BlockedIPException(ProblemException):
 class MaxRequestsException(ProblemException):
     """Bocked IP Exception Class."""
     def __init__(self, code):
-        exc = WazuhTooManyRequests(code=code)
+        exc = BlackwellTooManyRequests(code=code)
         ext = {"code": exc.code}
         ext.update({"remediation": exc.remediation} if hasattr(exc, 'remediation') else {})
         super().__init__(status=429, title=exc.title, detail=exc.message, type=exc.type, ext=ext)

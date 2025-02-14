@@ -29,10 +29,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(ANALYSISD_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(ANALYSISD_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate Analysisd tests
 list(APPEND analysisd_names "test_analysisd_syscheck")
@@ -182,8 +182,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${analysisd_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         ANALYSISD_O
         ${TEST_DEPS}
     )

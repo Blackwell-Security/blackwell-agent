@@ -23,15 +23,15 @@ def test_bin_details(current_bin):
     file_version_build = file_version_raw[2]
     file_version_revision = '0'
 
-    fields_dict = {'FileDescription': 'Wazuh Agent',
-                   'ProductName': 'Wazuh Windows Agent',
+    fields_dict = {'FileDescription': 'Blackwell Agent',
+                   'ProductName': 'Blackwell Windows Agent',
                    'ProductVersion': product_version,
                    'FileVersionRaw.Major': file_version_major,
                    'FileVersionRaw.Minor': file_version_minor,
                    'FileVersionRaw.Build': file_version_build,
                    'FileVersionRaw.Revision': file_version_revision,
                    'OriginalFilename': '',
-                   'LegalCopyright': 'Copyright (C) Wazuh, Inc.',
+                   'LegalCopyright': 'Copyright (C) Blackwell, Inc.',
                    'Language': 'English (United States)'}
 
     for key in fields_dict:

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -12,7 +12,7 @@
 #define LOGREMOTE_H
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-remoted"
+#define ARGV0 "blackwell-remoted"
 #endif
 
 #include "../config/config.h"

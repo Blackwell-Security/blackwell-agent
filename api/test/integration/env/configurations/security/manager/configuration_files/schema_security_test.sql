@@ -1,6 +1,6 @@
 /*
  * SQL Schema security tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  * February 13, 2019.
  * This program is a free software, you can redistribute it
  * and/or modify it under the terms of GPLv2.
@@ -18,8 +18,8 @@ INSERT INTO users VALUES(104,'rbac','pbkdf2:sha256:150000$eQAz1s4i$12c6ffdd7f290
 INSERT INTO users VALUES(105,'guest','pbkdf2:sha256:150000$O9tFseJW$7659fc551aa6ed9cf207434d90d1da388f6840ce7bba5967a16949d4a94d1579',0,'1970-01-01 00:00:00');
 
 /* Testing */
-INSERT INTO roles VALUES(100,'wazuh','1970-01-01 00:00:00');
-INSERT INTO roles VALUES(101,'wazuh-wui','1970-01-01 00:00:00');
+INSERT INTO roles VALUES(100,'blackwell','1970-01-01 00:00:00');
+INSERT INTO roles VALUES(101,'blackwell-wui','1970-01-01 00:00:00');
 INSERT INTO roles VALUES(102,'technical','1970-01-01 00:00:00');
 INSERT INTO roles VALUES(103,'administrator_test','1970-01-01 00:00:00');
 INSERT INTO roles VALUES(104,'normalUser','1970-01-01 00:00:00');
@@ -34,8 +34,8 @@ INSERT INTO rules VALUES(104,'rule5','{"MATCH": {"definition": "normalRule"}}','
 INSERT INTO rules VALUES(105,'rule6','{"MATCH": {"definition": "ossecRule"}}','1970-01-01 00:00:00');
 
 /* Testing */
-INSERT INTO policies VALUES(100,'wazuhPolicy','{"actions": ["*:*"], "resources": ["*:*"], "effect": "allow"}','1970-01-01 00:00:00');
-INSERT INTO policies VALUES(101,'wazuh-wuiPolicy','{"actions": ["agent:create"], "effect": "allow", "resources": ["agent:id:001", "agent:id:002", "agent:id:003"]}','1970-01-01 00:00:00');
+INSERT INTO policies VALUES(100,'blackwellPolicy','{"actions": ["*:*"], "resources": ["*:*"], "effect": "allow"}','1970-01-01 00:00:00');
+INSERT INTO policies VALUES(101,'blackwell-wuiPolicy','{"actions": ["agent:create"], "effect": "allow", "resources": ["agent:id:001", "agent:id:002", "agent:id:003"]}','1970-01-01 00:00:00');
 INSERT INTO policies VALUES(102,'technicalPolicy','{"actions": ["agent:create"], "effect": "allow", "resources": ["*:*:*"]}','1970-01-01 00:00:00');
 INSERT INTO policies VALUES(103,'administratorPolicy','{"actions": ["agent:update", "agent:delete"], "effect": "allow", "resources": ["agent:id:*"]}','1970-01-01 00:00:00');
 INSERT INTO policies VALUES(104,'normalPolicy','{"actions": ["agent:update", "agent:delete"], "effect": "deny", "resources": ["agent:id:*"]}','1970-01-01 00:00:00');

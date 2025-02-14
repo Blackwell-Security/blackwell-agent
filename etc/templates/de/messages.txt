@@ -11,9 +11,9 @@ help="hilfe"
 
 # Global
 moreinfo="Weitere Informationen unter: "
-starting="Starte Wazuh"
+starting="Starte Blackwell"
 systemis="Erkanntes System "
-modifiedinit="Init script wurde verändert um Wazuh beim boot zu starten."
+modifiedinit="Init script wurde verändert um Blackwell beim boot zu starten."
 noboot="Unbekanntes system. Es wurde kein Init-Script kopiert."
 
 # Part 1
@@ -29,7 +29,7 @@ localchose="Lokale installation ausgewählt"
 
 # Part 2
 settingupenv="Die Installation wird vorbereitet"
-wheretoinstall="Bitte wöhlen Sie wo Wazuh installiert werden soll"
+wheretoinstall="Bitte wöhlen Sie wo Blackwell installiert werden soll"
 installat="Die Installation wird kopiert nach "
 deletedir="Das Installationsverzeichniss existiert bereits. Soll es gelöscht werden? "
 
@@ -44,8 +44,8 @@ usingsmtp="Benutze SMTP Server: "
 whatsmtp="Wie lautet die Adresse des SMTP Servers? (IP/Host) "
 
 # Part 3.1/agent
-serverip="Wie lautet die IP Adresse des Wazuh Servers?"
-serveraddr="Wie lautet die IP Adresse/Host des Wazuh Servers?"
+serverip="Wie lautet die IP Adresse des Blackwell Servers?"
+serveraddr="Wie lautet die IP Adresse/Host des Blackwell Servers?"
 addingip="Server IP hinzugefügt"
 addingname="Server Host hinzugefügt"
 
@@ -93,21 +93,21 @@ yesrunauthd="Auth-Dienst ausführen"
 
 # Part 4
 installing="Installiere das System"
-startwazuh="Möchten Sie Wazuh nach der Installation starten?"
-nowazuhstart="Wazuh startet nicht am Ende der Installation."
-yeswazuhstart="Wazuh wird am Ende der Installation starten."
+startblackwell="Möchten Sie Blackwell nach der Installation starten?"
+noblackwellstart="Blackwell startet nicht am Ende der Installation."
+yesblackwellstart="Blackwell wird am Ende der Installation starten."
 runningmake="make wird ausgeführt"
 
 # Final
 configurationdone="Konfguration erfolgreich durchgeführt "
-tostart="Um Wazuh zu starten"
-tostop="Um Wazuh zu stoppen"
+tostart="Um Blackwell zu starten"
+tostop="Um Blackwell zu stoppen"
 configat="Die Konfiguration kann angesehen oder verändert werden unter: "
 addserveragent="Agenten müssen hinzugefügt werden bevor sie zugreifen können. "
 presskey="Drücken Sie eine Taste"
 
 # Update
-wanttoupdate="Wazuh ist bereits installiert. Möchten Sie es updaten?"
+wanttoupdate="Blackwell ist bereits installiert. Möchten Sie es updaten?"
 mustuninstall="Die Installation kann nicht fortgesetzt werden, ohne alte Versionen zu deinstallieren. Verlassen."
 unabletoupdate="Update nicht möglich. Es muss eine Neuinstallation durchgeführt werden."
 updatecompleted="Update durchgeführt."

@@ -1,6 +1,6 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
+           Created by Blackwell, Inc. <info@blackwell.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
@@ -17,7 +17,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -34,8 +34,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/policy-monitoring/rootcheck
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-analysisd.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/policy-monitoring/rootcheck
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-analysisd.html
 
 tags:
     - rootcheck
@@ -45,9 +45,9 @@ import pytest
 import time
 from pathlib import Path
 
-from wazuh_testing.utils import configuration
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.utils.db_queries import agent_db
+from blackwell_testing.utils import configuration
+from blackwell_testing.utils.services import control_service
+from blackwell_testing.utils.db_queries import agent_db
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -68,7 +68,7 @@ daemons_handler_configuration = {'all_daemons': True}
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',
                          zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_rootcheck_update(test_configuration, test_metadata, set_wazuh_configuration,
+def test_rootcheck_update(test_configuration, test_metadata, set_blackwell_configuration,
                    daemons_handler, wait_for_rootcheck_start, truncate_monitored_files,
                    simulate_agents):
     '''
@@ -84,7 +84,7 @@ def test_rootcheck_update(test_configuration, test_metadata, set_wazuh_configura
                  Lastly, the tests also checks if the logs are deleted from the database when sending the delete
                  table request.
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 0
 
@@ -95,18 +95,18 @@ def test_rootcheck_update(test_configuration, test_metadata, set_wazuh_configura
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - wait_for_rootcheck_startup:
             type: fixture
-            brief: Wait until the 'wazuh-analysisd' has begun and the 'alerts.json' file is created.
+            brief: Wait until the 'blackwell-analysisd' has begun and the 'alerts.json' file is created.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
+            brief: Truncate blackwell logs.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - simulate_agents:
             type: fixture
             brief: Handler simulates agents.
@@ -139,7 +139,7 @@ def test_rootcheck_update(test_configuration, test_metadata, set_wazuh_configura
     for injector in injectors:
         injector.stop_receive()
 
-    # Service needs to be stopped otherwise db lock will be held by Wazuh db
+    # Service needs to be stopped otherwise db lock will be held by Blackwell db
     control_service('stop')
 
     # Check that logs have been updated

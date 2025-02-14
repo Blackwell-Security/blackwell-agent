@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -7,8 +7,8 @@
  * Foundation
 */
 
-#include "wazuh_modules/wmodules.h"
-#include "wazuh_modules/wm_sca.h"
+#include "blackwell_modules/wmodules.h"
+#include "blackwell_modules/wm_sca.h"
 
 #include <stdio.h>
 
@@ -18,7 +18,7 @@ static const char *XML_POLICIES = "policies";
 static const char *XML_POLICY = "policy";
 static const char *XML_SKIP_NFS = "skip_nfs";
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 /* Remove static qualifier when testing */
 #define static
 #endif

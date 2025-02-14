@@ -1,6 +1,6 @@
 /*
- * Wazuh - Content Migration tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell - Content Migration tests
+ * Copyright (C) 2015, Blackwell Inc.
  * March 03, 2023.
  *
  */

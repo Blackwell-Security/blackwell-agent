@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 # By Spransy, Derek" <DSPRANS () emory ! edu> and Charlie Scott
 
 #####
@@ -95,4 +95,4 @@ else
    sudo ${DSCL} localhost -createprop /Local/Default/Users/${USER} Password "*"
 fi
 
-sudo ${DSCL} . create /Users/wazuh IsHidden 1
+sudo ${DSCL} . create /Users/blackwell IsHidden 1

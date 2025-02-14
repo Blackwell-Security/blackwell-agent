@@ -69,6 +69,6 @@ if(APPLE)
     $<TARGET_FILE:sysinfo_test_tool>)
 add_custom_command(TARGET sysinfo_test_tool
     POST_BUILD COMMAND
-    ${CMAKE_INSTALL_NAME_TOOL} -change "@rpath/libwazuhext.dylib" "@executable_path/../../../libwazuhext.dylib"
+    ${CMAKE_INSTALL_NAME_TOOL} -change "@rpath/libblackwellext.dylib" "@executable_path/../../../libblackwellext.dylib"
     $<TARGET_FILE:sysinfo_test_tool>)
 endif(APPLE)

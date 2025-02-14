@@ -1,5 +1,5 @@
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'UDP'
@@ -9,8 +9,8 @@
       multiple_pings: false
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'UDP'
@@ -20,8 +20,8 @@
       multiple_pings: false
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'TCP'
@@ -30,8 +30,8 @@
       valid_protocol: ['TCP']
       multiple_pings: false
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'TCP'
@@ -40,8 +40,8 @@
       valid_protocol: ['TCP']
       multiple_pings: false
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'UDP,TCP'
@@ -51,8 +51,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'UDP,TCP'
@@ -61,8 +61,8 @@
       valid_protocol: ['UDP','TCP']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'TCP,UDP'
@@ -71,8 +71,8 @@
       valid_protocol: ['TCP','UDP']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'TCP,UDP'
@@ -82,8 +82,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'TCP,TCP'
@@ -93,8 +93,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'TCP,TCP'
@@ -104,8 +104,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'UDP,UDP'
@@ -114,8 +114,8 @@
       valid_protocol: ['UDP','UDP']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'UDP,UDP'
@@ -124,8 +124,8 @@
       valid_protocol: ['UDP','UDP']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'tcp'
@@ -135,8 +135,8 @@
       multiple_pings: false
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'tcp'
@@ -146,8 +146,8 @@
       multiple_pings: false
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'udp'
@@ -156,8 +156,8 @@
       valid_protocol: ['udp']
       multiple_pings: false
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'udp'
@@ -167,8 +167,8 @@
       multiple_pings: false
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'udp,tcp'
@@ -178,8 +178,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'udp,tcp'
@@ -189,8 +189,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'tcp,udp'
@@ -199,8 +199,8 @@
       valid_protocol: ['tcp','udp']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'tcp,udp'
@@ -209,8 +209,8 @@
       valid_protocol: ['tcp','udp']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'tcp,tcp'
@@ -219,8 +219,8 @@
       valid_protocol: ['tcp','tcp']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'tcp,tcp'
@@ -230,8 +230,8 @@
       multiple_pings: true
 
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '1514'
       PROTOCOL: 'udp,udp'
@@ -240,8 +240,8 @@
       valid_protocol: ['udp','udp']
       multiple_pings: true
 
-  - name: Command config wazuh manager for send the #pong message
-    description: Command config wazuh manager for send the #pong message
+  - name: Command config blackwell manager for send the #pong message
+    description: Command config blackwell manager for send the #pong message
     configuration_parameters:
       PORT: '56000'
       PROTOCOL: 'udp,udp'

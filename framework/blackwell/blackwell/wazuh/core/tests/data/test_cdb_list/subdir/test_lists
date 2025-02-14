@@ -1,0 +1,5 @@
+test-blackwell-w:write
+test-blackwell-r:read
+test-blackwell-a:attribute
+test-blackwell-x:execute
+test-blackwell-c:command

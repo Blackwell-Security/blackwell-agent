@@ -1,6 +1,6 @@
 # Content Manager
 
-The Content Manager is a module that is in charge of obtaining the Wazuh Content from an external repository, as well as maintaining the periodic updates that the manager will obtain.
+The Content Manager is a module that is in charge of obtaining the Blackwell Content from an external repository, as well as maintaining the periodic updates that the manager will obtain.
 
 ## Usage
 
@@ -10,7 +10,7 @@ The input configuration of the Content Manager is described below:
 - `interval`: Interval, in seconds, between each action execution.
 - `ondemand`: If `true`, the module will be executed on demand.
 - `configData`: Configuration data to create the orchestration of the module.
-  + `consumerName`: Name of the Content Manager caller (e.g. `Wazuh VulnerabilityScanner`). Used to set the "User-Agent" HTTP header.
+  + `consumerName`: Name of the Content Manager caller (e.g. `Blackwell VulnerabilityScanner`). Used to set the "User-Agent" HTTP header.
   + `contentSource`: Source of the content. Can be any of `api`, `cti-offset`, `cti-snapshot`, `file`, or `offline`. See the [use cases section](#use-cases) for more information.
   + `compressionType`: Compression type of the content. Can be any of `gzip`, `zip`, `xz`, or `raw`.
   + `versionedContent`: Type of versioned content. Can be any of `false` (content versioning disabled) or `cti-api` (only useful if using the `cti-offset` content source).
@@ -49,7 +49,7 @@ All the downloaded content will be stored in the filesystem, making it available
         "compressionType": "raw",
         "versionedContent": "cti-api",
         "deleteDownloadedContent": true,
-        "url": "https://cti.wazuh.com/api/v1/catalog/contexts/test_context/consumers/test_consumer",
+        "url": "https://cti.blackwell.com/api/v1/catalog/contexts/test_context/consumers/test_consumer",
         "outputFolder": "/tmp/output_folder",
         "contentFileName": "content.json",
         "databasePath": "/tmp/content_updater/rocksdb"
@@ -59,7 +59,7 @@ All the downloaded content will be stored in the filesystem, making it available
 
 > For simplicity, only the usage case-related configurations are shown.
 
-The configuration above will make the Content Manager launch each `10` seconds an orchestration that will download the content offsets from the Wazuh CTI API (context: `test_context`, consumer: `test_consumer`). The Content Manager will store the offsets, by groups of 1000, into output files located in `/tmp/output_folder`.
+The configuration above will make the Content Manager launch each `10` seconds an orchestration that will download the content offsets from the Blackwell CTI API (context: `test_context`, consumer: `test_consumer`). The Content Manager will store the offsets, by groups of 1000, into output files located in `/tmp/output_folder`.
 
 Executing the Content Manager for the first time, with a starting offset of `228000`, will download from offset `228000` to the last available offset (`230577` in this example).
 
@@ -81,9 +81,9 @@ Executing the Content Manager for the first time, with a starting offset of `228
 [DEBUG_VERBOSE]: Initial API offset: 228000
 [DEBUG_VERBOSE]: CTI last offset: '230577'
 [DEBUG_VERBOSE]: CTI last snapshot link: 'https://s3.us-east-1.amazonaws.com/cti-snapshots-pro/store/contexts/vd_1.0.0/consumers/vd_4.8.0/230577_1700904966.zip'
-[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=228000&to_offset=229000'
-[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=229000&to_offset=230000'
-[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=230000&to_offset=230577'
+[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.blackwell.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=228000&to_offset=229000'
+[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.blackwell.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=229000&to_offset=230000'
+[DEBUG_VERBOSE]: Downloading offsets from: 'https://cti.blackwell.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0//changes?from_offset=230000&to_offset=230577'
 [DEBUG]: SkipStep - Starting process
 [DEBUG]: PubSubPublisher - Starting process
 [DEBUG_VERBOSE]: Data to be published: '{"paths":["/tmp/output_folder/contents/229000-example.json","/tmp/output_folder/contents/230000-example.json","/tmp/output_folder/contents/230577-example.json"],"stageStatus":[{"stage":"CtiOffsetDownloader","status":"ok"}],"type":"offsets"}'
@@ -155,7 +155,7 @@ The snapshot file will be decompressed and stored in the filesystem, making it a
         "contentSource": "cti-snapshot",
         "compressionType": "zip",
         "deleteDownloadedContent": true,
-        "url": "https://cti.wazuh.com/api/v1/catalog/contexts/test_context/consumers/test_consumer",
+        "url": "https://cti.blackwell.com/api/v1/catalog/contexts/test_context/consumers/test_consumer",
         "outputFolder": "/tmp/output_folder"
     }
 }
@@ -163,7 +163,7 @@ The snapshot file will be decompressed and stored in the filesystem, making it a
 
 > For simplicity, only the usage case-related configurations are shown.
 
-The configuration above will make the Content Manager launch each `10` seconds an orchestration that will download the content snapshot from the Wazuh CTI API (context: `test_context`, consumer: `test_consumer`). The Content Manager will decompress the snapshot and store its content into the output folder `/tmp/output_folder`.
+The configuration above will make the Content Manager launch each `10` seconds an orchestration that will download the content snapshot from the Blackwell CTI API (context: `test_context`, consumer: `test_consumer`). The Content Manager will decompress the snapshot and store its content into the output folder `/tmp/output_folder`.
 
 ```bash
 # ./content_manager_test_tool 
@@ -286,7 +286,7 @@ When downloading files, the Content Manager keeps track of the last downloaded f
         "contentSource": "file",
         "compressionType": "zip",
         "deleteDownloadedContent": false,
-        "url": "https://cti.wazuh.com/cti-snapshots/store/contexts/test_context/consumers/test_consumer/1000_2000.zip",
+        "url": "https://cti.blackwell.com/cti-snapshots/store/contexts/test_context/consumers/test_consumer/1000_2000.zip",
         "outputFolder": "/tmp/output_folder"
     }
 }

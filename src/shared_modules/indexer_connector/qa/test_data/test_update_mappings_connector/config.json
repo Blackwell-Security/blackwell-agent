@@ -1,5 +1,5 @@
 {
-  "name": "wazuh-states-vulnerabilities-default",
+  "name": "blackwell-states-vulnerabilities-default",
   "enabled": "yes",
   "hosts": ["http://localhost:9200"]
 }

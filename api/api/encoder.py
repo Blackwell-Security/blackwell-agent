@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import json
@@ -8,12 +8,12 @@ import six
 from connexion.jsonifier import JSONEncoder
 
 from api.models.base_model_ import Model
-from wazuh.core.results import AbstractWazuhResult
+from blackwell.core.results import AbstractBlackwellResult
 
 
-class WazuhAPIJSONEncoder(JSONEncoder):
+class BlackwellAPIJSONEncoder(JSONEncoder):
     """"
-    Define the custom Wazuh API JSON encoder class.
+    Define the custom Blackwell API JSON encoder class.
     """
     include_nulls = False
 
@@ -39,7 +39,7 @@ class WazuhAPIJSONEncoder(JSONEncoder):
                 attr = o.attribute_map[attr]
                 result[attr] = value
             return result
-        elif isinstance(o, AbstractWazuhResult):
+        elif isinstance(o, AbstractBlackwellResult):
             return o.render()
         return JSONEncoder.default(self, o)
 
@@ -60,7 +60,7 @@ def dumps(obj: object) -> str:
     -------
     str
     """
-    return json.dumps(obj, cls=WazuhAPIJSONEncoder)
+    return json.dumps(obj, cls=BlackwellAPIJSONEncoder)
 
 
 def prettify(obj: object) -> str:
@@ -79,4 +79,4 @@ def prettify(obj: object) -> str:
     -------
     str
     """
-    return json.dumps(obj, cls=WazuhAPIJSONEncoder, indent=3)
+    return json.dumps(obj, cls=BlackwellAPIJSONEncoder, indent=3)

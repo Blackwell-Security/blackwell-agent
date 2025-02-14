@@ -1,5 +1,5 @@
 {
-    "wazuh_modules/syscollector":
+    "blackwell_modules/syscollector":
     [
         {
             "test_tool_name": "syscollector_test_tool",

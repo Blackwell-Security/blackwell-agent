@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 import logging
@@ -12,7 +12,7 @@ from json import JSONDecodeError
 
 path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 import exceptions
-from integration import WazuhGCloudIntegration
+from integration import BlackwellGCloudIntegration
 
 
 try:
@@ -22,11 +22,11 @@ except ImportError as e:
     raise exceptions.GCloudError(errcode=1003, package=e.name)
 
 
-class WazuhGCloudSubscriber(WazuhGCloudIntegration):
-    """Class for sending events from Google Cloud to Wazuh."""
+class BlackwellGCloudSubscriber(BlackwellGCloudIntegration):
+    """Class for sending events from Google Cloud to Blackwell."""
 
     def __init__(self, credentials_file: str, project: str, logger: logging.Logger, subscription_id: str):
-        """Instantiate a WazuhGCloudSubscriber object.
+        """Instantiate a BlackwellGCloudSubscriber object.
 
         Parameters
         ----------

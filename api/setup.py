@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 from setuptools import setup, find_namespace_packages
@@ -16,11 +16,11 @@ from setuptools import setup, find_namespace_packages
 setup(
     name='api',
     version='4.11.0',
-    description="Wazuh API",
-    author_email="hello@wazuh.com",
-    author="Wazuh",
+    description="Blackwell API",
+    author_email="hello@blackwell.com",
+    author="Blackwell",
     url="https://github.com/wazuh",
-    keywords=["Wazuh API"],
+    keywords=["Blackwell API"],
     install_requires=[],
     packages=find_namespace_packages(exclude=["*.test", "*.test.*", "test.*", "test"]),
     package_data={'': ['spec/spec.yaml']},
@@ -28,6 +28,6 @@ setup(
     zip_safe=False,
     license='GPLv2',
     long_description="""\
-    The Wazuh API is an open source RESTful API that allows for interaction with the Wazuh manager from a web browser, command line tool like cURL or any script or program that can make web requests. The Wazuh app relies on this heavily and Wazuh’s goal is to accommodate complete remote management of the Wazuh infrastructure via the Wazuh app. Use the API to easily perform everyday actions like adding an agent, restarting the manager(s) or agent(s) or looking up syscheck details.
+    The Blackwell API is an open source RESTful API that allows for interaction with the Blackwell manager from a web browser, command line tool like cURL or any script or program that can make web requests. The Blackwell app relies on this heavily and Blackwell’s goal is to accommodate complete remote management of the Blackwell infrastructure via the Blackwell app. Use the API to easily perform everyday actions like adding an agent, restarting the manager(s) or agent(s) or looking up syscheck details.
     """
 )

@@ -1,6 +1,6 @@
 /*
- * Wazuh Module Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell Module Configuration
+ * Copyright (C) 2015, Blackwell Inc.
  * October, 2018.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
  */
 
 #ifndef WIN32
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 
 static const char *XML_ATTEMPTS = "attempts";
 static const char *XML_RUN_ON_START = "run_on_start";

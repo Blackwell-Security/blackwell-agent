@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
  ###
- # Integration of Wazuh agent with Kaspersky endpoint security for Linux
- # Copyright (C) 2015, Wazuh Inc.
+ # Integration of Blackwell agent with Kaspersky endpoint security for Linux
+ # Copyright (C) 2015, Blackwell Inc.
  #
  # This program is free software; you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ from socket import socket, AF_UNIX, SOCK_DGRAM
 ##################################################################################################################
 # Sets the file paths
 ##################################################################################################################
-wazuh_path = os.path.abspath(os.path.join(__file__, "../../.."))
-wazuh_queue = '{0}/queue/sockets/queue'.format(wazuh_path)
+blackwell_path = os.path.abspath(os.path.join(__file__, "../../.."))
+blackwell_queue = '{0}/queue/sockets/queue'.format(blackwell_path)
 now = time.strftime("%a %b %d %H:%M:%S %Z %Y")
-ar_log_file = '{0}/logs/active-responses.log'.format(wazuh_path)
+ar_log_file = '{0}/logs/active-responses.log'.format(blackwell_path)
 
 ##################################################################################################################
 # Read and parser arguments.
@@ -91,7 +91,7 @@ def ar_log():
 
 def logger(msg, mode, foreground=None):
 
-	send_msg(wazuh_queue, msg)
+	send_msg(blackwell_queue, msg)
 
 	if foreground:
 		if mode == "INFO":
@@ -306,7 +306,7 @@ def parse_tasks_states(tasks):
 # Send logs events by socket.
 ##################################################################################################################
 
-def send_msg(wazuh_queue, msg):
+def send_msg(blackwell_queue, msg):
 
 	send_id = 1
 	send_location = "kaspersky-integration"
@@ -317,9 +317,9 @@ def send_msg(wazuh_queue, msg):
 	content = '{}:{}:{}'.format(send_id, send_location, json.dumps(formatted))
 	s = socket(AF_UNIX, SOCK_DGRAM)
 	try:
-		s.connect(wazuh_queue)
+		s.connect(blackwell_queue)
 	except:
-		print('Error: Wazuh must be running.')
+		print('Error: Blackwell must be running.')
 		sys.exit(1)
 	s.send(content.encode())
 	s.close()
@@ -331,7 +331,7 @@ def send_msg(wazuh_queue, msg):
 
 def main():
     ar_log()
-    set_logger('wazuh-kaspersky', foreground=args.verbose)
+    set_logger('blackwell-kaspersky', foreground=args.verbose)
     run_kaspersky()
 
 if __name__ == "__main__":

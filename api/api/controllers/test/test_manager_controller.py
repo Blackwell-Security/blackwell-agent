@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -11,23 +11,23 @@ from api.constants import INSTALLATION_UID_KEY, UPDATE_INFORMATION_KEY
 from api.controllers.test.utils import CustomAffectedItems
 
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
-        import wazuh.stats as stats
+with patch('blackwell.common.blackwell_uid'):
+    with patch('blackwell.common.blackwell_gid'):
+        sys.modules['blackwell.rbac.orm'] = MagicMock()
+        import blackwell.rbac.decorators
+        import blackwell.stats as stats
         from api.controllers.manager_controller import (
             check_available_version, get_api_config, get_conf_validation, get_configuration, get_info,
             get_log, get_log_summary, get_manager_config_ondemand, get_stats,
             get_stats_analysisd, get_stats_hourly, get_stats_remoted, get_daemon_stats,
             get_stats_weekly, get_status, put_restart, update_configuration)
-        from wazuh import manager
-        from wazuh.core import common
-        from wazuh.core.manager import query_update_check_service
-        from wazuh.tests.util import RBAC_bypasser
+        from blackwell import manager
+        from blackwell.core import common
+        from blackwell.core.manager import query_update_check_service
+        from blackwell.tests.util import RBAC_bypasser
 
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        blackwell.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['blackwell.rbac.orm']
 
 
 @pytest.mark.asyncio

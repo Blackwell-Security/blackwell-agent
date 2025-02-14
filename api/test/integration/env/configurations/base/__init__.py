@@ -1,1 +1,1 @@
-wazuh_master = __import__('wazuh-master')
+blackwell_master = __import__('blackwell-master')

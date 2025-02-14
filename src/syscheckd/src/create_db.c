@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -16,7 +16,7 @@
 #include "db/include/db.h"
 #include "registry/registry.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 #ifdef WIN32
 #include "../unit_tests/wrappers/windows/stat64_wrappers.h"
 #endif
@@ -1155,7 +1155,7 @@ void fim_check_db_state(int nodes_limit, int nodes_count, fim_state_db* db_state
 
     json_plain = cJSON_PrintUnformatted(json_event);
 
-    snprintf(alert_msg, OS_SIZE_256, "wazuh: FIM DB: %s", json_plain);
+    snprintf(alert_msg, OS_SIZE_256, "blackwell: FIM DB: %s", json_plain);
 
     send_log_msg(alert_msg);
 

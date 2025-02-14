@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 from subprocess import Popen, PIPE
@@ -10,8 +10,8 @@ import trustme
 from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
-KEYSTORE_BINARY = "./wazuh-keystore"
-KEYSTORE_TESTTOOL_BINARY = "./wazuh-keystore-testtool"
+KEYSTORE_BINARY = "./blackwell-keystore"
+KEYSTORE_TESTTOOL_BINARY = "./blackwell-keystore-testtool"
 CERTS_PATH = 'etc/'
 PRIVATE_KEY_FILE = "etc/sslmanager.key"
 CERTIFICATE_FILE ="etc/sslmanager.cert"

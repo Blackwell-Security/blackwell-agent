@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell SysInfo
+ * Copyright (C) 2015, Blackwell Inc.
  * December 17, 2021.
  *
  * This program is free software; you can redistribute it

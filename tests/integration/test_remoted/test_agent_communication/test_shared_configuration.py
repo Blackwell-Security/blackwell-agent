@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Blackwell Inc.
+ Created by Blackwell, Inc. <info@blackwell.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
@@ -8,15 +8,15 @@ import pytest
 import time
 
 from pathlib import Path
-from wazuh_testing.tools.simulators.agent_simulator import connect
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.modules.remoted import patterns
-from wazuh_testing.tools.monitors import queue_monitor
-from wazuh_testing.utils.agent_groups import create_group, delete_group, add_agent_to_group
+from blackwell_testing.tools.simulators.agent_simulator import connect
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.modules.remoted.configuration import REMOTED_DEBUG
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.modules.remoted import patterns
+from blackwell_testing.tools.monitors import queue_monitor
+from blackwell_testing.utils.agent_groups import create_group, delete_group, add_agent_to_group
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -43,14 +43,14 @@ def check_queue_monitor(agent, pattern):
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_shared_configuration(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, daemons_handler, simulate_agents):
+                            set_blackwell_configuration, daemons_handler, simulate_agents):
 
     '''
     description: Check if the manager pushes shared configuration to agents as expected.
                  For this purpose, the test will create an agent for each protocol within the module test cases. Then,
                  it will try to send the shared configuration to the agent and then, check if the configuration is
                  completely pushed.
-                 For example, if Wazuh Manager sends new shared files from group shared folder when the merged.mg
+                 For example, if Blackwell Manager sends new shared files from group shared folder when the merged.mg
                  checksum is received from an agent is different than the stored one.
                  As the test has nothing to do with shared configuration files, we removed those rootcheck txt files
                  from default agent group to reduce the time required by the test to make the checks.
@@ -68,14 +68,14 @@ def test_shared_configuration(test_configuration, test_metadata, configure_local
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
+            brief: Configure the Blackwell local internal options using the values from `local_internal_options`.
         - daemons_handler:
             type: fixture
             brief: Restart service once the test finishes stops the daemons.
         - simulate_agents
             type: fixture
             brief: create agents
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
     '''
@@ -84,14 +84,14 @@ def test_shared_configuration(test_configuration, test_metadata, configure_local
 
     sender, injector = connect(agent = agent, protocol = test_metadata['protocol'])
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     # Send the start-up message
     sender.send_event(agent.startup_msg)
 
-    wazuh_log_monitor.start(callback=generate_callback(regex=patterns.START_UP, replacement={"agent_name": agent.name, "agent_ip": '127.0.0.1'}))
+    blackwell_log_monitor.start(callback=generate_callback(regex=patterns.START_UP, replacement={"agent_name": agent.name, "agent_ip": '127.0.0.1'}))
 
-    assert wazuh_log_monitor.callback_result
+    assert blackwell_log_monitor.callback_result
 
 
     sender.send_event(agent.keep_alive_event)
@@ -115,8 +115,8 @@ def test_shared_configuration(test_configuration, test_metadata, configure_local
 
     time.sleep(10)
 
-    wazuh_log_monitor.start(callback=generate_callback(regex=patterns.MERGED_NEW_SHARED_END_SEND))
-    assert wazuh_log_monitor.callback_result
+    blackwell_log_monitor.start(callback=generate_callback(regex=patterns.MERGED_NEW_SHARED_END_SEND))
+    assert blackwell_log_monitor.callback_result
 
     check_queue_monitor(agent, test_metadata['patterns'][0])
 

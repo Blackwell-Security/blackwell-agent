@@ -20,10 +20,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_AUTH_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_AUTH_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 include_directories(${SRC_FOLDER}/os_auth)
 # Generate Analysisd tests
 list(APPEND os_auth_names "test_auth_parse")
@@ -67,8 +67,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${os_auth_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_AUTH_O
         ${TEST_DEPS}
     )

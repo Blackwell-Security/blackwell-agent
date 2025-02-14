@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -13,13 +13,13 @@
 #include "client-agent/agentd.h"
 #include "logcollector/logcollector.h"
 #include "os_execd/execd.h"
-#include "wazuh_modules/wmodules.h"
+#include "blackwell_modules/wmodules.h"
 #include "sysInfo.h"
 #include "sym_load.h"
 #include "../os_net/os_net.h"
 #include "dll_load_notify.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 #include "unit_tests/wrappers/windows/libc/kernel32_wrappers.h"
 #endif
 
@@ -166,7 +166,7 @@ int local_start()
 
     minfo("Using notify time: %d and max time to reconnect: %d", agt->notify_time, agt->max_time_reconnect_try);
     if (agt->force_reconnect_interval) {
-        minfo("Using force reconnect interval, Wazuh Agent will reconnect every %ld %s", \
+        minfo("Using force reconnect interval, Blackwell Agent will reconnect every %ld %s", \
                w_seconds_to_time_value(agt->force_reconnect_interval), w_seconds_to_time_unit(agt->force_reconnect_interval, TRUE));
     }
 

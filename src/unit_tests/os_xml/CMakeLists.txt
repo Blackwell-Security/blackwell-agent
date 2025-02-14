@@ -21,7 +21,7 @@ if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
 endif(${TARGET} STREQUAL "winagent")
 
-target_link_libraries(OS_XML_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_XML_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 add_executable(test_os_xml test_os_xml.c)
 target_compile_options(test_os_xml PRIVATE "-Wall")

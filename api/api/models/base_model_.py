@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pprint
@@ -12,7 +12,7 @@ from connexion import ProblemException
 
 from api import util
 from api.util import raise_if_exc, get_invalid_keys
-from wazuh.core.exception import WazuhError, WazuhNotAcceptable
+from blackwell.core.exception import BlackwellError, BlackwellNotAcceptable
 
 T = typing.TypeVar('T')
 
@@ -201,7 +201,7 @@ class Body(Model):
             dikt = request if isinstance(request, dict) else await request.json()
             f_kwargs = util.deserialize_model(dikt, cls).to_dict()
         except JSONDecodeError:
-            raise_if_exc(WazuhError(1018))
+            raise_if_exc(BlackwellError(1018))
 
         if dikt:
             invalid = get_invalid_keys(dikt, f_kwargs)
@@ -231,12 +231,12 @@ class Body(Model):
         try:
             decoded_body = body.decode('utf-8')
         except UnicodeDecodeError:
-            raise_if_exc(WazuhError(unicode_error))
+            raise_if_exc(BlackwellError(unicode_error))
         except AttributeError:
-            raise_if_exc(WazuhError(attribute_error))
+            raise_if_exc(BlackwellError(attribute_error))
         return decoded_body
 
     @classmethod
     def validate_content_type(cls, request, expected_content_type):
         if request.mimetype != expected_content_type:
-            raise_if_exc(WazuhNotAcceptable(6002))
+            raise_if_exc(BlackwellNotAcceptable(6002))

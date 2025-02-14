@@ -1,12 +1,12 @@
 # Generate syscheck library
 if(${TARGET} STREQUAL "winagent")
-  file(GLOB sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd-event.dir/src/*.obj
-                     ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd-event.dir/src/*/*.obj)
-  list(REMOVE_ITEM sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd.dir/src/main.c.obj)
+  file(GLOB sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd-event.dir/src/*.obj
+                     ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd-event.dir/src/*/*.obj)
+  list(REMOVE_ITEM sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd.dir/src/main.c.obj)
 else()
-  file(GLOB sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd.dir/src/*.o
-                     ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd.dir/src/*/*.o)
-  list(REMOVE_ITEM sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd.dir/src/main.c.o)
+  file(GLOB sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd.dir/src/*.o
+                     ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd.dir/src/*/*.o)
+  list(REMOVE_ITEM sysfiles ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd.dir/src/main.c.o)
 endif()
 
 file(GLOB rootfiles ${SRC_FOLDER}/rootcheck/*.o)
@@ -27,14 +27,14 @@ if(${TARGET} STREQUAL "winagent")
        ${SRC_FOLDER}/unit_tests/wrappers/libc/*.o
        ${SRC_FOLDER}/unit_tests/wrappers/linux/*.o
        ${SRC_FOLDER}/unit_tests/wrappers/posix/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_crypto/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_net/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_regex/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/syscheckd/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/wazuh_db/*.o
-       ${SRC_FOLDER}/unit_tests/wrappers/wazuh/wazuh_modules/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/os_crypto/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/os_net/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/os_regex/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/syscheckd/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/blackwell_db/*.o
+       ${SRC_FOLDER}/unit_tests/wrappers/blackwell/blackwell_modules/*.o
        ${SRC_FOLDER}/unit_tests/wrappers/windows/*.o
        ${SRC_FOLDER}/unit_tests/wrappers/windows/libc/*.o
        )
@@ -59,7 +59,7 @@ set_target_properties(
   LINKER_LANGUAGE C
   )
 
-target_link_libraries(SYSCHECK_O ROOTCHECK_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(SYSCHECK_O ROOTCHECK_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
@@ -80,13 +80,13 @@ set_target_properties(fim_shared PROPERTIES LINKER_LANGUAGE C )
 
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 # Generate syscheckd-event library
 if(${TARGET} STREQUAL "winagent")
-  file(GLOB syscheck_event_files ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd-event.dir/src/*.obj
-                                 ${SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd-event.dir/src/*/*.obj)
-  list(REMOVE_ITEM sysfiles {SRC_FOLDER}/syscheckd/build/CMakeFiles/wazuh-syscheckd-event.dir/src/main.obj)
+  file(GLOB syscheck_event_files ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd-event.dir/src/*.obj
+                                 ${SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd-event.dir/src/*/*.obj)
+  list(REMOVE_ITEM sysfiles {SRC_FOLDER}/syscheckd/build/CMakeFiles/blackwell-syscheckd-event.dir/src/main.obj)
   add_library(SYSCHECK_EVENT_O STATIC ${syscheck_event_files})
 
   set_source_files_properties(
@@ -103,7 +103,7 @@ if(${TARGET} STREQUAL "winagent")
     LINKER_LANGUAGE C
     )
 
-  target_link_libraries(SYSCHECK_EVENT_O ROOTCHECK_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+  target_link_libraries(SYSCHECK_EVENT_O ROOTCHECK_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
   add_subdirectory(registry)
 endif()

@@ -10,9 +10,9 @@ help="pomoc"
 
 # Ogólne
 moreinfo="Więcej informacji na: "
-starting="Rozpoczynam Wazuh"
+starting="Rozpoczynam Blackwell"
 systemis="System "
-modifiedinit="Init skrypt zmodyfikowany do uruchomiania Wazuh podczas bootowania."
+modifiedinit="Init skrypt zmodyfikowany do uruchomiania Blackwell podczas bootowania."
 noboot="Nieznany system. Skrypt init nie został dodany."
 
 # Część 1
@@ -28,8 +28,8 @@ localchose="Wybrana instalacja: lokalnie"
 
 # Część 2
 settingupenv="Ustawianie środowiska instalacyjnego"
-wheretoinstall="Wybierz katalog w którym zainstalować Wazuh"
-installat="Wazuh zostanie zainstalowane w :"
+wheretoinstall="Wybierz katalog w którym zainstalować Blackwell"
+installat="Blackwell zostanie zainstalowane w :"
 deletedir="Wybrany katalog istnieje, skasować go?"
 
 # Część 3
@@ -43,8 +43,8 @@ usingsmtp="Używam SMTP serwer: "
 whatsmtp="Podaj SMTP serwer (ip/host)?"
 
 # Część 3.1/agent
-serverip="Podaj adres IP serwera Wazuh."
-serveraddr="Podaj adres IP (hostname) serwera Wazuh."
+serverip="Podaj adres IP serwera Blackwell."
+serveraddr="Podaj adres IP (hostname) serwera Blackwell."
 addingip="Dodaje IP serwera"
 addingname="Dodaje hostname serwera"
 
@@ -91,21 +91,21 @@ yesrunauthd="Uruchamianie usługi Auth"
 
 # Część 4
 installing="Instaluje system"
-startwazuh="Chcete spustit aplikaci Wazuh po instalaci?"
-nowazuhstart="Wazuh nezačne na konci instalace."
-yeswazuhstart="Wazuh začne na konci instalace."
+startblackwell="Chcete spustit aplikaci Blackwell po instalaci?"
+noblackwellstart="Blackwell nezačne na konci instalace."
+yesblackwellstart="Blackwell začne na konci instalace."
 runningmake="Uruchomiono Makefile"
 
 # Finał
 configurationdone="Konfiguracja zakończona pomyślnie"
-tostart="Aby wystartować Wazuh"
-tostop="Aby zatrzymać Wazuh"
+tostart="Aby wystartować Blackwell"
+tostop="Aby zatrzymać Blackwell"
 configat="Konfiguracja może być wyświetlona lub zmodyfikowana w"
 addserveragent="Powinieneś dodać agent(a/ów) przed ich autoryzacją dostępu."
 presskey="Wciśnij ENTER aby kontynuować"
 
 # Update
-wanttoupdate="Masz już zainstalowany Wazuh. Czy chcesz dokonać aktualizacji?"
+wanttoupdate="Masz już zainstalowany Blackwell. Czy chcesz dokonać aktualizacji?"
 mustuninstall="Instalacja nie może być kontynuowana bez odinstalowania starych wersji. Wychodzę."
 unabletoupdate="Nie można dokonać aktualizacji. Pełna nowa instalacja jest konieczna."
 updatecompleted="Aktualizacja ukończona."

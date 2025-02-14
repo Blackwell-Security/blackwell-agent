@@ -1,6 +1,6 @@
 /*
- * Wazuh DBSYNC
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell DBSYNC
+ * Copyright (C) 2015, Blackwell Inc.
  * June 16, 2020.
  *
  * This program is free software; you can redistribute it

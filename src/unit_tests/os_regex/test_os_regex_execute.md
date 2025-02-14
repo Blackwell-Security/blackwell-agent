@@ -38,10 +38,10 @@ The `unit tests` are also JSON objects that have a format similar to the followi
   "ignore_result": false,
   "debug": false,
   "pattern": "^Some pattern in a (\\w+) ",
-  "log": "Some pattern in a Wazuh log.",
+  "log": "Some pattern in a Blackwell log.",
   "end_match": " log.",
   "captured_groups": [
-    "Wazuh"
+    "Blackwell"
   ]
 }
 ```

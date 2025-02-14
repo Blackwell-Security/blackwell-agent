@@ -1003,7 +1003,7 @@ stages:
   - name: Try to get decoder file content
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       method: GET
       headers:
         Authorization: "Bearer {test_login_token}"
@@ -1017,7 +1017,7 @@ stages:
   - name: Try to delete decoder file content
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       method: DELETE
       headers:
         Authorization: "Bearer {test_login_token}"
@@ -1031,7 +1031,7 @@ stages:
   - name: Try to upload decoder file content
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       method: PUT
       data: "{new_decoder:s}"
       headers:

@@ -1,7 +1,7 @@
 """
-copyright: Copyright (C) 2015, Wazuh Inc.
+copyright: Copyright (C) 2015, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -19,12 +19,12 @@ targets:
     - manager
 
 daemons:
-    - wazuh-apid
-    - wazuh-modulesd
-    - wazuh-analysisd
-    - wazuh-execd
-    - wazuh-db
-    - wazuh-remoted
+    - blackwell-apid
+    - blackwell-modulesd
+    - blackwell-analysisd
+    - blackwell-execd
+    - blackwell-db
+    - blackwell-remoted
 
 os_platform:
     - linux
@@ -41,8 +41,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/getting-started.html
-    - https://documentation.wazuh.com/current/user-manual/api/configuration.html
+    - https://documentation.blackwell.com/current/user-manual/api/getting-started.html
+    - https://documentation.blackwell.com/current/user-manual/api/configuration.html
 
 tags:
     - api
@@ -52,10 +52,10 @@ from pathlib import Path
 import requests
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.api import CONFIGURATION_TYPES, MANAGER_CONFIGURATION_ROUTE
-from wazuh_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
-from wazuh_testing.modules.api.utils import login, get_base_url
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.api import CONFIGURATION_TYPES, MANAGER_CONFIGURATION_ROUTE
+from blackwell_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
+from blackwell_testing.modules.api.utils import login, get_base_url
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 # Marks
 pytestmark = pytest.mark.server
@@ -76,13 +76,13 @@ daemons_handler_configuration = {'daemons': API_DAEMONS_REQUIREMENTS}
 
 @pytest.mark.tier(level=0)
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_id)
-def test_virus_total_integrations(test_configuration, test_metadata, set_wazuh_configuration, add_configuration,
+def test_virus_total_integrations(test_configuration, test_metadata, set_blackwell_configuration, add_configuration,
                                   truncate_monitored_files, daemons_handler, wait_for_api_start,
                                   virustotal_mock_server_setup, disable_ssl_verification):
     """
     description: Check if the API works as expected when uploading VirusTotal configurations with public API keys.
 
-    wazuh_min_version: 4.8.0
+    blackwell_min_version: 4.8.0
 
     test_phases:
         - setup:
@@ -108,18 +108,18 @@ def test_virus_total_integrations(test_configuration, test_metadata, set_wazuh_c
         - test_metadata:
             type: dict
             brief: Metadata from the test case.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - add_configuration:
             type: fixture
-            brief: Add configuration to the Wazuh API configuration files.
+            brief: Add configuration to the Blackwell API configuration files.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle Blackwell daemons.
         - wait_for_api_start:
             type: fixture
             brief: Monitor the API log file to detect whether it has been started or not.

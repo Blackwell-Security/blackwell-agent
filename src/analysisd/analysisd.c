@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2010-2012 Trend Micro Inc.
  * All rights reserved.
  *
@@ -8,12 +8,12 @@
  * Foundation.
 */
 
-/* wazuh-analysisd
+/* blackwell-analysisd
  * Responsible for correlation and log decoding
  */
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-analysisd"
+#define ARGV0 "blackwell-analysisd"
 #endif
 
 #include "shared.h"
@@ -273,7 +273,7 @@ static void help_analysisd(char * home_path)
 }
 
 #ifndef TESTRULE
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 __attribute((weak))
 #endif
 int main(int argc, char **argv)
@@ -378,7 +378,7 @@ int main_analysisd(int argc, char **argv)
         }
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(BLACKWELL_HOMEDIR, home_path);
 
     /* Start daemon */
     DEBUG_MSG("%s: DEBUG: Starting on debug mode - %d ", ARGV0, (int)time(0));
@@ -456,7 +456,7 @@ int main_analysisd(int argc, char **argv)
     /* Get server's hostname */
     memset(__shost, '\0', 512);
     if (gethostname(__shost, 512 - 1) != 0) {
-        strncpy(__shost, WAZUH_SERVER, 512 - 1);
+        strncpy(__shost, BLACKWELL_SERVER, 512 - 1);
     } else {
         char *_ltmp;
 

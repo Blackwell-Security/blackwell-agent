@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -21,9 +21,9 @@
 #include "../../addagent/manage_agents.h"
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_global_helpers_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_global_helpers_wrappers.h"
+#include "../wrappers/blackwell/os_net/os_net_wrappers.h"
 #include "../wrappers/libc/string_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
 #include "cJSON.h"

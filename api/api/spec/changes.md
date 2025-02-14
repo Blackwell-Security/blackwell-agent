@@ -132,10 +132,10 @@ This agent will use **any** as IP.
 * Endpoint removed. Use `PUT /agents/restart` instead.
 
 ### PUT     /agents/upgrade
-* New endpoint. Upgrade all agents or a list of them to a different Wazuh version.
+* New endpoint. Upgrade all agents or a list of them to a different Blackwell version.
 
 ### PUT     /agents/upgrade_custom
-* New endpoint. Upgrade all agents or a list of them to a different Wazuh version using a local WPK file.
+* New endpoint. Upgrade all agents or a list of them to a different Blackwell version using a local WPK file.
 
 ### GET     /agents/upgrade_result
 * New endpoint.  Get upgrade results from all agents or a list of them.
@@ -190,7 +190,7 @@ This agent will use **any** as IP.
 
 ### GET     /cluster/configuration/validation
 * Added **nodes_list** parameter in query.
-* Return whether the Wazuh configuration is correct or not in all cluster nodes 
+* Return whether the Blackwell configuration is correct or not in all cluster nodes 
 or a list of them if parameter **nodes_list** is used.
 
 ### GET     /cluster/healthcheck
@@ -383,7 +383,7 @@ This API call expects a full valid XML file with the shared configuration tags/s
 * Renamed **type_log** parameter to **level**.
 
 ### GET ​   /manager/logs/summary
-* Return a summary of the last 2000 wazuh log entries instead of the last three months.
+* Return a summary of the last 2000 blackwell log entries instead of the last three months.
 
 ### GET     /manager/stats
 * Changed response in order to use an affected_items and failed_items response type.
@@ -446,7 +446,7 @@ This API call expects a full valid XML file with the shared configuration tags/s
 * Endpoint removed. Use `GET /rules/requirement/pci_dss` instead.
 
 ### GET     /rules/requirement/{requirement}
-* New endpoint. Returns all specified requirement names defined in the Wazuh ruleset.
+* New endpoint. Returns all specified requirement names defined in the Blackwell ruleset.
 
 ### GET     /rules/{rule_id}
 * Endpoint removed. Use `GET /rules?rule_ids=rule_id` instead.

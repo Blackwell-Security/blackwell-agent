@@ -1,10 +1,10 @@
 <!---
-Copyright (C) 2015, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015, Blackwell Inc.
+Created by Blackwell, Inc. <info@blackwell.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 -->
 
-# Wazuh module: Google Cloud
+# Blackwell module: Google Cloud
 ## Index
 1. [Purpose](#purpose)
 2. [Sequence diagram](#sequence-diagram)

@@ -13,7 +13,7 @@
             "flags": "-r"
         },
         {
-            "name": "wazuh_modules/syscollector",
+            "name": "blackwell_modules/syscollector",
             "flags": "-r"
         },
         {

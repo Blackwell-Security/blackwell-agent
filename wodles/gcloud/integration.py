@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -17,14 +17,14 @@ import exceptions
 from utils import ANALYSISD, MAX_EVENT_SIZE
 
 
-class WazuhGCloudIntegration:
-    """Class for sending events from Google Cloud to Wazuh."""
+class BlackwellGCloudIntegration:
+    """Class for sending events from Google Cloud to Blackwell."""
 
-    header = '1:Wazuh-GCloud:'
+    header = '1:Blackwell-GCloud:'
     key_name = 'gcp'
 
     def __init__(self, logger: logging.Logger):
-        """Instantiate a WazuhGCloudIntegration object.
+        """Instantiate a BlackwellGCloudIntegration object.
 
         Parameters
         ----------
@@ -63,7 +63,7 @@ class WazuhGCloudIntegration:
 
         Raises
         ------
-        exceptions.WazuhIntegrationInternalError
+        exceptions.BlackwellIntegrationInternalError
             If the socket is unable to establish a connection or send a message
              to analysisd.
         """
@@ -72,15 +72,15 @@ class WazuhGCloudIntegration:
             self.socket.connect(ANALYSISD)
             return self.socket
         except ConnectionRefusedError:
-            raise exceptions.WazuhIntegrationInternalError(1)
+            raise exceptions.BlackwellIntegrationInternalError(1)
         except OSError:
-            raise exceptions.WazuhIntegrationInternalError(2, socket_path=ANALYSISD)
+            raise exceptions.BlackwellIntegrationInternalError(2, socket_path=ANALYSISD)
 
     def process_data(self):
         raise NotImplementedError
 
     def send_msg(self, msg: str):
-        """Send an event to the Wazuh queue.
+        """Send an event to the Blackwell queue.
 
         Parameters
         ----------
@@ -89,7 +89,7 @@ class WazuhGCloudIntegration:
 
         Raises
         ------
-        exceptions.WazuhIntegrationInternalError
+        exceptions.BlackwellIntegrationInternalError
             If the socket is unable to send the message to analysisd.
         """
         event_json = f'{self.header}{msg}'.encode(errors='replace')
@@ -102,4 +102,4 @@ class WazuhGCloudIntegration:
         try:
             self.socket.send(event_json)
         except OSError:
-            raise exceptions.WazuhIntegrationInternalError(3)
+            raise exceptions.BlackwellIntegrationInternalError(3)

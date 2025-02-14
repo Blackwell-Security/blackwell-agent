@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -109,7 +109,7 @@ void run_notify()
     /* Check if the agent has to be reconnected */
     if (agt->force_reconnect_interval && (curr_time - last_connection_time) >= agt->force_reconnect_interval) {
         /* Set lock and wait for it */
-        minfo("Wazuh Agent will be reconnected because of force reconnect interval");
+        minfo("Blackwell Agent will be reconnected because of force reconnect interval");
         os_setwait();
         w_agentd_state_update(UPDATE_STATUS, (void *) GA_STATUS_NACTIVE);
 

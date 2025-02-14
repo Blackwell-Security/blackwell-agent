@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'wazuh-authd' daemon correctly handles the enrollment requests,
+brief: These tests will check if the 'blackwell-authd' daemon correctly handles the enrollment requests,
        generating consistent responses to the requests received on its IP v4 network socket.
-       The 'wazuh-authd' daemon can automatically add a Wazuh agent to a Wazuh manager and provide
+       The 'blackwell-authd' daemon can automatically add a Blackwell agent to a Blackwell manager and provide
        the key to the agent. It is used along with the 'agent-auth' application.
 
 components:
@@ -19,9 +19,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-authd
-    - wazuh-db
-    - wazuh-modulesd
+    - blackwell-authd
+    - blackwell-db
+    - blackwell-modulesd
 
 os_platform:
     - linux
@@ -38,8 +38,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-authd.html
-    - https://documentation.wazuh.com/current/user-manual/reference/tools/agent_groups.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-authd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/tools/agent_groups.html
 
 tags:
     - enrollment
@@ -50,9 +50,9 @@ import pytest
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from blackwell_testing.constants.daemons import AUTHD_DAEMON, BLACKWELL_DB_DAEMON, MODULES_DAEMON
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 # Marks
 
@@ -69,7 +69,7 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 # Variables
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
 
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (BLACKWELL_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 
@@ -79,16 +79,16 @@ daemons_handler_configuration = {'all_daemons': True}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_configuration,
+def test_ossec_auth_messages(test_configuration, test_metadata, set_blackwell_configuration,
                              truncate_monitored_files, configure_sockets_environment, daemons_handler,
                              wait_for_authd_startup, connect_to_sockets, set_up_groups):
     '''
     description:
-        Checks if when the `wazuh-authd` daemon receives different types of enrollment requests,
+        Checks if when the `blackwell-authd` daemon receives different types of enrollment requests,
         it responds appropriately to them. In this case, the enrollment requests are sent to
         an IP v4 network socket.
 
-    wazuh_min_version:
+    blackwell_min_version:
         4.2.0
 
     tier: 0
@@ -100,9 +100,9 @@ def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_config
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic blackwell configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -114,7 +114,7 @@ def test_ossec_auth_messages(test_configuration, test_metadata, set_wazuh_config
             brief: Configure environment for sockets and MITM.
         - daemons_handler:
             type: fixture
-            brief: Restarts wazuh or a specific daemon passed.
+            brief: Restarts blackwell or a specific daemon passed.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.

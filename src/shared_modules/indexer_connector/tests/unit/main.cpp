@@ -1,6 +1,6 @@
 /*
- * Wazuh - Indexer connector unit tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell - Indexer connector unit tests
+ * Copyright (C) 2015, Blackwell Inc.
  * September 08, 2023.
  *
  * This program is free software; you can redistribute it

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -14,7 +14,7 @@
 #include "mail_list.h"
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-maild"
+#define ARGV0 "blackwell-maild"
 #endif
 
 /* Global variables */

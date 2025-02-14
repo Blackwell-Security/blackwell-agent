@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -470,7 +470,7 @@ int read_data_unit(const char *content);
  *
  * Read disk_quota, file_size and nodiff options
  *
- * @param xml XML structure containing Wazuh's configuration
+ * @param xml XML structure containing Blackwell's configuration
  * @param syscheck Syscheck configuration structure
  * @param node XML node to continue reading the configuration file
  */

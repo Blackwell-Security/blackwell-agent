@@ -1,0 +1,9 @@
+blackwell-manager: embedded-library
+blackwell-manager: embedded-zlib
+blackwell-manager: possible-gpl-code-linked-with-openssl
+blackwell-manager: new-package-should-close-itp-bug
+blackwell-manager: possibly-insecure-handling-of-tmp-files-in-maintainer-script
+blackwell-manager: non-standard-dir-in-var
+blackwell-manager: file-in-unusual-dir
+blackwell-manager: hardening-no-fortify-functions
+blackwell-manager: hardening-no-relro

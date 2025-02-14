@@ -1,5 +1,5 @@
 """
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, Blackwell Inc.
 March 28, 2022.
 
 This program is free software; you can redistribute it
@@ -38,7 +38,7 @@ HEADER_DIR = {
     'valgrind':            "=============== Running Valgrind    ===============",
     'wintesttool':         "=============== Running TEST TOOL for Windows ====="
 }
-MODULE_LIST = ['wazuh_modules/syscollector', 'shared_modules/dbsync',
+MODULE_LIST = ['blackwell_modules/syscollector', 'shared_modules/dbsync',
                'shared_modules/rsync', 'data_provider', 'syscheckd']
 MODULE_LIST_STR = '|'.join(MODULE_LIST)
 TARGET_LIST = ['agent', 'server', 'winagent']

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 ###
-#  Copyright (C) 2015, Wazuh Inc.All rights reserved.
-#  Wazuh.com
+#  Copyright (C) 2015, Blackwell Inc.All rights reserved.
+#  Blackwell.com
 #
 #  This program is free software; you can redistribute it
 #  and/or modify it under the terms of the GNU General Public
@@ -11,11 +11,11 @@
 ###
 
 # Instructions:
-#  - Use the embedded interpreter to run the script: {wazuh_path}/framework/python/bin/python3 get_agents.py
+#  - Use the embedded interpreter to run the script: {blackwell_path}/framework/python/bin/python3 get_agents.py
 
 import json
 
-import wazuh.agent as agent
+import blackwell.agent as agent
 
 if __name__ == "__main__":
 

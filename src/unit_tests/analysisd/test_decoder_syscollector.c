@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,10 +15,10 @@
 #include "../../config/global-config.h"
 #include "../../analysisd/eventinfo.h"
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/blackwell_db/wdb_wrappers.h"
 
-#include "../headers/wazuhdb_op.h"
+#include "../headers/blackwelldb_op.h"
 
 extern int DecodeSyscollector(Eventinfo *lf, int *socket);
 extern _Config Config;
@@ -2807,7 +2807,7 @@ void test_syscollector_hardware_invalid_query (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send hardware information to Wazuh DB.");
+            "Unable to send hardware information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -2826,7 +2826,7 @@ void test_syscollector_hardware_parse_result_not_ok (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send hardware information to Wazuh DB.");
+            "Unable to send hardware information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -2882,7 +2882,7 @@ void test_syscollector_hotfix_invalid_query (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send hotfixes information to Wazuh DB.");
+            "Unable to send hotfixes information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -2899,7 +2899,7 @@ void test_syscollector_hotfix_without_ID (void **state)
     Eventinfo *lf = *state;
 
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send hotfixes information to Wazuh DB.");
+            "Unable to send hotfixes information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, 0);
 
@@ -2918,7 +2918,7 @@ void test_syscollector_hotfix_parse_result_not_ok (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send hotfixes information to Wazuh DB.");
+            "Unable to send hotfixes information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -3038,7 +3038,7 @@ void test_syscollector_netinfo_valid_network_end (void **state)
     expect_any(__wrap_wdbc_query_ex, len);
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
-    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Wazuh DB.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3049,7 +3049,7 @@ void test_syscollector_netinfo_valid_network_end (void **state)
     expect_any(__wrap_wdbc_query_ex, len);
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
-    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Wazuh DB.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3086,7 +3086,7 @@ void test_syscollector_netinfo_invalid_query (void **state, const int edge, cons
         will_return(__wrap_wdbc_query_ex, result);
         will_return(__wrap_wdbc_query_ex, -1);
     }
-    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Wazuh DB.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -3134,7 +3134,7 @@ void test_syscollector_netinfo_invalid_address_array_empty_query (void **state, 
         will_return(__wrap_wdbc_query_ex, result);
         will_return(__wrap_wdbc_query_ex, -1);
     }
-    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Wazuh DB.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -3191,7 +3191,7 @@ void test_syscollector_netinfo_net_array_data_free (void **state, const int edge
         will_return(__wrap_wdbc_query_ex, result);
         will_return(__wrap_wdbc_query_ex, -1);
     }
-    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Wazuh DB.");
+    expect_string(__wrap__merror, formatted_msg, "Unable to send netinfo message to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
 
@@ -3262,7 +3262,7 @@ void test_syscollector_osinfo_invalid_inventory_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send osinfo message to Wazuh DB.");
+            "Unable to send osinfo message to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3274,7 +3274,7 @@ void test_syscollector_osinfo_invalid_inventory_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send osinfo message to Wazuh DB.");
+            "Unable to send osinfo message to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3348,7 +3348,7 @@ void test_syscollector_package_program_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3361,7 +3361,7 @@ void test_syscollector_package_program_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3372,7 +3372,7 @@ void test_syscollector_package_valid_without_ID (void **state)
     Eventinfo *lf = *state;
 
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, NULL);
 
@@ -3404,7 +3404,7 @@ void test_syscollector_package_program_end (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3421,7 +3421,7 @@ void test_syscollector_package_program_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3434,7 +3434,7 @@ void test_syscollector_package_program_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send packages information to Wazuh DB.");
+            "Unable to send packages information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3505,7 +3505,7 @@ void test_syscollector_port_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3518,7 +3518,7 @@ void test_syscollector_port_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3529,7 +3529,7 @@ void test_syscollector_port_valid_without_ID (void **state)
     Eventinfo *lf = *state;
 
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, NULL);
 
@@ -3561,7 +3561,7 @@ void test_syscollector_port_end (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3578,7 +3578,7 @@ void test_syscollector_port_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3591,7 +3591,7 @@ void test_syscollector_port_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send ports information to Wazuh DB.");
+            "Unable to send ports information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3664,7 +3664,7 @@ void test_syscollector_process_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3677,7 +3677,7 @@ void test_syscollector_process_empty (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3688,7 +3688,7 @@ void test_syscollector_process_valid_without_ID (void **state)
     Eventinfo *lf = *state;
 
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     int ret = DecodeSyscollector(lf, NULL);
 
@@ -3720,7 +3720,7 @@ void test_syscollector_process_end (void **state)
     will_return(__wrap_wdbc_query_ex, result);
     will_return(__wrap_wdbc_query_ex, -1);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3737,7 +3737,7 @@ void test_syscollector_process_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);
@@ -3750,7 +3750,7 @@ void test_syscollector_process_end (void **state)
     will_return(__wrap_wdbc_query_ex, result_not_ok);
     will_return(__wrap_wdbc_query_ex, 0);
     expect_string(__wrap__mdebug1, formatted_msg, 
-            "Unable to send processes information to Wazuh DB.");
+            "Unable to send processes information to Blackwell DB.");
 
     ret = DecodeSyscollector(lf, &sock);
     assert_int_not_equal(ret, -1);

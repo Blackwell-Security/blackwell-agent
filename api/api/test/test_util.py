@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import asyncio
@@ -10,8 +10,8 @@ import pytest
 from connexion import ProblemException
 
 from api import util
-from wazuh.core.exception import WazuhError, WazuhPermissionError, WazuhResourceNotFound, \
-    WazuhInternalError
+from blackwell.core.exception import BlackwellError, BlackwellPermissionError, BlackwellResourceNotFound, \
+    BlackwellInternalError
 
 
 class TestClass:
@@ -189,10 +189,10 @@ def test_to_relative_path(mock_real_path):
 
 @pytest.mark.parametrize('exception_type, code, extra_fields, returned_code, returned_exception', [
     (ValueError, 100, None, ValueError(100), ValueError),
-    (WazuhError, 1000, ['remediation', 'code'], 400, ProblemException),
-    (WazuhPermissionError, 4000, ['remediation', 'code'], 403, ProblemException),
-    (WazuhResourceNotFound, 1710, ['remediation', 'code'], 404, ProblemException),
-    (WazuhInternalError, 1000, ['remediation', 'code'], 500, ProblemException)
+    (BlackwellError, 1000, ['remediation', 'code'], 400, ProblemException),
+    (BlackwellPermissionError, 4000, ['remediation', 'code'], 403, ProblemException),
+    (BlackwellResourceNotFound, 1710, ['remediation', 'code'], 404, ProblemException),
+    (BlackwellInternalError, 1000, ['remediation', 'code'], 500, ProblemException)
 ])
 def test_create_problem(exception_type, code, extra_fields, returned_code, returned_exception):
     """Check that _create_problem returns exception with expected data"""
@@ -207,10 +207,10 @@ def test_create_problem(exception_type, code, extra_fields, returned_code, retur
 
 
 @pytest.mark.parametrize('obj, code', [
-    ((WazuhError(6001), ['value0', 'value1']), 429),
-    ((WazuhInternalError(1000), ['value0', 'value1']), None),
-    ((WazuhPermissionError(4000), ['value0', 'value1']), None),
-    ((WazuhResourceNotFound(1710), ['value0', 'value1']), None)
+    ((BlackwellError(6001), ['value0', 'value1']), 429),
+    ((BlackwellInternalError(1000), ['value0', 'value1']), None),
+    ((BlackwellPermissionError(4000), ['value0', 'value1']), None),
+    ((BlackwellResourceNotFound(1710), ['value0', 'value1']), None)
 ])
 @patch('api.util._create_problem')
 def test_raise_if_exc(mock_create_problem, obj, code):
@@ -255,7 +255,7 @@ def test_get_invalid_keys(dikt, f_kwargs, invalid_keys):
 
 @pytest.mark.parametrize('link', [
     '',
-    'https://documentation.wazuh.com/current/user-manual/api/reference.html'
+    'https://documentation.blackwell.com/current/user-manual/api/reference.html'
 ])
 @pytest.mark.asyncio
 async def test_deprecate_endpoint(link):
@@ -290,6 +290,6 @@ async def test_only_master_endpoint(mock_exc):
 
     with patch('api.util.running_in_master_node', return_value=False):
         await func_()
-        mock_exc.assert_called_once_with(WazuhResourceNotFound(902))
+        mock_exc.assert_called_once_with(BlackwellResourceNotFound(902))
     with patch('api.util.running_in_master_node', return_value=True):
         assert await func_() == ret_val

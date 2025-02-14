@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -29,7 +29,7 @@ int __wrap_getpwnam_r(const char *name,
         return ERANGE;
     }
 
-    if (strcmp(name, "wazuh") == 0) {
+    if (strcmp(name, "blackwell") == 0) {
         pwd->pw_uid = 1000;
         *result = pwd;
     }

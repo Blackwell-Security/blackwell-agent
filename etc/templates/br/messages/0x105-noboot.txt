@@ -1,4 +1,4 @@
 
- - Nenhuma ação foi tomada para que Wazuh inicie
+ - Nenhuma ação foi tomada para que Blackwell inicie
    durrante o 'boot'. Adicione a seguinte linha em seu
    script de inicialização:

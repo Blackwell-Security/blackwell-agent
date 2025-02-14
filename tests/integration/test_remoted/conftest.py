@@ -1,18 +1,18 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Blackwell Inc.
+ Created by Blackwell, Inc. <info@blackwell.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
 import pytest
 
-from wazuh_testing.utils import services
-from wazuh_testing.utils.services import check_all_daemon_status
+from blackwell_testing.utils import services
+from blackwell_testing.utils.services import check_all_daemon_status
 from time import sleep
 
 
 @pytest.fixture
-def restart_wazuh_expect_error() -> None:
+def restart_blackwell_expect_error() -> None:
     try:
         sleep(1)
         if any(v == True for _, v in check_all_daemon_status().items()) :

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -12,8 +12,8 @@ INSTALLDIR=${1}
 CONF_FILE="${INSTALLDIR}/etc/ossec.conf"
 TMP_ENROLLMENT="${INSTALLDIR}/tmp/enrollment-configuration"
 TMP_SERVER="${INSTALLDIR}/tmp/server-configuration"
-WAZUH_REGISTRATION_PASSWORD_PATH="etc/authd.pass"
-WAZUH_MACOS_AGENT_DEPLOYMENT_VARS="/tmp/wazuh_envs"
+BLACKWELL_REGISTRATION_PASSWORD_PATH="etc/authd.pass"
+BLACKWELL_MACOS_AGENT_DEPLOYMENT_VARS="/tmp/blackwell_envs"
 
 
 # Set default sed alias
@@ -136,78 +136,78 @@ add_parameter () {
 
 get_deprecated_vars () {
 
-    if [ -n "${WAZUH_MANAGER_IP}" ] && [ -z "${WAZUH_MANAGER}" ]; then
-        WAZUH_MANAGER=${WAZUH_MANAGER_IP}
+    if [ -n "${BLACKWELL_MANAGER_IP}" ] && [ -z "${BLACKWELL_MANAGER}" ]; then
+        BLACKWELL_MANAGER=${BLACKWELL_MANAGER_IP}
     fi
-    if [ -n "${WAZUH_AUTHD_SERVER}" ] && [ -z "${WAZUH_REGISTRATION_SERVER}" ]; then
-        WAZUH_REGISTRATION_SERVER=${WAZUH_AUTHD_SERVER}
+    if [ -n "${BLACKWELL_AUTHD_SERVER}" ] && [ -z "${BLACKWELL_REGISTRATION_SERVER}" ]; then
+        BLACKWELL_REGISTRATION_SERVER=${BLACKWELL_AUTHD_SERVER}
     fi
-    if [ -n "${WAZUH_AUTHD_PORT}" ] && [ -z "${WAZUH_REGISTRATION_PORT}" ]; then
-        WAZUH_REGISTRATION_PORT=${WAZUH_AUTHD_PORT}
+    if [ -n "${BLACKWELL_AUTHD_PORT}" ] && [ -z "${BLACKWELL_REGISTRATION_PORT}" ]; then
+        BLACKWELL_REGISTRATION_PORT=${BLACKWELL_AUTHD_PORT}
     fi
-    if [ -n "${WAZUH_PASSWORD}" ] && [ -z "${WAZUH_REGISTRATION_PASSWORD}" ]; then
-        WAZUH_REGISTRATION_PASSWORD=${WAZUH_PASSWORD}
+    if [ -n "${BLACKWELL_PASSWORD}" ] && [ -z "${BLACKWELL_REGISTRATION_PASSWORD}" ]; then
+        BLACKWELL_REGISTRATION_PASSWORD=${BLACKWELL_PASSWORD}
     fi
-    if [ -n "${WAZUH_NOTIFY_TIME}" ] && [ -z "${WAZUH_KEEP_ALIVE_INTERVAL}" ]; then
-        WAZUH_KEEP_ALIVE_INTERVAL=${WAZUH_NOTIFY_TIME}
+    if [ -n "${BLACKWELL_NOTIFY_TIME}" ] && [ -z "${BLACKWELL_KEEP_ALIVE_INTERVAL}" ]; then
+        BLACKWELL_KEEP_ALIVE_INTERVAL=${BLACKWELL_NOTIFY_TIME}
     fi
-    if [ -n "${WAZUH_CERTIFICATE}" ] && [ -z "${WAZUH_REGISTRATION_CA}" ]; then
-        WAZUH_REGISTRATION_CA=${WAZUH_CERTIFICATE}
+    if [ -n "${BLACKWELL_CERTIFICATE}" ] && [ -z "${BLACKWELL_REGISTRATION_CA}" ]; then
+        BLACKWELL_REGISTRATION_CA=${BLACKWELL_CERTIFICATE}
     fi
-    if [ -n "${WAZUH_PEM}" ] && [ -z "${WAZUH_REGISTRATION_CERTIFICATE}" ]; then
-        WAZUH_REGISTRATION_CERTIFICATE=${WAZUH_PEM}
+    if [ -n "${BLACKWELL_PEM}" ] && [ -z "${BLACKWELL_REGISTRATION_CERTIFICATE}" ]; then
+        BLACKWELL_REGISTRATION_CERTIFICATE=${BLACKWELL_PEM}
     fi
-    if [ -n "${WAZUH_KEY}" ] && [ -z "${WAZUH_REGISTRATION_KEY}" ]; then
-        WAZUH_REGISTRATION_KEY=${WAZUH_KEY}
+    if [ -n "${BLACKWELL_KEY}" ] && [ -z "${BLACKWELL_REGISTRATION_KEY}" ]; then
+        BLACKWELL_REGISTRATION_KEY=${BLACKWELL_KEY}
     fi
-    if [ -n "${WAZUH_GROUP}" ] && [ -z "${WAZUH_AGENT_GROUP}" ]; then
-        WAZUH_AGENT_GROUP=${WAZUH_GROUP}
+    if [ -n "${BLACKWELL_GROUP}" ] && [ -z "${BLACKWELL_AGENT_GROUP}" ]; then
+        BLACKWELL_AGENT_GROUP=${BLACKWELL_GROUP}
     fi
 
 }
 
 set_vars () {
 
-    export WAZUH_MANAGER
-    export WAZUH_MANAGER_PORT
-    export WAZUH_PROTOCOL
-    export WAZUH_REGISTRATION_SERVER
-    export WAZUH_REGISTRATION_PORT
-    export WAZUH_REGISTRATION_PASSWORD
-    export WAZUH_KEEP_ALIVE_INTERVAL
-    export WAZUH_TIME_RECONNECT
-    export WAZUH_REGISTRATION_CA
-    export WAZUH_REGISTRATION_CERTIFICATE
-    export WAZUH_REGISTRATION_KEY
-    export WAZUH_AGENT_NAME
-    export WAZUH_AGENT_GROUP
+    export BLACKWELL_MANAGER
+    export BLACKWELL_MANAGER_PORT
+    export BLACKWELL_PROTOCOL
+    export BLACKWELL_REGISTRATION_SERVER
+    export BLACKWELL_REGISTRATION_PORT
+    export BLACKWELL_REGISTRATION_PASSWORD
+    export BLACKWELL_KEEP_ALIVE_INTERVAL
+    export BLACKWELL_TIME_RECONNECT
+    export BLACKWELL_REGISTRATION_CA
+    export BLACKWELL_REGISTRATION_CERTIFICATE
+    export BLACKWELL_REGISTRATION_KEY
+    export BLACKWELL_AGENT_NAME
+    export BLACKWELL_AGENT_GROUP
     export ENROLLMENT_DELAY
     # The following variables are yet supported but all of them are deprecated
-    export WAZUH_MANAGER_IP
-    export WAZUH_NOTIFY_TIME
-    export WAZUH_AUTHD_SERVER
-    export WAZUH_AUTHD_PORT
-    export WAZUH_PASSWORD
-    export WAZUH_GROUP
-    export WAZUH_CERTIFICATE
-    export WAZUH_KEY
-    export WAZUH_PEM
+    export BLACKWELL_MANAGER_IP
+    export BLACKWELL_NOTIFY_TIME
+    export BLACKWELL_AUTHD_SERVER
+    export BLACKWELL_AUTHD_PORT
+    export BLACKWELL_PASSWORD
+    export BLACKWELL_GROUP
+    export BLACKWELL_CERTIFICATE
+    export BLACKWELL_KEY
+    export BLACKWELL_PEM
 
-    if [ -r "${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}" ]; then
-        . ${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}
-        rm -rf "${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}"
+    if [ -r "${BLACKWELL_MACOS_AGENT_DEPLOYMENT_VARS}" ]; then
+        . ${BLACKWELL_MACOS_AGENT_DEPLOYMENT_VARS}
+        rm -rf "${BLACKWELL_MACOS_AGENT_DEPLOYMENT_VARS}"
     fi
 
 }
 
 unset_vars() {
 
-    vars=(WAZUH_MANAGER_IP WAZUH_PROTOCOL WAZUH_MANAGER_PORT WAZUH_NOTIFY_TIME \
-          WAZUH_TIME_RECONNECT WAZUH_AUTHD_SERVER WAZUH_AUTHD_PORT WAZUH_PASSWORD \
-          WAZUH_AGENT_NAME WAZUH_GROUP WAZUH_CERTIFICATE WAZUH_KEY WAZUH_PEM \
-          WAZUH_MANAGER WAZUH_REGISTRATION_SERVER WAZUH_REGISTRATION_PORT \
-          WAZUH_REGISTRATION_PASSWORD WAZUH_KEEP_ALIVE_INTERVAL WAZUH_REGISTRATION_CA \
-          WAZUH_REGISTRATION_CERTIFICATE WAZUH_REGISTRATION_KEY WAZUH_AGENT_GROUP \
+    vars=(BLACKWELL_MANAGER_IP BLACKWELL_PROTOCOL BLACKWELL_MANAGER_PORT BLACKWELL_NOTIFY_TIME \
+          BLACKWELL_TIME_RECONNECT BLACKWELL_AUTHD_SERVER BLACKWELL_AUTHD_PORT BLACKWELL_PASSWORD \
+          BLACKWELL_AGENT_NAME BLACKWELL_GROUP BLACKWELL_CERTIFICATE BLACKWELL_KEY BLACKWELL_PEM \
+          BLACKWELL_MANAGER BLACKWELL_REGISTRATION_SERVER BLACKWELL_REGISTRATION_PORT \
+          BLACKWELL_REGISTRATION_PASSWORD BLACKWELL_KEEP_ALIVE_INTERVAL BLACKWELL_REGISTRATION_CA \
+          BLACKWELL_REGISTRATION_CERTIFICATE BLACKWELL_REGISTRATION_KEY BLACKWELL_AGENT_GROUP \
           ENROLLMENT_DELAY)
 
     for var in "${vars[@]}"; do
@@ -295,21 +295,21 @@ main () {
 
     get_deprecated_vars
 
-    if [ -z "${WAZUH_MANAGER}" ] && [ -n "${WAZUH_PROTOCOL}" ]; then
-        PROTOCOLS=( $(tolower "${WAZUH_PROTOCOL//,/ }") )
+    if [ -z "${BLACKWELL_MANAGER}" ] && [ -n "${BLACKWELL_PROTOCOL}" ]; then
+        PROTOCOLS=( $(tolower "${BLACKWELL_PROTOCOL//,/ }") )
         edit_value_tag "protocol" "${PROTOCOLS[0]}"
     fi
 
-    if [ -n "${WAZUH_MANAGER}" ]; then
+    if [ -n "${BLACKWELL_MANAGER}" ]; then
         if [ ! -f "${INSTALLDIR}/logs/ossec.log" ]; then
             touch -f "${INSTALLDIR}/logs/ossec.log"
             chmod 660 "${INSTALLDIR}/logs/ossec.log"
-            chown root:wazuh "${INSTALLDIR}/logs/ossec.log"
+            chown root:blackwell "${INSTALLDIR}/logs/ossec.log"
         fi
 
-        # Check if multiples IPs are defined in variable WAZUH_MANAGER
-        ADDRESSES=( ${WAZUH_MANAGER//,/ } ) 
-        PROTOCOLS=( $(tolower "${WAZUH_PROTOCOL//,/ }") )
+        # Check if multiples IPs are defined in variable BLACKWELL_MANAGER
+        ADDRESSES=( ${BLACKWELL_MANAGER//,/ } ) 
+        PROTOCOLS=( $(tolower "${BLACKWELL_PROTOCOL//,/ }") )
         # Get uniques values if all protocols are the same
         if ( [ "${#PROTOCOLS[@]}" -ge "${#ADDRESSES[@]}" ] && ( ( ! echo "${PROTOCOLS[@]}" | grep -q -w "tcp" ) || ( ! echo "${PROTOCOLS[@]}" | grep -q -w "udp" ) ) ) || [ ${#PROTOCOLS[@]} -eq 0 ] || ( ! echo "${PROTOCOLS[@]}" | grep -q -w "udp" ) ; then
             ADDRESSES=( $(echo "${ADDRESSES[@]}" |  tr ' ' '\n' | cat -n | sort -uk2 | sort -n | cut -f2- | tr '\n' ' ') ) 
@@ -318,33 +318,33 @@ main () {
         add_adress_block
     fi
 
-    edit_value_tag "port" "${WAZUH_MANAGER_PORT}"
+    edit_value_tag "port" "${BLACKWELL_MANAGER_PORT}"
 
-    if [ -n "${WAZUH_REGISTRATION_SERVER}" ] || [ -n "${WAZUH_REGISTRATION_PORT}" ] || [ -n "${WAZUH_REGISTRATION_CA}" ] || [ -n "${WAZUH_REGISTRATION_CERTIFICATE}" ] || [ -n "${WAZUH_REGISTRATION_KEY}" ] || [ -n "${WAZUH_AGENT_NAME}" ] || [ -n "${WAZUH_AGENT_GROUP}" ] || [ -n "${ENROLLMENT_DELAY}" ] || [ -n "${WAZUH_REGISTRATION_PASSWORD}" ]; then
+    if [ -n "${BLACKWELL_REGISTRATION_SERVER}" ] || [ -n "${BLACKWELL_REGISTRATION_PORT}" ] || [ -n "${BLACKWELL_REGISTRATION_CA}" ] || [ -n "${BLACKWELL_REGISTRATION_CERTIFICATE}" ] || [ -n "${BLACKWELL_REGISTRATION_KEY}" ] || [ -n "${BLACKWELL_AGENT_NAME}" ] || [ -n "${BLACKWELL_AGENT_GROUP}" ] || [ -n "${ENROLLMENT_DELAY}" ] || [ -n "${BLACKWELL_REGISTRATION_PASSWORD}" ]; then
         add_auto_enrollment
-        set_auto_enrollment_tag_value "manager_address" "${WAZUH_REGISTRATION_SERVER}"
-        set_auto_enrollment_tag_value "port" "${WAZUH_REGISTRATION_PORT}"
-        set_auto_enrollment_tag_value "server_ca_path" "${WAZUH_REGISTRATION_CA}"
-        set_auto_enrollment_tag_value "agent_certificate_path" "${WAZUH_REGISTRATION_CERTIFICATE}"
-        set_auto_enrollment_tag_value "agent_key_path" "${WAZUH_REGISTRATION_KEY}"
-        set_auto_enrollment_tag_value "authorization_pass_path" "${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        set_auto_enrollment_tag_value "agent_name" "${WAZUH_AGENT_NAME}"
-        set_auto_enrollment_tag_value "groups" "${WAZUH_AGENT_GROUP}"
+        set_auto_enrollment_tag_value "manager_address" "${BLACKWELL_REGISTRATION_SERVER}"
+        set_auto_enrollment_tag_value "port" "${BLACKWELL_REGISTRATION_PORT}"
+        set_auto_enrollment_tag_value "server_ca_path" "${BLACKWELL_REGISTRATION_CA}"
+        set_auto_enrollment_tag_value "agent_certificate_path" "${BLACKWELL_REGISTRATION_CERTIFICATE}"
+        set_auto_enrollment_tag_value "agent_key_path" "${BLACKWELL_REGISTRATION_KEY}"
+        set_auto_enrollment_tag_value "authorization_pass_path" "${BLACKWELL_REGISTRATION_PASSWORD_PATH}"
+        set_auto_enrollment_tag_value "agent_name" "${BLACKWELL_AGENT_NAME}"
+        set_auto_enrollment_tag_value "groups" "${BLACKWELL_AGENT_GROUP}"
         set_auto_enrollment_tag_value "delay_after_enrollment" "${ENROLLMENT_DELAY}"
         delete_blank_lines "${TMP_ENROLLMENT}"
         concat_conf
     fi
 
             
-    if [ -n "${WAZUH_REGISTRATION_PASSWORD}" ]; then
-        echo "${WAZUH_REGISTRATION_PASSWORD}" > "${INSTALLDIR}/${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        chmod 640 "${INSTALLDIR}"/"${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        chown root:wazuh "${INSTALLDIR}"/"${WAZUH_REGISTRATION_PASSWORD_PATH}"
+    if [ -n "${BLACKWELL_REGISTRATION_PASSWORD}" ]; then
+        echo "${BLACKWELL_REGISTRATION_PASSWORD}" > "${INSTALLDIR}/${BLACKWELL_REGISTRATION_PASSWORD_PATH}"
+        chmod 640 "${INSTALLDIR}"/"${BLACKWELL_REGISTRATION_PASSWORD_PATH}"
+        chown root:blackwell "${INSTALLDIR}"/"${BLACKWELL_REGISTRATION_PASSWORD_PATH}"
     fi
 
     # Options to be modified in ossec.conf
-    edit_value_tag "notify_time" "${WAZUH_KEEP_ALIVE_INTERVAL}"
-    edit_value_tag "time-reconnect" "${WAZUH_TIME_RECONNECT}"
+    edit_value_tag "notify_time" "${BLACKWELL_KEEP_ALIVE_INTERVAL}"
+    edit_value_tag "time-reconnect" "${BLACKWELL_TIME_RECONNECT}"
 
     unset_vars
 

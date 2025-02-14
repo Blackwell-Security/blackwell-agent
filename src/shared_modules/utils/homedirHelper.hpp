@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell shared modules utils
+ * Copyright (C) 2015, Blackwell Inc.
  * January 30, 2024.
  *
  * This program is free software; you can redistribute it
@@ -28,7 +28,7 @@ namespace Utils
         }
         if (ec)
         {
-            const char* envHome = std::getenv("WAZUH_HOME");
+            const char* envHome = std::getenv("BLACKWELL_HOME");
             if (envHome != nullptr)
             {
                 homeDir = envHome;

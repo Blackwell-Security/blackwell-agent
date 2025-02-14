@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -20,7 +20,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - Linux
@@ -41,8 +41,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -68,17 +68,17 @@ if sys.platform == 'win32':
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import IGNORING_DUE_TO_INVALID_NAME, SYNC_INTEGRITY_MESSAGE, EVENT_TYPE_ADDED
-from wazuh_testing.modules.fim.utils import create_registry
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim import configuration
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.constants.platforms import WINDOWS
+from blackwell_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import IGNORING_DUE_TO_INVALID_NAME, SYNC_INTEGRITY_MESSAGE, EVENT_TYPE_ADDED
+from blackwell_testing.modules.fim.utils import create_registry
+from blackwell_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from blackwell_testing.modules.fim import configuration
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils import file
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -97,13 +97,13 @@ local_internal_options = {configuration.SYSCHECK_DEBUG: 2, AGENTD_DEBUG: 2, MONI
 if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG: 2})
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_nonUTF8(test_configuration, test_metadata, set_blackwell_configuration, configure_local_internal_options,
                   truncate_monitored_files, folder_to_monitor, daemons_handler, start_monitoring):
     '''
-    description: Check if the 'wazuh-syscheckd' is able to correctly detect a pathname containing an invalid
+    description: Check if the 'blackwell-syscheckd' is able to correctly detect a pathname containing an invalid
                  character, preventing its processing and writing a log warning.
 
-    wazuh_min_version: 4.9.0
+    blackwell_min_version: 4.9.0
 
     tier: 1
 
@@ -114,7 +114,7 @@ def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, con
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -128,7 +128,7 @@ def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, con
             brief: Folder created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -137,7 +137,7 @@ def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, con
         - Verify that the FIM output a warning indicating that the file cannot be processed because it contains nonUTF8 characters.
 
     input_description: The test cases are contained in external YAML file (cases_nonUTF8.yaml) which includes
-                       configuration parameters for the 'wazuh-syscheckd' daemon and testing directories to monitor.
+                       configuration parameters for the 'blackwell-syscheckd' daemon and testing directories to monitor.
                        The configuration template is contained in another external YAML file
                        (configuration_basic.yaml).
 
@@ -149,11 +149,11 @@ def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, con
         - realtime
         - who_data
     '''
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     # Create
     test_path = os.path.join(test_metadata['folder_to_monitor'], '§¨©ª«¬-®¯±²³¶¹º»¼½¾testáéíóú')
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(BLACKWELL_LOG_PATH)
     if sys.platform == 'win32':
         file.write_file(test_path)
     else:
@@ -163,7 +163,7 @@ def test_nonUTF8(test_configuration, test_metadata, set_wazuh_configuration, con
 
     # Check Sync
     time.sleep(5)
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(BLACKWELL_LOG_PATH)
     monitor.start(generate_callback(SYNC_INTEGRITY_MESSAGE))
     assert monitor.callback_result
 
@@ -175,12 +175,12 @@ if sys.platform == WINDOWS:
 
     @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
     def test_invalid_registry(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                              set_wazuh_configuration, daemons_handler, detect_end_scan):
+                              set_blackwell_configuration, daemons_handler, detect_end_scan):
         '''
-        description: Check if the 'wazuh-syscheckd' is able to correctly process a registry key name containing an invalid
+        description: Check if the 'blackwell-syscheckd' is able to correctly process a registry key name containing an invalid
                      character.
 
-        wazuh_min_version: 4.9.0
+        blackwell_min_version: 4.9.0
 
         tier: 1
 
@@ -197,12 +197,12 @@ if sys.platform == WINDOWS:
             - truncate_monitored_files:
                 type: fixture
                 brief: Truncate all the log files and json alerts files before and after the test execution.
-            - set_wazuh_configuration:
+            - set_blackwell_configuration:
                 type: fixture
                 brief: Set ossec.conf configuration.
             - daemons_handler:
                 type: fixture
-                brief: Handler of Wazuh daemons.
+                brief: Handler of Blackwell daemons.
             - detect_end_scan
                 type: fixture
                 brief: Check first scan end.
@@ -211,7 +211,7 @@ if sys.platform == WINDOWS:
             - Verify that the FIM generate correctly an events with a new registry key.
 
         input_description: The test cases are contained in external YAML file (cases_registries.yaml) which includes
-                           configuration parameters for the 'wazuh-syscheckd' daemon and testing directories to monitor.
+                           configuration parameters for the 'blackwell-syscheckd' daemon and testing directories to monitor.
                            The configuration template is contained in another external YAML file
                            (configuration_registries.yaml).
 
@@ -219,17 +219,17 @@ if sys.platform == WINDOWS:
             - r'.*Sending FIM event: (.+)$' ('added', 'modified', and 'deleted' events)
 
         '''
-        monitor = FileMonitor(WAZUH_LOG_PATH)
+        monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
         # Create
         sub_key = os.path.join(test_metadata['sub_key'], '§¨©ª«¬-®¯±²³¶¹º»¼½¾testáéíóú')
-        file.truncate_file(WAZUH_LOG_PATH)
+        file.truncate_file(BLACKWELL_LOG_PATH)
         create_registry(win32con.HKEY_LOCAL_MACHINE, sub_key, KEY_WOW64_64KEY)
         monitor.start(generate_callback(EVENT_TYPE_ADDED))
         assert monitor.callback_result
 
         # Check Sync
         time.sleep(5)
-        file.truncate_file(WAZUH_LOG_PATH)
+        file.truncate_file(BLACKWELL_LOG_PATH)
         monitor.start(generate_callback(SYNC_INTEGRITY_MESSAGE))
         assert monitor.callback_result

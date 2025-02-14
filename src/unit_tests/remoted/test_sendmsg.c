@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -20,11 +20,11 @@
 
 #include "../wrappers/common.h"
 #include "../wrappers/posix/pthread_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/keys_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/msgs_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/time_op_wrappers.h"
-#include "../wrappers/wazuh/remoted/netbuffer_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/keys_wrappers.h"
+#include "../wrappers/blackwell/os_crypto/msgs_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/time_op_wrappers.h"
+#include "../wrappers/blackwell/remoted/netbuffer_wrappers.h"
 
 extern remoted_state_t remoted_state;
 

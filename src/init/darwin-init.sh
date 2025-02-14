@@ -2,19 +2,19 @@
 
 # Darwin init script.
 # by Lorenzo Costanzia di Costigliole <mummie@tin.it>
-# Modified by Wazuh, Inc. <info@wazuh.com>.
-# Copyright (C) 2015, Wazuh Inc.
+# Modified by Blackwell, Inc. <info@blackwell.com>.
+# Copyright (C) 2015, Blackwell Inc.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 INSTALLATION_PATH=${1}
-SERVICE=/Library/LaunchDaemons/com.wazuh.agent.plist
-STARTUP=/Library/StartupItems/WAZUH/StartupParameters.plist
-LAUNCHER_SCRIPT=/Library/StartupItems/WAZUH/Wazuh-launcher
-STARTUP_SCRIPT=/Library/StartupItems/WAZUH/WAZUH
+SERVICE=/Library/LaunchDaemons/com.blackwell.agent.plist
+STARTUP=/Library/StartupItems/BLACKWELL/StartupParameters.plist
+LAUNCHER_SCRIPT=/Library/StartupItems/BLACKWELL/Blackwell-launcher
+STARTUP_SCRIPT=/Library/StartupItems/BLACKWELL/BLACKWELL
 
-launchctl unload /Library/LaunchDaemons/com.wazuh.agent.plist 2> /dev/null
-mkdir -p /Library/StartupItems/WAZUH
-chown root:wheel /Library/StartupItems/WAZUH
+launchctl unload /Library/LaunchDaemons/com.blackwell.agent.plist 2> /dev/null
+mkdir -p /Library/StartupItems/BLACKWELL
+chown root:wheel /Library/StartupItems/BLACKWELL
 rm -f $STARTUP $STARTUP_SCRIPT $SERVICE
 echo > $LAUNCHER_SCRIPT
 chown root:wheel $LAUNCHER_SCRIPT
@@ -25,7 +25,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
  <plist version="1.0">
      <dict>
          <key>Label</key>
-         <string>com.wazuh.agent</string>
+         <string>com.blackwell.agent</string>
          <key>ProgramArguments</key>
          <array>
              <string>'$LAUNCHER_SCRIPT'</string>
@@ -44,15 +44,15 @@ echo '
 
 StartService ()
 {
-        '${INSTALLATION_PATH}'/bin/wazuh-control start
+        '${INSTALLATION_PATH}'/bin/blackwell-control start
 }
 StopService ()
 {
-        '${INSTALLATION_PATH}'/bin/wazuh-control stop
+        '${INSTALLATION_PATH}'/bin/blackwell-control stop
 }
 RestartService ()
 {
-        '${INSTALLATION_PATH}'/bin/wazuh-control restart
+        '${INSTALLATION_PATH}'/bin/blackwell-control restart
 }
 RunService "$1"
 ' > $STARTUP_SCRIPT
@@ -67,17 +67,17 @@ www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
        <key>Description</key>
-       <string>WAZUH Security agent</string>
+       <string>BLACKWELL Security agent</string>
        <key>Messages</key>
        <dict>
                <key>start</key>
-               <string>Starting Wazuh agent</string>
+               <string>Starting Blackwell agent</string>
                <key>stop</key>
-               <string>Stopping Wazuh agent</string>
+               <string>Stopping Blackwell agent</string>
        </dict>
        <key>Provides</key>
        <array>
-               <string>WAZUH</string>
+               <string>BLACKWELL</string>
        </array>
        <key>Requires</key>
        <array>
@@ -93,12 +93,12 @@ chmod u=rw-,go=r-- $STARTUP
 echo '#!/bin/sh
 
 capture_sigterm() {
-    '${INSTALLATION_PATH}'/bin/wazuh-control stop
+    '${INSTALLATION_PATH}'/bin/blackwell-control stop
     exit $?
 }
 
-if ! '${INSTALLATION_PATH}'/bin/wazuh-control start; then
-    '${INSTALLATION_PATH}'/bin/wazuh-control stop
+if ! '${INSTALLATION_PATH}'/bin/blackwell-control start; then
+    '${INSTALLATION_PATH}'/bin/blackwell-control stop
 fi
 
 while : ; do

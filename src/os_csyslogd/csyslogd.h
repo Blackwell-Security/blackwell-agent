@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Blackwell Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -38,7 +38,7 @@ int OS_Alert_SendSyslog(alert_data *al_data, SyslogConfig *syslog_config);
 int OS_Alert_SendSyslog_JSON(cJSON *json_data, SyslogConfig *syslog_config);
 
 /* Database inserting main function */
-#ifdef WAZUH_UNIT_TESTING
+#ifdef BLACKWELL_UNIT_TESTING
 void OS_CSyslogD(SyslogConfig **syslog_config);
 #else
 void OS_CSyslogD(SyslogConfig **syslog_config) __attribute__((noreturn));

@@ -10,8 +10,8 @@ variables:
   host: localhost
   port: 55000
   user: testing
-  user_auth_context: wazuh-wui
-  pass: wazuh
+  user_auth_context: blackwell-wui
+  pass: blackwell
   basic_auth: dGVzdGluZzp3YXp1aA== # b64 encoded user:pass, update if user or pass changes
   basic_auth_context: d2F6dWgtd3VpOndhenVoLXd1aQ== # b64 encoded user:pass, update if user or pass changes
   login_endpoint: security/user/authenticate
@@ -39,10 +39,10 @@ variables:
     "<!-- NEW Local Decoders -->\n <decoder name=\"local_decoder_example\" NEW DECODER</program_name>\n </decoder>\n"
 
   new_cdb_list:
-    "test-wazuh-w:write\ntest-wazuh-r:read\ntest-wazuh-a:attribute\ntest-wazuh-x:execute\ntest-wazuh-c:command\n"
+    "test-blackwell-w:write\ntest-blackwell-r:read\ntest-blackwell-a:attribute\ntest-blackwell-x:execute\ntest-blackwell-c:command\n"
 
   new_cdb_list_with_syntax_error:
-    ":write\ntest-wazuh-r:read\ntest-wazuh-a:attribute\ntest-wazuh-x:execute\ntest-wazuh-c:command\n"
+    ":write\ntest-blackwell-r:read\ntest-blackwell-a:attribute\ntest-blackwell-x:execute\ntest-blackwell-c:command\n"
 
   corrupted_rules_file:
     "<!-- Local rules -->\n <group name=\"local,\">\n <!--   NEW RULE    -->\n  <rule id=\"111111\" level=\"XXX\">\n      <if_sid>5716</if_sid>\n      <srcip>1.1.1.1</srcip>\n      <description>sshd: authentication failed from IP 1.1.1.1.</description>\n      <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>\n    </rule>\n  </group>\n"
@@ -111,7 +111,7 @@ variables:
     <localfile>
     <log_format>full_command</log_format>
     <alias>ciscat-ossec-log</alias>
-    <command>grep 'wazuh-modulesd:ciscat:' /opt/ossec/logs/ossec.log | tail -20</command>
+    <command>grep 'blackwell-modulesd:ciscat:' /opt/ossec/logs/ossec.log | tail -20</command>
     <frequency>86400</frequency>
     </localfile>
 

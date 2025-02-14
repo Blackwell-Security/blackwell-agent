@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -16,7 +16,7 @@
 
 #include "../analysisd/cleanevent.h"
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/blackwell/shared/debug_op_wrappers.h"
 
 static int test_setup(void **state) {
     Eventinfo *lf = NULL;
@@ -180,7 +180,7 @@ static void test_OS_CleanMSG_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2015 Dec 29 10:00:01 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2015 Dec 29 10:00:01 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -188,7 +188,7 @@ static void test_OS_CleanMSG_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2015 Dec 29 10:00:01 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2015 Dec 29 10:00:01 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2015 Dec 29 10:00:01");
 
     os_free(msg);
@@ -200,7 +200,7 @@ static void test_OS_CleanMSG_macos_ULS_syslog_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2021-04-21 10:16:09.404756-0700 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2021-04-21 10:16:09.404756-0700 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -208,7 +208,7 @@ static void test_OS_CleanMSG_macos_ULS_syslog_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2021-04-21 10:16:09.404756-0700 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2021-04-21 10:16:09.404756-0700 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2021-04-21 10:16:09.404756-0700");
 
     os_free(msg);
@@ -220,7 +220,7 @@ static void test_OS_CleanMSG_proftpd_1_3_5_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2015-04-16 21:51:02,805 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2015-04-16 21:51:02,805 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -228,7 +228,7 @@ static void test_OS_CleanMSG_proftpd_1_3_5_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2015-04-16 21:51:02,805 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2015-04-16 21:51:02,805 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2015-04-16 21:51:02,805");
 
     os_free(msg);
@@ -240,7 +240,7 @@ static void test_OS_CleanMSG_syslog_ng_isodate_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2007-06-14T15:48:55-04:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2007-06-14T15:48:55-04:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -248,7 +248,7 @@ static void test_OS_CleanMSG_syslog_ng_isodate_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2007-06-14T15:48:55-04:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2007-06-14T15:48:55-04:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2007-06-14T15:48:55-04:00");
 
     os_free(msg);
@@ -260,7 +260,7 @@ static void test_OS_CleanMSG_rsyslog_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2009-05-22T09:36:46.214994-07:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2009-05-22T09:36:46.214994-07:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -268,7 +268,7 @@ static void test_OS_CleanMSG_rsyslog_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2009-05-22T09:36:46.214994-07:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2009-05-22T09:36:46.214994-07:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2009-05-22T09:36:46.214994-07:00");
 
     os_free(msg);
@@ -280,7 +280,7 @@ static void test_OS_CleanMSG_syslog_isodate_timestamp(void **state){
 
     char *msg;
     os_calloc(OS_BUFFER_SIZE, sizeof(char), msg);
-    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2022-12-19T15:02:53.288+00:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    snprintf(msg, OS_BUFFER_SIZE, "%c:%s:%s", '1', "/var/log/syslog", "2022-12-19T15:02:53.288+00:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
 
     int value = OS_CleanMSG(msg, lf);
 
@@ -288,7 +288,7 @@ static void test_OS_CleanMSG_syslog_isodate_timestamp(void **state){
     assert_string_equal(lf->program_name, "AUTH");
     assert_string_equal(lf->agent_id, "000");
     assert_string_equal(lf->location, "/var/log/syslog");
-    assert_string_equal(lf->full_log, "2022-12-19T15:02:53.288+00:00 wazuh-agent01 AUTH:INFO sshd[223468]: LOG BODY");
+    assert_string_equal(lf->full_log, "2022-12-19T15:02:53.288+00:00 blackwell-agent01 AUTH:INFO sshd[223468]: LOG BODY");
     assert_string_equal(lf->dec_timestamp, "2022-12-19T15:02:53.288+00:00");
 
     os_free(msg);

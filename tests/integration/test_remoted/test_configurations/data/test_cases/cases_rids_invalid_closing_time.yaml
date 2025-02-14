@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config blackwell manager for rids closing time
+  description: Command config blackwell manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -11,8 +11,8 @@
     rids_closing_time: '0s'
 
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config blackwell manager for rids closing time
+  description: Command config blackwell manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'

@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2023, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2023, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """
@@ -12,8 +12,8 @@ import boto3
 from botocore.exceptions import ClientError
 
 # qa-integration-framework imports
-from wazuh_testing.logger import logger
-from wazuh_testing.modules.aws.utils import (
+from blackwell_testing.logger import logger
+from blackwell_testing.modules.aws.utils import (
     create_bucket,
     upload_log_events,
     create_log_group,
@@ -34,8 +34,8 @@ from wazuh_testing.modules.aws.utils import (
     delete_sqs_queue,
     delete_bucket_files
 )
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.constants.aws import US_EAST_1_REGION
+from blackwell_testing.utils.services import control_service
+from blackwell_testing.constants.aws import US_EAST_1_REGION
 
 @pytest.fixture
 def mark_cases_as_skipped(metadata):
@@ -44,8 +44,8 @@ def mark_cases_as_skipped(metadata):
 
 
 @pytest.fixture
-def restart_wazuh_function_without_exception(daemon=None):
-    """Restart all Wazuh daemons."""
+def restart_blackwell_function_without_exception(daemon=None):
+    """Restart all Blackwell daemons."""
     try:
         control_service("start", daemon=daemon)
     except ValueError:

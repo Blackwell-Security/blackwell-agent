@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfoParsers
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell SysInfoParsers
+ * Copyright (C) 2015, Blackwell Inc.
  * October 19, 2020.
  *
  * This program is free software; you can redistribute it

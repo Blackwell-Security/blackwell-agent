@@ -1,5 +1,5 @@
-audit-wazuh-w:write
-audit-wazuh-r:read
-audit-wazuh-a:attribute
-audit-wazuh-x:execute
-audit-wazuh-c:command
+audit-blackwell-w:write
+audit-blackwell-r:read
+audit-blackwell-a:attribute
+audit-blackwell-x:execute
+audit-blackwell-c:command

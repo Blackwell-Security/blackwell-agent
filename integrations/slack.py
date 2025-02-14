@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Blackwell Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -155,7 +155,7 @@ def generate_msg(alert: any, options: any) -> any:
 
     msg = {}
     msg['color'] = color
-    msg['pretext'] = 'WAZUH Alert'
+    msg['pretext'] = 'BLACKWELL Alert'
     msg['title'] = alert['rule']['description'] if 'description' in alert['rule'] else 'N/A'
     msg['text'] = alert.get('full_log')
 

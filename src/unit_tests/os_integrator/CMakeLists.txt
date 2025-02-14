@@ -17,10 +17,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_INTEGRATOR_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_INTEGRATOR_O ${BLACKWELLLIB} ${BLACKWELLEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/blackwell/shared/shared.cmake)
 
 list(APPEND os_integrator_names "test_integrator")
 list(APPEND os_integrator_flags "-Wl,--wrap,jqueue_open -Wl,--wrap,jqueue_next -Wl,--wrap,FOREVER -Wl,--wrap,time ${DEBUG_OP_WRAPPERS} \
@@ -37,8 +37,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${os_integrator_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${BLACKWELLLIB}
+        ${BLACKWELLEXT}
         OS_INTEGRATOR_O
         ${TEST_DEPS}
     )

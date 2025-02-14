@@ -20,7 +20,7 @@ stages:
           affected_items:
             - &full_item_decoders
               details: !anything
-              filename: 0005-wazuh_decoders.xml
+              filename: 0005-blackwell_decoders.xml
               name: !anystr
               relative_dirname: !anystr
               position: !anyint
@@ -60,7 +60,7 @@ stages:
         Authorization: "Bearer {test_login_token}"
       method: GET
       params:
-        decoder_names: wazuh,agent-buffer,netscaler,netinfo,agent-upgrade
+        decoder_names: blackwell,agent-buffer,netscaler,netinfo,agent-upgrade
     response:
       status_code: 200
       json:
@@ -101,7 +101,7 @@ stages:
         error: 0
         data:
           affected_items:
-            - filename: 0005-wazuh_decoders.xml
+            - filename: 0005-blackwell_decoders.xml
               relative_dirname: ruleset/decoders
               status: enabled
             - filename: 0160-netscaler_decoders.xml
@@ -119,14 +119,14 @@ stages:
         Authorization: "Bearer {test_login_token}"
       method: GET
       params:
-        filename: 0005-wazuh_decoders.xml,0160-netscaler_decoders.xml
+        filename: 0005-blackwell_decoders.xml,0160-netscaler_decoders.xml
     response:
       status_code: 200
       json:
         error: 0
         data:
           affected_items:
-            - filename: 0005-wazuh_decoders.xml
+            - filename: 0005-blackwell_decoders.xml
               relative_dirname: ruleset/decoders
               status: enabled
             - filename: 0160-netscaler_decoders.xml
@@ -161,7 +161,7 @@ stages:
   - name: Get one decoder file
     request:
       verify: False
-      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-wazuh_decoders.xml"
+      url: "{protocol:s}://{host:s}:{port:d}/decoders/files/0005-blackwell_decoders.xml"
       headers:
         Authorization: "Bearer {test_login_token}"
       method: GET

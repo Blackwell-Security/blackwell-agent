@@ -1,7 +1,7 @@
 """
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,8 +9,8 @@ type: integration
 
 brief: These tests will check if the 'request_timeout' setting of the API is working properly.
        This setting allows specifying the time limit for the API to process a request.
-       The Wazuh API is an open source 'RESTful' API that allows for interaction with
-       the Wazuh manager from a web browser, command line tool like 'cURL' or any script
+       The Blackwell API is an open source 'RESTful' API that allows for interaction with
+       the Blackwell manager from a web browser, command line tool like 'cURL' or any script
        or program that can make web requests.
 
 components:
@@ -22,12 +22,12 @@ targets:
     - manager
 
 daemons:
-    - wazuh-apid
-    - wazuh-modulesd
-    - wazuh-analysisd
-    - wazuh-execd
-    - wazuh-db
-    - wazuh-remoted
+    - blackwell-apid
+    - blackwell-modulesd
+    - blackwell-analysisd
+    - blackwell-execd
+    - blackwell-db
+    - blackwell-remoted
 
 os_platform:
     - linux
@@ -44,8 +44,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/getting-started.html
-    - https://documentation.wazuh.com/current/user-manual/api/configuration.html
+    - https://documentation.blackwell.com/current/user-manual/api/getting-started.html
+    - https://documentation.blackwell.com/current/user-manual/api/configuration.html
 
 tags:
     - api
@@ -54,10 +54,10 @@ import pytest
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.api import CONFIGURATION_TYPES
-from wazuh_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
-from wazuh_testing.modules.api.utils import login
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.api import CONFIGURATION_TYPES
+from blackwell_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
+from blackwell_testing.modules.api.utils import login
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 
 # Marks
@@ -87,7 +87,7 @@ def test_request_timeout(test_configuration, test_metadata, add_configuration, t
                  For this purpose, a value of '0' seconds is set for the 'request_timeout'
                  setting, and a request is made to the API, expecting an error in the response.
 
-    wazuh_min_version: 4.3.0
+    blackwell_min_version: 4.3.0
 
     test_phases:
         - setup:
@@ -115,13 +115,13 @@ def test_request_timeout(test_configuration, test_metadata, add_configuration, t
             brief: Metadata from the test case.
         - add_configuration:
             type: fixture
-            brief: Add configuration to the Wazuh API configuration files.
+            brief: Add configuration to the Blackwell API configuration files.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle Blackwell daemons.
         - wait_for_api_start:
             type: fixture
             brief: Monitor the API log file to detect whether it has been started or not.

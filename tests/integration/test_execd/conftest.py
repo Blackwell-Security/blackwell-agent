@@ -1,16 +1,16 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, Blackwell Inc.
+# Created by Blackwell, Inc. <info@blackwell.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 import pytest
 
-from wazuh_testing.constants.paths.configurations import AR_CONF
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.agentd.patterns import AGENTD_CONNECTED_TO_SERVER
-from wazuh_testing.modules.execd.patterns import EXECD_RECEIVED_MESSAGE
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
+from blackwell_testing.constants.paths.configurations import AR_CONF
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.agentd.patterns import AGENTD_CONNECTED_TO_SERVER
+from blackwell_testing.modules.execd.patterns import EXECD_RECEIVED_MESSAGE
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from blackwell_testing.utils import file
+from blackwell_testing.utils.callbacks import generate_callback
 
 
 @pytest.fixture()
@@ -67,7 +67,7 @@ def send_execd_message(test_metadata: dict, remoted_simulator: RemotedSimulator)
     if test_metadata.get('input') is None:
         raise AttributeError('No `input` key in `test_metadata`.')
 
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(BLACKWELL_LOG_PATH)
 
     monitor.start(callback=generate_callback(AGENTD_CONNECTED_TO_SERVER))
     remoted_simulator.send_custom_message(test_metadata['input'])

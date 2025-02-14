@@ -1,8 +1,8 @@
 <!--
   -  Microsoft Windows rules
   -  Author: Daniel Cid.
-  -  Updated by Wazuh, Inc.
-  -  Copyright (C) 2015, Wazuh Inc.
+  -  Updated by Blackwell, Inc.
+  -  Copyright (C) 2015, Blackwell Inc.
   -  Copyright (C) 2009 Trend Micro Inc.
   -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
 -->
@@ -1195,7 +1195,7 @@
   <!--
   Chrome Remote Desktop
   Created by Kevin Branch
-  Updated by Wazuh
+  Updated by Blackwell
   -->
   <rule id="18158" level="5">
       <if_sid>18103</if_sid>

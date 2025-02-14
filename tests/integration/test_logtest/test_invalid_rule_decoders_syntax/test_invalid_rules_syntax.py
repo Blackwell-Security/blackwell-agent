@@ -1,16 +1,16 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-logtest' tool allows the testing and verification of rules and decoders against provided log examples
-       remotely inside a sandbox in 'wazuh-analysisd'. This functionality is provided by the manager, whose work
+brief: The 'blackwell-logtest' tool allows the testing and verification of rules and decoders against provided log examples
+       remotely inside a sandbox in 'blackwell-analysisd'. This functionality is provided by the manager, whose work
        parameters are configured in the ossec.conf file in the XML rule_test section. Test logs can be evaluated through
-       the 'wazuh-logtest' tool or by making requests via RESTful API. These tests will check if the logtest
+       the 'blackwell-logtest' tool or by making requests via RESTful API. These tests will check if the logtest
        configuration is valid. Also checks rules, decoders, decoders, alerts matching logs correctly.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-analysisd
+    - blackwell-analysisd
 
 os_platform:
     - linux
@@ -39,9 +39,9 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/tools/wazuh-logtest.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/wazuh-logtest/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-analysisd.html
+    - https://documentation.blackwell.com/current/user-manual/reference/tools/blackwell-logtest.html
+    - https://documentation.blackwell.com/current/user-manual/capabilities/blackwell-logtest/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/daemons/blackwell-analysisd.html
 
 tags:
     - logtest_configuration
@@ -50,9 +50,9 @@ import pytest
 from pathlib import Path
 from json import loads
 
-from wazuh_testing.constants.paths.sockets import LOGTEST_SOCKET_PATH
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON, WAZUH_DB_DAEMON
-from wazuh_testing.utils import configuration
+from blackwell_testing.constants.paths.sockets import LOGTEST_SOCKET_PATH
+from blackwell_testing.constants.daemons import ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON
+from blackwell_testing.utils import configuration
 
 from . import TEST_CASES_FOLDER_PATH
 
@@ -69,18 +69,18 @@ receiver_sockets_params = [(LOGTEST_SOCKET_PATH, 'AF_UNIX', 'TCP')]
 receiver_sockets = []
 
 # Test daemons to restart.
-daemons_handler_configuration = {'daemons': [ANALYSISD_DAEMON, WAZUH_DB_DAEMON]}
+daemons_handler_configuration = {'daemons': [ANALYSISD_DAEMON, BLACKWELL_DB_DAEMON]}
 
 # Tests
 @pytest.mark.parametrize('test_metadata', t_config_metadata, ids=t_case_ids)
 def test_invalid_rule_syntax(test_metadata, configure_local_rules,  daemons_handler_module,
                              wait_for_logtest_startup, connect_to_sockets):
     '''
-    description: Check if `wazuh-logtest` correctly detects and handles errors when processing a rules file.
+    description: Check if `blackwell-logtest` correctly detects and handles errors when processing a rules file.
                  To do this, it sends a logtest request(via AF_UNIX socket) using the input configurations and parses
                  the logtest reply received looking for errors.
 
-    wazuh_min_version: 4.2.0
+    blackwell_min_version: 4.2.0
 
     tier: 0
 
@@ -90,11 +90,11 @@ def test_invalid_rule_syntax(test_metadata, configure_local_rules,  daemons_hand
             brief: Get metadata from the module.
         - configure_local_rules:
             type: fixture
-            brief: Configure a custom rule in local_rules.xml for testing. Restart Wazuh is needed for applying the
+            brief: Configure a custom rule in local_rules.xml for testing. Restart Blackwell is needed for applying the
                    configuration.
         - daemons_handler_module:
             type: fixture
-            brief: Wazuh logtests daemons handler.
+            brief: Blackwell logtests daemons handler.
         - wait_for_logtest_startup:
             type: fixture
             brief: Wait until logtest has begun.
@@ -103,7 +103,7 @@ def test_invalid_rule_syntax(test_metadata, configure_local_rules,  daemons_hand
             brief: Function scope version of 'connect_to_sockets' which connects to the specified sockets for the test.
 
     assertions:
-        - Verify that `wazuh-logtest` retrieves errors when the loaded rules are invalid.
+        - Verify that `blackwell-logtest` retrieves errors when the loaded rules are invalid.
 
     input_description: Some test cases are defined in the module. These include some input configurations stored in
                        the 'invalid_rules_syntax.yaml'.

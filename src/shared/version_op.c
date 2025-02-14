@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Blackwell Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -1033,7 +1033,7 @@ int get_nproc() {
 #endif
 }
 
-int compare_wazuh_versions(const char *version1, const char *version2, bool compare_patch) {
+int compare_blackwell_versions(const char *version1, const char *version2, bool compare_patch) {
     char ver1[10];
     char ver2[10];
     char *tmp_v1 = NULL;

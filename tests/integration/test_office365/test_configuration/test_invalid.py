@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The Wazuh 'office365' module allows you to collect all the logs from Office 365 using its API.
+brief: The Blackwell 'office365' module allows you to collect all the logs from Office 365 using its API.
        Specifically, these tests will check if that module detects invalid configurations and indicates
        the location of the errors detected. The Office 365 Management Activity API aggregates actions
        and events into tenant-specific content blobs, which are classified by the type and source
@@ -22,9 +22,9 @@ targets:
     - agent
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-monitord
-    - wazuh-modulesd
+    - blackwell-analysisd
+    - blackwell-monitord
+    - blackwell-modulesd
 
 os_platform:
     - linux
@@ -50,13 +50,13 @@ tags:
 import pytest
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd import patterns
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data
-from wazuh_testing.utils.configuration import load_configuration_template
-from wazuh_testing.utils import callbacks
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from blackwell_testing.modules.modulesd import patterns
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.configuration import get_test_cases_data
+from blackwell_testing.utils.configuration import load_configuration_template
+from blackwell_testing.utils import callbacks
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
 # Marks
@@ -74,14 +74,14 @@ local_internal_options = {MODULESD_DEBUG: '2'}
 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_invalid(test_configuration, test_metadata, set_blackwell_configuration, configure_local_internal_options,
                  truncate_monitored_files, daemons_handler, wait_for_office365_start):
     '''
     description: Check if the 'office365' module detects invalid configurations. For this purpose, the test
                  will configure that module using invalid configuration settings with different attributes.
                  Finally, it will verify that error events are generated indicating the source of the errors.
 
-    wazuh_min_version: 4.3.0
+    blackwell_min_version: 4.3.0
 
     tier: 0
 
@@ -92,7 +92,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -103,7 +103,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
             brief: Reset the 'ossec.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
-            brief: Manages daemons to reset Wazuh.
+            brief: Manages daemons to reset Blackwell.
         - wait_for_office365_start:
             type: fixture
             brief: Checks integration start message does not appear.
@@ -112,7 +112,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - Verify that the 'office365' module generates error events when invalid configurations are used.
 
     input_description: A configuration template (office365_integration) is contained in an external YAML file
-                       (wazuh_conf.yaml). That template is combined with different test cases defined in
+                       (blackwell_conf.yaml). That template is combined with different test cases defined in
                        the module. Those include configuration settings for the 'office365' module.
 
     expected_output:
@@ -123,11 +123,11 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - invalid_settings
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
                               'error_type': str(test_metadata['error_type']),
                               'tag': str(test_metadata['event_monitor']),
                               'integration': str(test_metadata['module']),
                           }))
 
-    assert (wazuh_log_monitor.callback_result != None), f'Error invalid configuration event not detected'
+    assert (blackwell_log_monitor.callback_result != None), f'Error invalid configuration event not detected'

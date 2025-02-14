@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,9 +9,9 @@ type: integration
 
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when
        these files are modified. Specifically, these tests will check if FIM limits the size of
-       the 'queue/diff/local' folder, where Wazuh stores the compressed files used to perform
+       the 'queue/diff/local' folder, where Blackwell stores the compressed files used to perform
        the 'diff' operation, to the default value when the 'report_changes' option is enabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'blackwell-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - blackwell-syscheckd
 
 os_platform:
     - linux
@@ -47,8 +47,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
+    - https://documentation.blackwell.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.blackwell.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
 
 pytest_args:
     - fim_mode:
@@ -66,13 +66,13 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import DIFF_DISK_QUOTA_LIMIT, ERROR_MSG_DISK_QUOTA_LIMIT
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing.constants.paths.logs import BLACKWELL_LOG_PATH
+from blackwell_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from blackwell_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from blackwell_testing.modules.fim.patterns import DIFF_DISK_QUOTA_LIMIT, ERROR_MSG_DISK_QUOTA_LIMIT
+from blackwell_testing.tools.monitors.file_monitor import FileMonitor
+from blackwell_testing.utils.callbacks import generate_callback
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -97,15 +97,15 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: '2'}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_disk_quota_default(test_configuration, test_metadata, configure_local_internal_options,
-                                    truncate_monitored_files, set_wazuh_configuration, daemons_handler):
+                                    truncate_monitored_files, set_blackwell_configuration, daemons_handler):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon limits the size of the folder where the data used to perform
+    description: Check if the 'blackwell-syscheckd' daemon limits the size of the folder where the data used to perform
                  the 'diff' operations is stored to the default value. For this purpose, the test will monitor
                  a directory and, once the FIM is started, it will wait for the FIM event related to the maximum
                  disk quota to store 'diff' information. Finally, the test will verify that the value gotten from
                  that FIM event corresponds with the default value of the 'disk_quota' tag (1GB).
 
-    wazuh_min_version: 4.6.0
+    blackwell_min_version: 4.6.0
 
     tier: 1
 
@@ -122,12 +122,12 @@ def test_disk_quota_default(test_configuration, test_metadata, configure_local_i
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_blackwell_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Blackwell daemons.
 
     assertions:
         - Verify that an FIM event is generated indicating the size limit of the folder
@@ -144,8 +144,8 @@ def test_disk_quota_default(test_configuration, test_metadata, configure_local_i
         - disk_quota
         - scheduled
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(generate_callback(DIFF_DISK_QUOTA_LIMIT), timeout=30)
-    callback_result = wazuh_log_monitor.callback_result
+    blackwell_log_monitor = FileMonitor(BLACKWELL_LOG_PATH)
+    blackwell_log_monitor.start(generate_callback(DIFF_DISK_QUOTA_LIMIT), timeout=30)
+    callback_result = blackwell_log_monitor.callback_result
     assert callback_result, ERROR_MSG_DISK_QUOTA_LIMIT
-    assert str(wazuh_log_monitor.callback_result[0]) == str(DISK_QUOTA_DEFAULT_VALUE), 'Wrong value for disk_quota'
+    assert str(blackwell_log_monitor.callback_result[0]) == str(DISK_QUOTA_DEFAULT_VALUE), 'Wrong value for disk_quota'

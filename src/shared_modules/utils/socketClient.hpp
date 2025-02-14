@@ -1,6 +1,6 @@
 /*
- * Wazuh socket client
- * Copyright (C) 2015, Wazuh Inc.
+ * Blackwell socket client
+ * Copyright (C) 2015, Blackwell Inc.
  * March 25, 2023.
  *
  * This program is free software; you can redistribute it

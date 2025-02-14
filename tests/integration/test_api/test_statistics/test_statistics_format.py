@@ -1,14 +1,14 @@
 """
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Blackwell Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Blackwell, Inc. <info@blackwell.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
 brief: These tests will check if the stats can be obtained from the API and if they follow the expected schema.
-       The Wazuh API is an open source 'RESTful' API that allows for interaction with the Wazuh manager from
+       The Blackwell API is an open source 'RESTful' API that allows for interaction with the Blackwell manager from
        a web browser, command line tool like 'cURL' or any script or program that can make web requests.
 
 components:
@@ -20,12 +20,12 @@ targets:
     - manager
 
 daemons:
-    - wazuh-apid
-    - wazuh-modulesd
-    - wazuh-analysisd
-    - wazuh-execd
-    - wazuh-db
-    - wazuh-remoted
+    - blackwell-apid
+    - blackwell-modulesd
+    - blackwell-analysisd
+    - blackwell-execd
+    - blackwell-db
+    - blackwell-remoted
 
 os_platform:
     - linux
@@ -50,8 +50,8 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/reference.html (Get Wazuh daemon stats)
-    - https://documentation.wazuh.com/current/user-manual/api/reference.html (Get Wazuh daemon stats from an agent)
+    - https://documentation.blackwell.com/current/user-manual/api/reference.html (Get Blackwell daemon stats)
+    - https://documentation.blackwell.com/current/user-manual/api/reference.html (Get Blackwell daemon stats from an agent)
 
 tags:
     - api
@@ -61,10 +61,10 @@ import requests
 from pathlib import Path
 
 from . import CONFIGURATION_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing import DATA_PATH
-from wazuh_testing.constants.api import DAEMONS_STATS_ROUTE
-from wazuh_testing.modules.api.utils import get_base_url, login, validate_statistics
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from blackwell_testing import DATA_PATH
+from blackwell_testing.constants.api import DAEMONS_STATS_ROUTE
+from blackwell_testing.modules.api.utils import get_base_url, login, validate_statistics
+from blackwell_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 
 pytestmark = [pytest.mark.server, pytest.mark.tier(level=0)]
@@ -92,24 +92,24 @@ test2_configuration, test2_metadata, test2_cases_ids = get_test_cases_data(test2
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test1_configuration, test1_metadata),
                          ids=test1_cases_ids)
-def test_manager_statistics_format(test_configuration, test_metadata, load_wazuh_basic_configuration,
-                                   set_wazuh_configuration, daemons_handler):
+def test_manager_statistics_format(test_configuration, test_metadata, load_blackwell_basic_configuration,
+                                   set_blackwell_configuration, daemons_handler):
     """
     description: Check if the statistics returned by the API have the expected format.
 
     test_phases:
         - setup:
-            - Load Wazuh light configuration
+            - Load Blackwell light configuration
             - Apply ossec.conf configuration changes according to the configuration template and use case
-            - Restart wazuh-manager service to apply configuration changes
+            - Restart blackwell-manager service to apply configuration changes
         - test:
             - Request the statistics of a particular daemon from the API
             - Compare the obtained statistics with the json schema
         - teardown:
             - Restore initial configuration
-            - Stop wazuh-manager
+            - Stop blackwell-manager
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -118,15 +118,15 @@ def test_manager_statistics_format(test_configuration, test_metadata, load_wazuh
         - test_metadata:
             type: dict
             brief: Metadata from the test case.
-        - load_wazuh_basic_configuration:
+        - load_blackwell_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic blackwell configuration.
+        - set_blackwell_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle Blackwell daemons.
 
     assertions:
         - Check if the statistics returned by the API have the expected format.
@@ -155,16 +155,16 @@ def test_agent_statistics_format(test_metadata, daemons_handler, simulate_agent)
 
     test_phases:
         - setup:
-            - Restart wazuh-manager service to apply configuration changes
+            - Restart blackwell-manager service to apply configuration changes
         - test:
             - Simulate and connect an agent
             - Request the statistics of a particular daemon and agent from the API
             - Compare the obtained statistics with the json schema
             - Stop and delete the simulated agent
         - teardown:
-            - Stop wazuh-manager
+            - Stop blackwell-manager
 
-    wazuh_min_version: 4.4.0
+    blackwell_min_version: 4.4.0
 
     parameters:
         - test_metadata:
@@ -172,7 +172,7 @@ def test_agent_statistics_format(test_metadata, daemons_handler, simulate_agent)
             brief: Get metadata from the module.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle Blackwell daemons.
         - simulate_agent:
             type: fixture
             brief: Simulate an agent

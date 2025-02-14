@@ -1,6 +1,6 @@
 #!/bin/sh
-# Copyright (C) 2015, Wazuh Inc.
-# Installation script for Wazuh
+# Copyright (C) 2015, Blackwell Inc.
+# Installation script for Blackwell
 # Author: Daniel B. Cid <daniel.cid@gmail.com>
 
 ### Looking up for the execution directory
@@ -121,39 +121,39 @@ Install()
         fi
     fi
 
-    # If update, stop Wazuh
+    # If update, stop Blackwell
     if [ "X${update_only}" = "Xyes" ]; then
-        echo "Stopping Wazuh..."
+        echo "Stopping Blackwell..."
         UpdateStopOSSEC
     fi
 
     # Install
-    InstallWazuh
+    InstallBlackwell
 
     cd ../
 
-    # Install Wazuh ruleset updater
+    # Install Blackwell ruleset updater
     if [ "X$INSTYPE" = "Xserver" ]; then
-        WazuhSetup
+        BlackwellSetup
     fi
 
-    # Calling the init script to start Wazuh during boot
+    # Calling the init script to start Blackwell during boot
     runInit $INSTYPE ${update_only}
     runinit_value=$?
 
-    # If update, start Wazuh
+    # If update, start Blackwell
     if [ "X${update_only}" = "Xyes" ]; then
-        WazuhUpgrade $INSTYPE
-        # Update versions previous to Wazuh 1.2
+        BlackwellUpgrade $INSTYPE
+        # Update versions previous to Blackwell 1.2
         UpdateOldVersions
-        echo "Starting Wazuh..."
+        echo "Starting Blackwell..."
         UpdateStartOSSEC
     fi
 
     if [ $runinit_value = 1 ]; then
         notmodified="yes"
-    elif [ "X$START_WAZUH" = "Xyes" ]; then
-        echo "Starting Wazuh..."
+    elif [ "X$START_BLACKWELL" = "Xyes" ]; then
+        echo "Starting Blackwell..."
         UpdateStartOSSEC
     fi
 
@@ -287,7 +287,7 @@ ConfigureBoot()
     if [ "X$INSTYPE" != "Xagent" ]; then
 
         echo ""
-        $ECHO "  $NB- ${startwazuh} ($yes/$no) [$yes]: "
+        $ECHO "  $NB- ${startblackwell} ($yes/$no) [$yes]: "
 
         if [ "X${USER_AUTO_START}" = "X" ]; then
             read ANSWER
@@ -298,11 +298,11 @@ ConfigureBoot()
         echo ""
         case $ANSWER in
             $nomatch)
-                echo "   - ${nowazuhstart}"
+                echo "   - ${noblackwellstart}"
                 ;;
             *)
-                START_WAZUH="yes"
-                echo "   - ${yeswazuhstart}"
+                START_BLACKWELL="yes"
+                echo "   - ${yesblackwellstart}"
                 ;;
         esac
     fi
@@ -443,12 +443,12 @@ ConfigureServer()
             fi
 
             if [ -x "$HOST_CMD" ]; then
-              HOSTTMP=`${HOST_CMD} -W 5 -t mx wazuh.com 2>/dev/null`
+              HOSTTMP=`${HOST_CMD} -W 5 -t mx blackwell.com 2>/dev/null`
               if [ $? = 1 ]; then
                  # Trying without the -W
-                 HOSTTMP=`${HOST_CMD} -t mx wazuh.com 2>/dev/null`
+                 HOSTTMP=`${HOST_CMD} -t mx blackwell.com 2>/dev/null`
               fi
-              echo "x$HOSTTMP" | grep "wazuh.com mail is handled" > /dev/null 2>&1
+              echo "x$HOSTTMP" | grep "blackwell.com mail is handled" > /dev/null 2>&1
               if [ $? = 0 ]; then
                  # Breaking down the user e-mail
                  EMAILHOST=`echo ${EMAIL} | cut -d "@" -f 2`
@@ -624,7 +624,7 @@ askForDelete()
 
         case $ANSWER in
             $yesmatch)
-                echo "      Stopping Wazuh..."
+                echo "      Stopping Blackwell..."
                 UpdateStopOSSEC
                 rm -rf $INSTALLDIR
                 if [ ! $? = 0 ]; then
@@ -761,13 +761,13 @@ AddCAStore()
 AddPFTable()
 {
     #default pf rules
-    TABLE="wazuh_fwtable"
+    TABLE="blackwell_fwtable"
 
     # Add table to the first line
     echo ""
     echo "   - ${pfmessage}:"
     echo "     ${moreinfo}"
-    echo "     https://documentation.wazuh.com"
+    echo "     https://documentation.blackwell.com"
 
     echo ""
     echo ""
@@ -837,7 +837,7 @@ main()
 
     . ./src/init/language.sh
     . ./src/init/init.sh
-    . ./src/init/wazuh/wazuh.sh
+    . ./src/init/blackwell/blackwell.sh
     . ${TEMPLATE}/${LANGUAGE}/messages.txt
     . ./src/init/inst-functions.sh
     . ./src/init/template-select.sh
@@ -860,7 +860,7 @@ main()
     fi
 
     # Initial message
-    echo " $NAME $VERSION (Rev. $REVISION) ${installscript} - https://www.wazuh.com"
+    echo " $NAME $VERSION (Rev. $REVISION) ${installscript} - https://www.blackwell.com"
     catMsg "0x101-initial"
     echo ""
     echo "  - $system: $UNAME (${DIST_NAME} ${DIST_VER}.${DIST_SUBVER})"
@@ -1024,10 +1024,10 @@ main()
     echo " - ${configurationdone}."
     echo ""
     echo " - ${tostart}:"
-    echo "      $INSTALLDIR/bin/wazuh-control start"
+    echo "      $INSTALLDIR/bin/blackwell-control start"
     echo ""
     echo " - ${tostop}:"
-    echo "      $INSTALLDIR/bin/wazuh-control stop"
+    echo "      $INSTALLDIR/bin/blackwell-control stop"
     echo ""
     echo " - ${configat} $INSTALLDIR/etc/ossec.conf"
     echo ""
@@ -1046,8 +1046,8 @@ main()
         fi
         echo ""
 
-        # If version < wazuh 1.2
-        if [ "X$USER_OLD_NAME" != "XWazuh" ]; then
+        # If version < blackwell 1.2
+        if [ "X$USER_OLD_NAME" != "XBlackwell" ]; then
             echo " ====================================================================================="
             echo "  ${update_rev_newconf1}"
             echo "  ${update_rev_newconf2}"
@@ -1076,19 +1076,19 @@ main()
         echo " - ${addserveragent}"
         echo ""
         echo "   ${moreinfo}"
-        echo "   https://documentation.wazuh.com/"
+        echo "   https://documentation.blackwell.com/"
         echo ""
 
     elif [ "X$INSTYPE" = "Xagent" ]; then
         echo ""
         echo " - ${moreinfo}"
-        echo "   https://documentation.wazuh.com/"
+        echo "   https://documentation.blackwell.com/"
         echo ""
     fi
 
     if [ "X$notmodified" = "Xyes" ]; then
         catMsg "0x105-noboot"
-        echo "      $INSTALLDIR/bin/wazuh-control start"
+        echo "      $INSTALLDIR/bin/blackwell-control start"
         echo ""
     fi
 }
